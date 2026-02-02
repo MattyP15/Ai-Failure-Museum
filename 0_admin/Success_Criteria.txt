@@ -1,0 +1,10 @@
+Success Criteria 
+
+Criterion			  Metric					        Target 			      Measurement method
+--------------  --------------------    --------------    ----------------------------------------------------
+Comprehension	  Quizz Accuracy			    > 60% avg.(?)	    use analytics to track total answers/scores
+Engagement 		  Quizz completion rate 	> 60% (?)		      use analytics to see quizzes completed/exhibit views
+Accessibility		WCAG compliance		      ? 				        Manual testing
+Content			    Exhibit coverage	  		20 exhibits		    Count in DB or on website
+Technical		    page load time			    <2 seconds (?) 	  possibly lighthouse audit?	
+Technical		    Mobile usablility		  	Functional?		    possibly lighthouse mobile score? 
