@@ -1,0 +1,85 @@
+Functional Requirements
+
+// A list of functional requirements for the system, each has a 'relevent section' from the specification, I added a 'priority': [MUST HAVE] -> Literally or heavily implied by the specification to be a mantatory feature. [SHOULD HAVE] -> suggested feature. It also has a  wee lil checkbox thing that we can put the date at which we completed the requirement in :) @lo1a191
+
+//plz forgive spelling/formatting mistakes, je suis tres mal a la vie (et le français)  @lo1a191
+
+
+Relevant Section | Requirement |  Priority  | Achieved [dd/mm] 
+
+1.1 Core Requirements 
+
+3.1.1		System displays a browsable collection of AI failure exhibits  [MUST HAVE]                                                                                  [ ] 
+3.1.1   System provides search functionality across exhibits	[MUST HAVE]                                                                                           [ ] 
+3.1.2  	Each exhibit page displays : Background context, system purpose, claimed outputs, failure description, contributing factors, lessons learned	[MUST HAVE]   [ ] 
+3.1.3  	System displays timeline/sequence showing how each failure emerged	[MUST HAVE]                                                                             [ ] 
+3.1.4	  System contains/allows access to supporting artefacts (ie. Screenshots, diagrams, summaries)	[MUST HAVE]                                                   [ ] 
+3.1.5 	Interface is mobile friendly and accessible 	[MUST HAVE]                                                                                                   [ ] 
+3.1.1 	System supports filtering exhibits by domain 	[SHOULD HAVE]                                                                                                 [ ] 
+3.1.1		System supports filtering exhibits by failure category 	[SHOULD HAVE]                                                                                       [ ] 
+
+
+1.2 Data Model Requirements
+
+3.2 	Exhibitions have: Title, domain, deployment context, intended use	[MUST HAVE]                                                                                 [ ] 
+3.2		AI system descriptions include: System type, inputs/assumptions, outputs presented	[MUST HAVE]                                                               [ ] 
+3.2		Faulure descriptions include : What went wrong, how detected, who affected		[MUST HAVE]                                                                     [ ] 
+3.2		Contributing factors categorised (data issues, design choices, governance issues)		[MUST HAVE]                                                               [ ] 
+3.2 	Lessons learned includes : Preatical recommendations, warnings	[MUST HAVE]                                                                                   [ ] 
+4.1		Supports at least 5 failure categories	[MUST HAVE]                                                                                                           [ ] 
+4.1		Contains at least 20 exhibits	[MUST HAVE]                                                                                                                     [ ] 
+4.1		Containts at least 20 supporting artefacts	[MUST HAVE]                                                                                                       [ ] 
+4.1		Contains at least 40 quizzes	[MUST HAVE]                                                                                                                     [ ] 
+
+1.3 Learning and Interaction Requirements
+
+3.3 	System provides short quizzer linked to exhibits	[MUST HAVE]                                                                                                 [ ] 
+3.3		Quizzes test understanding (ie “Which assumption caused the main issue”)	[MUST HAVE]                                                                         [ ] 
+3.3 	System provides reflection promts about uncertainty, bias, appropriate use	[MUST  HAVE]                                                                      [ ] 
+3.3 	System contains a point system for meaningful engagement	[MUST HAVE]                                                                                         [ ] 
+3.3		System awards badges for achievements		[MUST HAVE]                                                                                                           [ ] 
+3.3 	UI is appropriate for university context ( not too overdone)	[MUST HAVE]                                                                                     [ ] 
+2.1		Visitors able to bookmark exhibits	[SHOULD HAVE]                                                                                                             [ ] 
+3.3		System provides quiz explanations after answering 	[SHOULD HAVE]                                                                                             [ ] 
+
+Curator Tool Requirements 
+
+3.4		Curators able to create new exhibits		[MUST HAVE]                                                                                                           [ ] 
+3.4		Curators able to edit existing exhibits	[MUST HAVE]	                                                                                                          [ ] 
+3.4		Curators able to archive exhibits		[MUST HAVE]	                                                                                                              [ ] 
+3.4		Curators able to upload supporting artefacts	[MUST HAVE]	                                                                                                    [ ] 
+3.4		Curators able to manage artefacts (reorder, edit, delete)	[MUST HAVE]	                                                                                        [ ] 
+3.4		Curators able to create quizzes	[MUST HAVE]	                                                                                                                  [ ] 
+3.4		Curators able to edit quizzes	[MUST HAVE]	                                                                                                                    [ ] 
+3.4		Curators able to review visitor feedback or flags	[SHOULD HAVE]                                                                                               [ ] 
+3.4		Curators able to view basic engagement analytics 	[MUST HAVE]	                                                                                                [ ] 
+3.4		Analytics show most viewed exhibits		[MUST HAVE]                                                                                                        	    [ ] 
+3.4 	Analystics show quiz completion rates 	[MUST HAVE]	                                                                                                          [ ] 
+
+
+Privacy and Data Protection Requirements
+
+3.6 	System has a clear privacy policy	[MUST HAVE]	                                                                                                                [ ] 
+3.6 	System minimises personal data collection	[MUST HAVE]                                                                                                        	[ ] 
+3.6 	System uses pseudonymous display names if user account exist	[MUST HAVE]                                                                                    	[ ] 
+3.6 	System shall provide a ‘delete my data’ mechanism	[MUST HAVE]	                                                                                                [ ] 
+3.6 	System does not name and shame real people or businesses 	[MUST HAVE]                                                                                        	[ ] 
+
+Technical and Deployment Requirements 
+4		System works locally with seeded data (no external dependencies for marking)	[MUST HAVE]	                                                                      [ ] 
+2.3		System deployable for offline demonstration	[MUST HAVE]                                                                                                       [ ] 
+3.5		No secrets committed to Git	[MUST HAVE]                                                                                                        	              [ ] 
+3.5		Environment Variables documented via .env.example 	[MUST HAVE]	                                                                                              [ ] 
+2.3		System has documented local setup steps	[MUST HAVE]	                                                                                                          [ ] 
+3.5		Repository shows visible team contributions 	[MUST HAVE]	                                                                                                    [ ] 
+2.3		Exhibit schema extensible for new failure types 	[SHOULD HAVE]                                                                                               [ ] 
+
+
+Evaluation Requirements 
+  
+5		System tracks comprehension via quiz performance 	[MUST HAVE]	                                                                                                  [ ] 
+5		System supports analusisof reflection quality		[SHOULD HAVE]	                                                                                                  [ ] 
+5		System tracks engagement metrics (time spent, revisits)	[SHOULD HAVE]	                                                                                          [ ] 
+5		System usable with assistive technologies [MUST HAVE]                                                                                                          	[ ] 
+
+
