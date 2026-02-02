@@ -8,3 +8,6 @@ Accessibility		WCAG compliance		      ? 				        Manual testing
 Content			    Exhibit coverage	  		20 exhibits		    Count in DB or on website
 Technical		    page load time			    <2 seconds (?) 	  possibly lighthouse audit?	
 Technical		    Mobile usablility		  	Functional?		    possibly lighthouse mobile score? 
+
+
+// link to WCAG compliance page https://www.audioeye.com/compliance/wcag/
