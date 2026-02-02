@@ -1,5 +1,14 @@
 Success Criteria 
 
+//Evaluation questions I think we should consider 
+* Comprehension - Do users understand the purpose of the website, and do they understand why ai systems failed in every artifact they read? 
+* Reflection - Can users reflefct on what theyve learned (quizzes)
+* Accessability  - Can users with disabilities use all core features
+* Usability  - Can curators effectivly create and manage exhibits?
+* Engagement - Do elements like points or badges increase engagement without trivialising the context? 
+
+// Suggested criteria and targets and measurement methods 
+
 Criterion			  Metric					        Target 			      Measurement method
 --------------  --------------------    --------------    ----------------------------------------------------
 Comprehension	  Quizz Accuracy			    > 60% avg.(?)	    use analytics to track total answers/scores
