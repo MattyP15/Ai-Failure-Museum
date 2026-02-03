@@ -1,0 +1,88 @@
+1. Flood Risk Mapping with Outdated Data
+What happened: AI flood models in the UK used historical rainfall data that didn't account for climate change, leading to developments being approved in areas that flooded within 5 years.
+Artifacts:
+
+Before/after flood maps showing the discrepancy
+Screenshot of the "low risk" classification vs actual flood photos
+Chart showing how rainfall patterns changed vs training data period
+
+
+2. Amazon Deforestation Detection Missing Selective Logging
+What happened: Satellite AI trained to detect clear-cutting missed selective logging (where only valuable trees are removed), underreporting deforestation by up to 40% in some regions.
+Artifacts:
+
+Satellite images showing "no change detected" vs ground photos of degraded forest
+Confusion matrix showing detection rates for different logging types
+Map comparing AI estimates vs ground-truth surveys
+
+
+3. Google Flood Forecasting Failures in India (2023)
+What happened: Google's AI flood alerts in India issued false warnings and missed actual floods in some areas because the model was trained primarily on data from rivers with different characteristics.
+Artifacts:
+
+Screenshots of alert notifications vs actual flood timing
+Map showing where alerts were accurate vs inaccurate
+Diagram of the data sources used in training
+
+
+4. Wildlife Camera Trap AI Misidentifying Species
+What happened: Conservation AI trained on North American wildlife was deployed in Africa, misidentifying species or missing animals entirely because of different lighting, vegetation, and animal appearances.
+Artifacts:
+
+Example images showing misclassifications (leopard labelled as "unknown")
+Accuracy comparison chart: original region vs deployed region
+Screenshot of the confidence scores that looked high but were wrong
+
+
+5. Zillow's Home-Buying Algorithm Collapse (2021)
+What happened: Zillow's AI-powered home valuation model consistently overestimated property values, leading to $500M+ losses. Environmental factors like flood zones and climate risk were poorly weighted.
+Artifacts:
+
+Chart of predicted vs actual sale prices
+Map showing geographic clusters of losses
+Screenshot of a Zillow estimate vs final sale price
+
+
+6. Air Quality Prediction Model Failing During Wildfires
+What happened: AI air quality forecasts in California gave "moderate" readings during wildfire season because the model wasn't trained on extreme smoke events, leading people to go outside during dangerous conditions.
+Artifacts:
+
+Screenshot of app showing "Moderate AQI" alongside photo of orange smoky sky
+Graph of predicted vs actual PM2.5 levels during fire events
+Training data distribution showing lack of extreme values
+
+
+7. Crop Yield Prediction Bias Against Small Farms
+What happened: Agricultural AI trained on data from large industrial farms in the US performed poorly when applied to smallholder farms in developing countries, over-predicting yields and leading to inadequate food security planning.
+Artifacts:
+
+Scatter plot of predicted vs actual yields by farm size
+Map showing prediction error rates by region
+Table of assumptions built into the model (irrigation, soil testing, etc.)
+
+
+8. Urban Heat Island Model Ignoring Informal Settlements
+What happened: An AI model predicting dangerous heat exposure in cities used official land-use data that didn't include informal settlements/slums, missing the most vulnerable populations.
+Artifacts:
+
+Heat map showing "low risk" areas that were actually densely populated
+Satellite image vs official land registry comparison
+Diagram showing data pipeline and where the gap occurred
+
+
+9. Autonomous Vehicle Mapping Failures
+What happened: Self-driving car AI in Arizona couldn't recognise a pedestrian crossing outside a designated crosswalk at night, contributing to a fatal accident. The training data lacked sufficient examples of jaywalking pedestrians in low light.
+Artifacts:
+
+Diagram of what the AI "saw" vs reality
+Chart of training data composition (crosswalk vs non-crosswalk pedestrians)
+Timeline of the detection failure
+
+
+10. Coral Reef Health Assessment Overconfidence
+What happened: AI analysing underwater imagery classified bleached coral as "healthy" because the training data was collected during a period of reef health, and the model had never seen widespread bleaching.
+Artifacts:
+
+Side-by-side images: AI classification vs marine biologist assessment
+Confusion matrix showing bleaching detection rates
+Map of surveyed areas with accuracy overlay
