@@ -1,5 +1,5 @@
 """
-URL configuration for failureMuseum project.
+URL configuration for djangoCode project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/6.0/topics/http/urls/
@@ -22,6 +22,6 @@ from . import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.homepage),
-    path("category/", views.about),
-    #path("login/", )
+    path("category/", views.category),
+    path("login/", views.login)
 ]
