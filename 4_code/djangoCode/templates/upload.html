@@ -1,0 +1,12 @@
+##placeholder for upload.html, the template for the upload page. 
+## include enctype="multipart/form-data" or the file won't actually upload
+
+
+<h2>Upload New Artefact</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+##this is placeholder example code
