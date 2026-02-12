@@ -20,8 +20,19 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+
     path("admin/", admin.site.urls),
     path("", views.homepage),
     path("category/", views.category),
-    path("login/", views.login)
+    path("login/", views.login),
+    
+    ##curator tools url
+
+    path('dashboard/', views.curator_dashboard, name='curator_dashboard'),
+    path('analytics/', views.analytics_view, name='analytics_view'),
+    path('create/', views.create_artefact, name='create_artefact'),
+    path('delete/<int:pk>/', views.delete_artefact, name = 'delete_artefact'),
+    path('archive/<int:pk>/', views.archive_artefact, name='archive_artefact'),
+
 ]
+   

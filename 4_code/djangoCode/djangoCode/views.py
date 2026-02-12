@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
 from .forms import ArtefactForm
 from .models import Artefact
-
+from django.contrib import messages
 def homepage(request):
     return render(request, "main.html")
 
@@ -51,7 +51,8 @@ def create_artefact(request):
 # Returns: render of the dashboard page with the list of artefacts
 
 def curator_dashboard(request):
-    ##dashboard logic here
+
+        ##dashboard logic here
     active_artefacts = Artefact.objects.filter(is_archived= False)
     archived_aretfacts = Artefact.objects.filter(is_archived = True)
 
@@ -67,8 +68,12 @@ def curator_dashboard(request):
 # Returns: redirect to curator dashboard.
 
 def delete_artefact(request, pk): 
-    aretefact = get_object_or_404(Artefact, pk=pk)
-    artefact.delete()
+    try: 
+        artefact = get_object_or_404(Artefact, pk=pk)
+        artefact.delete()
+        messages.success(request, 'artefact deleted successfully')
+    except Exception as e:
+        messages.error(request, f'error deleting artefact: {e}')
     return redirect('curator_dashboard') 
 
 # archieve_artefact 
@@ -77,9 +82,14 @@ def delete_artefact(request, pk):
 # Returns: redirect to curator dashboard.
 
 def archieve_artefact(request, pk):
-    artefact= get_object_or_404(Artefact, pk=pk)
-    artefact.is_archived = True
-    artefact.save()
+    try: 
+    
+        artefact= get_object_or_404(Artefact, pk=pk)
+        artefact.is_archived = True
+        artefact.save()
+        messages.success(request, 'artefact archived successfully')
+    except Exception as e:
+        messages.error(request, f'error archiving artefact: {e}')
     return redirect('curator_dashboard')
 
 

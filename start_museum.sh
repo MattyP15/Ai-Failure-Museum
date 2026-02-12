@@ -1,8 +1,10 @@
 #!/bin/bash
+cd "$(dirname "$0")" 
+
 
 echo "Starting the Museum"
 
-if [ ! -f .env]; then
+if [ ! -f .env ]; then
     echo -n "Enter a secure, random key to use as your museum key"
     read user_key
 
@@ -13,14 +15,14 @@ fi
 
 
 ## checking for virtual enviroment, if not then create one
-if [! -d ".venv"]; then 
+if [ ! -d ".venv" ]; then 
     python3 -m venv .venv
 fi
 
 source .venv/bin/activate
 pip install -r requirements.txt
 ## adding seeded data
-pyhton3 manage.py migrate 
+python3 manage.py migrate 
 
 python3 manage.py loaddata seeded_data.json
 
