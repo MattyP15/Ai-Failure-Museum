@@ -2,10 +2,10 @@
 
 
 from django import forms
-from .models import artefact
+from .models import Artefact
 
 class ArtefactForm(forms.ModelForm):
     class Meta:
-        model = artefact
+        model = Artefact
         fields = ['title', 'file']
         

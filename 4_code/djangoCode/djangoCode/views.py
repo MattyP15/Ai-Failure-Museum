@@ -81,7 +81,7 @@ def delete_artefact(request, pk):
 # Method: 1. get artefact. 2. seet is_archieved to true. 3. save, 4. redirect
 # Returns: redirect to curator dashboard.
 
-def archieve_artefact(request, pk):
+def archive_artefact(request, pk):
     try: 
     
         artefact= get_object_or_404(Artefact, pk=pk)
