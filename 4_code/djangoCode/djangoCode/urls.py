@@ -31,9 +31,9 @@ urlpatterns = [
 
     path('dashboard/', views.curator_dashboard, name='curator_dashboard'),
     path('analytics/', views.analytics_view, name='analytics_view'),
-    path('create/', views.create_artefact, name='create_artefact'),
-    path('delete/<int:pk>/', views.delete_artefact, name = 'delete_artefact'),
-    path('archive/<int:pk>/', views.archive_artefact, name='archive_artefact'),
+    path('create/', views.create_exhibit, name='create_exhibit'),
+    path('delete/<int:pk>/', views.delete_exhibit, name = 'delete_exhibit'),
+    path('archive/<int:pk>/', views.archive_exhibit, name='archive_exhibit'),
 
     path("login/", auth_views.LoginView.as_view(), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
