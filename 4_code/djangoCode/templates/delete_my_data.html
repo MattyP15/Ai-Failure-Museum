@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head><title>Delete My Data</title></head>
+  <body>
+    <h1>Delete My Data</h1>
+
+    <p>This will permanently delete your account, quiz attempts, and badges.</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Yes, delete everything</button>
+    </form>
+
+    <p><a href="/">Cancel</a></p>
+  </body>
+</html>
