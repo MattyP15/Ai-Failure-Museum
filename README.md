@@ -5,8 +5,6 @@
 
 # AI-Falure-Museum 
 
-
-
 ==== Instructions for quickstart ====
 
 -- WINDOWS --
