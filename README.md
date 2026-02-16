@@ -26,6 +26,10 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 
+Load demo data:
+python manage.py migrate
+python manage.py loaddata seed_data
+
 
 Links:
 Home: http://127.0.0.1:8000/ 
