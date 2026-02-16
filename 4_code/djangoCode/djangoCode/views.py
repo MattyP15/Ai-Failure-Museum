@@ -4,6 +4,8 @@ from django.shortcuts import redirect, get_object_or_404
 from .forms import ArtefactForm
 from .models import Artefact
 from django.contrib import messages
+
+
 def homepage(request):
     return render(request, "main.html")
 
@@ -12,13 +14,6 @@ def category(request):
 
 def login(request):
     return render(request, "login.html")
-
-
-
-
-
-
-
 
 
 
@@ -39,7 +34,8 @@ def create_artefact(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        Artefact.objects.create(title=title, description=description)
+        domain = request.POST.get('domain')
+        Artefact.objects.create(title=title, description=description, domian=domain)
         return redirect('curator_dashboard')
 
 

@@ -1,12 +1,17 @@
-## exmaple model for artifact, placeholder for osamas worl
-
 from django.db import models
+
 class Artefact(models.Model):
-    ##for not i will only do title, again this is a placeholder for osama
+
     title = models.CharField(max_length=200)
+    
+    #Domain as in flooding, earthquakes etc
+    domain = models.CharField(max_length=100)
+
+    #Short summary of the artefact
     description = models.TextField()
     is_archived = models.BooleanField(default=False)
-    ##to create uplod field for the database
+    
+    ##to create upload field for the database
     file = models.FileField(upload_to='artefacts/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
