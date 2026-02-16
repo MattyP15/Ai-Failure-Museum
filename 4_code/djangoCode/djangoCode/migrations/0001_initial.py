@@ -12,13 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Artefact',
+            name='Exhibit',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=200)),
                 ('description', models.TextField()),
                 ('is_archived', models.BooleanField(default=False)),
-                ('file', models.FileField(upload_to='artefacts/')),
+                ('file', models.FileField(upload_to='exhibits/')),
                 ('uploaded_at', models.DateTimeField(auto_now_add=True)),
             ],
         ),
