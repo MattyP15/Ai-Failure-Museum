@@ -1,21 +1,20 @@
-/// THIS IS A MERGE OF THREE BRANCHES:
+/// THIS IS A MERGE OF THREE BRANCHES: 
 /// - curator-tools
 /// - Artefact-model
 /// - Security-and-Interaction
 
-# AI-Failure-Museum
+# AI-Falure-Museum 
 
 ==== Instructions for quickstart ====
 
 -- WINDOWS --
 
-1. python3 -m venv .venv
-2. .venv\Scripts\activate
-3. pip install -r requirements.txt
-4. cd 4_code\djangoCode
-5. python manage.py migrate
-6. python manage.py loaddata museum/fixtures/demo_data.json
-7. python manage.py runserver
+.venv\Scripts\activate 
+pip install -r requirements.txt
+cd 4_code\djangoCode
+python manage.py migrate
+python manage.py loaddata museum/fixtures/seed_data.json
+python manage.py runserver
 
 
 -- Linux / Mac --
@@ -24,17 +23,16 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cd 4_code/djangoCode
-python3 manage.py migrate
-python3 manage.py loaddata museum/fixtures/demo_data.json
-python3 manage.py runserver
-
+python manage.py migrate
+python manage.py loaddata museum/fixtures/seed_data.json
+python manage.py runserver
 
 Open browser at http://127.0.0.1:8000/
 
 
-==== Account Credentials ====
+==== Admin Credentials ====
 
--- Admin (Superuser) --
+-- Admin (Superuser) -- 
 
 * Username : 'Admin'
 * Password : 'Ric3Sh0wer'
@@ -42,12 +40,7 @@ Open browser at http://127.0.0.1:8000/
 -- Curator Demo --
 
 * Username : 'curator_demo'
-* Password : 'P4ace_CHASer'
-
--- Visitor --
-
-* Username : 'visitor'
-* Password : 'password123'
+* Password : 'P4ace_CHASer' 
 
 
 ==== Important URLS ====
@@ -59,35 +52,27 @@ Open browser at http://127.0.0.1:8000/
 - Privacy Policy: http://127.0.0.1:8000/privacy/
 
 
-==== Managing Users ====
+==== Managing users ====
 
 -- Adding User to Curator Group --
 
 1. Go to http://127.0.0.1:8000/admin/
-2. Click "Users" -> Select user
-3. Scroll to "Groups" -> Double-click "Curators"
+2. Click "Users" → Select user
+3. Scroll to "Groups" → Double-click "Curator"
 4. Click SAVE
 
 
 -- Create New Superuser ---
 
 cd 4_code/djangoCode
-python3 manage.py createsuperuser
+python manage.py createsuperuser
 
 
 ==== Reset Database ====
 
-// stop server (Ctrl+C)
+// stop server (Ctrl +C) 
 cd 4_code/djangoCode
 rm db.sqlite3
-python3 manage.py migrate
-python3 manage.py loaddata museum/fixtures/demo_data.json
+python manage.py migrate
+python manage.py loaddata museum/fixtures/seed_data.json
 
-
-=== Run Tests ===
-
-Run Pytest : python manage.py test
-
-Run Full Django Test Suite: python manage.py test
-
-Run Specific test: python manage.py test museum.tests.<<Insert Test>>
