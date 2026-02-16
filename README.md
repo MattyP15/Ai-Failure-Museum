@@ -70,7 +70,7 @@ python manage.py createsuperuser
 
 ==== Reset Database ====
 
-# stop server (Ctrl +C) 
+// stop server (Ctrl +C) 
 cd 4_code/djangoCode
 rm db.sqlite3
 python manage.py migrate
