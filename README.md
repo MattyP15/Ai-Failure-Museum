@@ -3,176 +3,78 @@
 /// - Artefact-model
 /// - Security-and-Interaction
 
-
-# Ai-Failure-Museum
-Teamwork project for University of exeter 2nd year.
+# AI-Falure-Museum 
 
 
-To run server locally do:
 
-Windows:
-python -m venv .venv
+==== Instructions for quickstart ====
+
+-- WINDOWS --
+
 .venv\Scripts\activate 
-cd Ai-Failure-Museum-main\4_code\djangoCode
 pip install -r requirements.txt
-pip install django
-python manage.py makemigrations
+cd 4_code\djangoCode
 python manage.py migrate
+python manage.py loaddata museum/fixtures/seed_data.json
 python manage.py runserver
 
 
+-- Linux / Mac --
 
-Linux/Mac:
 python3 -m venv .venv
 source .venv/bin/activate
-cd 4_code/djangoCode
-python3 manage.py runserver
-
-
-
-
-FOR EXAMINER: 
-
-Below are automatic and manual instructions to run the museum site
-
-======== Automatic ======== 
-
--- Windows --
-
-run start_museum.bat 
-Enter password when promted
-
--- Mac/ Linux --
-
-[for mac only] run 'chmod +x start_museum.sh' in your terminal once to give the file permission to run. 
-
-run start_museum.sh 
-Enter password when promted
-
-
-======== MANUAL ======== 
-
-== Instalation and Setup == 
-1. Clone repository 
-
-    git clone https://github.com/MattyP15/Ai-Failure-Museum
-
-2. Copy the contents of '.env.example' into a file called '.env', then enter a random (secure) password for the SECRET_KEY
-
-3. Set up the venv 
-
-    -- Windows -- 
-    python -m venv .venv
-    .venv\Scripts\activate
-
-    -- Mac / Linux --
-    python3 -m venv .venv
-    source .venv/bin/activate
-
-
-4. Install dependancies 
-
-    pip install -r requirements.txt
-
-
-5. Configure Enviroment Variables 
-
-    -- Windows -- 
-    copy .env.example .env
-
-    -- Mac / Linux --
-    cp .env.example .env
-
-
-6. Initialise the seeded data
-
-    python manage.py migrate
-    python manage.py loaddata seeded_data.json ####IF FILE NAME IS seeded_data     
-
-7. Run the Museum 
-
-    python manage.py runserver 
-
-
-Once the server is running, open browser and go to [http://127.0.0.1:8000/] (http://127.0.0.1:8000/)
-
-
-
-== Curator Dashboad ==
-
-To test the curator features, use the following demo credentials:
-
-## example credentials 
-Username : curator_demo
-Password : Password123 
-cd Ai-Failure-Museum-main/4_code/djangoCode
 pip install -r requirements.txt
-pip install django
-python manage.py makemigrations
+cd 4_code/djangoCode
 python manage.py migrate
+python manage.py loaddata museum/fixtures/seed_data.json
 python manage.py runserver
 
-Load demo data:
-python manage.py migrate
-python manage.py loaddata seed_data
+Open browser at http://127.0.0.1:8000/
 
 
-Links:
-Home: http://127.0.0.1:8000/ 
-Admin: http://127.0.0.1:8000/admin/
-Login: http://127.0.0.1:8000/login/
-Curator page (protected): http://127.0.0.1:8000/curator/
-Privacy policy page: http://127.0.0.1:8000/privacy/
-Delete my data (must be logged in): http://127.0.0.1:8000/delete-my-data/
-[try not to delete the admin account]
+==== Admin Credentials ====
+
+-- Admin (Superuser) -- 
+
+* Username : 'Admin'
+* Password : 'Ric3Sh0wer'
+
+-- Curator Demo --
+
+* Username : 'curator_demo'
+* Password : 'P4ace_CHASer' 
 
 
-Admin Details:
-Username: Admin
-Password: Ric3Sh0wer
+==== Important URLS ====
 
-Curator Demo: Details:
-Username : curator_demo
-Password : P4ace_CHA5er
+- Home: http://127.0.0.1:8000/
+- Admin Panel: http://127.0.0.1:8000/admin/
+- Login: http://127.0.0.1:8000/login/
+- Curator Dashboard: http://127.0.0.1:8000/curator/dashboard/
+- Privacy Policy: http://127.0.0.1:8000/privacy/
 
-Add Your own Users:
-Go to http://127.0.0.1:8000/admin/
-Click on "Users" in "Authentication and Authorization"
-Click on "Add User +" on the top right
-Assign username and password
-Click on "SAVE"
 
-Assign a User to be a curator:
-Go to http://127.0.0.1:8000/admin/
-Click on "Users" in "Authentication and Authorization"
-Select a user and click on the username
-Scroll to group and double click on "Curator"
-Click on SAVE
+==== Managing users ====
 
-Create badges:
-Go to http://127.0.0.1:8000/admin/
-Click on Badges
-Click on Add
-Fill "Code","Name", and "Points threshold"
-Click on SAVE
+-- Adding User to Curator Group --
 
-Create a quizz and a question:
-Go to http://127.0.0.1:8000/admin/
-Click on "Quiz" and "ADD QUIZ"
-Fill the "Title", "Description", check "Is Active", and set "Points for completion"
-Click SAVE
-Click Question and find you quizz
-Select Qtype
-Click SAVE
+1. Go to http://127.0.0.1:8000/admin/
+2. Click "Users" → Select user
+3. Scroll to "Groups" → Double-click "Curator"
+4. Click SAVE
 
-Reset the database ( this will delete every account,quizz and any other data stored):
-Stop server (ctrl+c)
-Delete db.sqlite3
-rerun migrations:
-python manage.py migrate
+
+-- Create New Superuser ---
+
+cd 4_code/djangoCode
 python manage.py createsuperuser
 
-Create an Admin ( in case you've deleted it"): 
-python manage.py createsuperuser
-follow the instructions given by the terminal
-(email can be blank) 
+
+==== Reset Database ====
+
+# stop server (Ctrl +C) 
+cd 4_code/djangoCode
+rm db.sqlite3
+python manage.py migrate
+python manage.py loaddata museum/fixtures/seed_data.json
+
