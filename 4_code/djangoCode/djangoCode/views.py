@@ -21,15 +21,10 @@ def login(request):
 # CURATOR TOOLS 
 # ==========================================
 
-
-
 # create_artefact 
 # Purpose: for the user to be able to create and upload an artefact
 # Method: get input for the fields 
 # Returns: redirect to curator dashboard
-
-
-# to handle the create and upload of the artifact
 def create_artefact(request):
     if request.method == 'POST':
         title = request.POST.get('title')
