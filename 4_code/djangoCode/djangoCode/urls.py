@@ -16,7 +16,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth import views as auth_views
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -34,5 +35,8 @@ urlpatterns = [
     path('delete/<int:pk>/', views.delete_artefact, name = 'delete_artefact'),
     path('archive/<int:pk>/', views.archive_artefact, name='archive_artefact'),
 
+    path("login/", auth_views.LoginView.as_view(), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path('', include('museum.urls')),
 ]
    
