@@ -4,11 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+from django.contrib import messages
 from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
 from .rbac import is_curator
-
+from django.contrib.auth.decorators import login_required
+from .models import Exhibit
+from .forms import ExhibitForm
+from .rbac import is_curator
 
 def privacy_policy(request):
     return render(request, "privacy.html")
@@ -36,11 +39,21 @@ def delete_my_data(request):
     return redirect("/")
 
 
+@login_required
 def curator_dashboard(request):
+    ##check if curator
     if not is_curator(request.user):
-        return redirect("/login/?next=/curator/")
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/ ')
+    ##if curator, get exhibits and show dashboard
 
-    return render(request, "curator_dashboard.html")
+    active_exhibits = Exhibit.objects.filter(is_archieved=False)
+    archieved_exhibits = Exhibit.objects.filter(is_archieved=True)
+
+    return render(request, 'curator/dashboard.html', {
+        'active_exhibits': active_exhibits,
+        'archieved_exhibits': archieved_exhibits,})
+
 
 
 def api_quizzes(request):
@@ -126,3 +139,30 @@ def api_quiz_submit(request, quiz_id: int):
             "new_badges": [{"code": b.code, "name": b.name} for b in newly_awarded],
         }
     )
+
+@login_required
+
+def create_exhibit(request):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/login/?next=/curator/ ')
+    if request.method == 'POST' : 
+        form = ExhibitForm(request.POST, request.FILES)
+        if form.is_valid():
+            exhibit = form.save()
+            messages.success(request, f'Exhibit "{exhibit.title}" created successfully')
+            return redirect('curator_dashboard')
+    else:
+        form = ExhibitForm()
+
+    return render(request, 'curator/create_exhibit.html', {'form': form})
+
+##functions for delete, archieve, edit
+
+@login_required
+def analystics_view(request):
+    if not is_curator(request.user):
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/ ')
+    return render(request, 'curator/analytics.html')
+
