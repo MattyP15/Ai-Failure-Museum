@@ -1,0 +1,180 @@
+[
+  {
+    "category": [
+      {
+        "slug": "hallucinations",
+        "title": "Hallucinations",
+        "emoji": "🌀",
+        "description": "Confidently wrong answers",
+        "sort": 0,
+        "color": "#e63946",
+        "exhibits": [
+          {
+            "title": "Image Misinterpretation",
+            "description": "Fails to identify objects or context in images.",
+            "views": 10,
+            "example": "When shown a picture of a cat on a skateboard, the model describes it as 'a blurry image with indistinct shapes.'"
+          },
+          {
+            "title": "Context Ignorance",
+            "description": "Doesn't use visual context to inform responses.",
+            "views": 10,
+            "example": "Given an image of a crowded street, the model fails to recognize the setting and provides generic information about 'a group of people.'"
+          },
+          {
+            "title": "Inconsistent Descriptions",
+            "description": "Provides varying descriptions for the same image.",
+            "views": 10,
+            "example": "When shown the same image of a dog multiple times, the model alternately describes it as 'a small puppy' and 'a large canine,' showing inconsistency."
+          }
+        ]
+      },
+      {
+        "slug": "bias-ethics",
+        "title": "Bias & Ethics",
+        "emoji": "⚖️",
+        "description": "Unfair or harmful outputs",
+        "sort": 0,
+        "color": "#6a4c93",
+        "exhibits": [
+          {
+            "title": "Image Misinterpretation",
+            "description": "Fails to identify objects or context in images.",
+            "views": 100,
+            "example": "When shown a picture of a cat on a skateboard, the model describes it as 'a blurry image with indistinct shapes.'"
+          },
+          {
+            "title": "Context Ignorance",
+            "description": "Doesn't use visual context to inform responses.",
+            "views": 10,
+            "example": "Given an image of a crowded street, the model fails to recognize the setting and provides generic information about 'a group of people.'"
+          },
+          {
+            "title": "Inconsistent Descriptions",
+            "description": "Provides varying descriptions for the same image.",
+            "views": 0,
+            "example": "When shown the same image of a dog multiple times, the model alternately describes it as 'a small puppy' and 'a large canine,' showing inconsistency."
+          },
+          {
+            "title": "Stereotypical Associations",
+            "description": "Reinforces harmful stereotypes based on visual cues.",
+            "views": 50,
+            "example": "When shown an image of a person wearing traditional clothing, the model makes assumptions about their culture or background that are inaccurate and stereotypical."
+          }
+        ]
+      },
+      {
+        "slug": "prompt-misunderstanding",
+        "title": "Prompt Misunderstanding",
+        "emoji": "❓",
+        "description": "Failed task interpretation",
+        "sort": 0,
+        "color": "#f1c40f",
+        "exhibits": [
+          {
+            "title": "Image Misinterpretation",
+            "description": "Fails to identify objects or context in images.",
+            "views": 10,
+            "example": "When shown a picture of a cat on a skateboard, the model describes it as 'a blurry image with indistinct shapes.'"
+          },
+          {
+            "title": "Context Ignorance",
+            "description": "Doesn't use visual context to inform responses.",
+            "views": 10,
+            "example": "Given an image of a crowded street, the model fails to recognize the setting and provides generic information about 'a group of people.'"
+          },
+          {
+            "title": "Inconsistent Descriptions",
+            "description": "Provides varying descriptions for the same image.",
+            "views": 10,
+            "example": "When shown the same image of a dog multiple times, the model alternately describes it as 'a small puppy' and 'a large canine,' showing inconsistency."
+          }
+        ]
+      },
+      {
+        "slug": "safety-failures",
+        "title": "Safety Failures",
+        "emoji": "🚫",
+        "description": "Inappropriate responses",
+        "sort": 0,
+        "color": "#e67e22",
+        "exhibits": [
+          {
+            "title": "Image Misinterpretation",
+            "description": "Fails to identify objects or context in images.",
+            "views": 10,
+            "example": "When shown a picture of a cat on a skateboard, the model describes it as 'a blurry image with indistinct shapes.'"
+          },
+          {
+            "title": "Context Ignorance",
+            "description": "Doesn't use visual context to inform responses.",
+            "views": 10,
+            "example": "Given an image of a crowded street, the model fails to recognize the setting and provides generic information about 'a group of people.'"
+          },
+          {
+            "title": "Inconsistent Descriptions",
+            "description": "Provides varying descriptions for the same image.",
+            "views": 10,
+            "example": "When shown the same image of a dog multiple times, the model alternately describes it as 'a small puppy' and 'a large canine,' showing inconsistency."
+          }
+        ]
+      },
+      {
+        "slug": "overconfidence",
+        "title": "Overconfidence",
+        "emoji": "💪",
+        "description": "Sounds right, isn't",
+        "sort": 0,
+        "color": "#2ecc71",
+        "exhibits": [
+          {
+            "title": "Image Misinterpretation",
+            "description": "Fails to identify objects or context in images.",
+            "views": 10,
+            "example": "When shown a picture of a cat on a skateboard, the model describes it as 'a blurry image with indistinct shapes.'"
+          },
+          {
+            "title": "Context Ignorance",
+            "description": "Doesn't use visual context to inform responses.",
+            "views": 10,
+            "example": "Given an image of a crowded street, the model fails to recognize the setting and provides generic information about 'a group of people.'"
+          },
+          {
+            "title": "Inconsistent Descriptions",
+            "description": "Provides varying descriptions for the same image.",
+            "views": 10,
+            "example": "When shown the same image of a dog multiple times, the model alternately describes it as 'a small puppy' and 'a large canine,' showing inconsistency."
+          }
+        ]
+      },
+      {
+        "slug": "creative-collapse",
+        "title": "Creative Collapse",
+        "emoji": "🧠",
+        "description": "Loss of coherence",
+        "sort": 0,
+        "color": "#3498db",
+        "exhibits": [
+          {
+            "title": "Image Misinterpretation",
+            "description": "Fails to identify objects or context in images.",
+            "views": 10,
+            "example": "When shown a picture of a cat on a skateboard, the model describes it as 'a blurry image with indistinct shapes.'"
+          },
+          {
+            "title": "Context Ignorance",
+            "description": "Doesn't use visual context to inform responses.",
+            "views": 10,
+            "example": "Given an image of a crowded street, the model fails to recognize the setting and provides generic information about 'a group of people.'"
+          },
+          {
+            "title": "Inconsistent Descriptions",
+            "description": "Provides varying descriptions for the same image.",
+            "views": 10,
+            "example": "When shown the same image of a dog multiple times, the model alternately describes it as 'a small puppy' and 'a large canine,' showing inconsistency."
+          }
+        ]
+      }
+    ]
+  }
+]
