@@ -1,3 +1,9 @@
+/// THIS IS A MERGE OF THREE BRANCHES: 
+/// - curator-tools
+/// - Artefact-model
+/// - Security-and-Interaction
+
+
 # Ai-Failure-Museum
 Teamwork project for University of exeter 2nd year.
 
