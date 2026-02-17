@@ -14,6 +14,7 @@ pip install -r requirements.txt
 cd 4_code\djangoCode
 python manage.py migrate
 python manage.py loaddata museum/fixtures/seed_data.json
+python3 manage.py loaddata museum/fixtures/demo_data.json
 python manage.py runserver
 
 
@@ -25,6 +26,7 @@ pip install -r requirements.txt
 cd 4_code/djangoCode
 python manage.py migrate
 python manage.py loaddata museum/fixtures/seed_data.json
+python manage.py loaddata museum/fixtures/demo_data.json
 python manage.py runserver
 
 Open browser at http://127.0.0.1:8000/
@@ -54,6 +56,10 @@ Open browser at http://127.0.0.1:8000/
 
 ==== Managing users ====
 
+-- setup demo users --
+python3 manage.py setup_demo_users
+
+
 -- Adding User to Curator Group --
 
 1. Go to http://127.0.0.1:8000/admin/
@@ -75,4 +81,7 @@ cd 4_code/djangoCode
 rm db.sqlite3
 python manage.py migrate
 python manage.py loaddata museum/fixtures/seed_data.json
+python manage.py loaddata museum/fixtures/demo_data.json
 
+
+```

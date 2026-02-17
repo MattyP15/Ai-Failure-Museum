@@ -1,6 +1,5 @@
-## update by pip freeze > requirements.txt
-
 asgiref==3.11.1
 Django==6.0.2
-sqlparse==0.5.5
+pillow==12.1.1
 python-dotenv==1.2.1
+sqlparse==0.5.5

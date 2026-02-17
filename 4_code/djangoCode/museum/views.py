@@ -188,10 +188,180 @@ def create_quiz(request):
     
     return render(request, 'curator/create_quiz.html', {'form': form})
 def exhibit_detail(request, exhibit_id):
-    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
-    quizzes = exhibit.quizzes.filter(is_active=True) #gets ACTIVE quizzes for this bad boy
+    try:
+        exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+        quizzes = exhibit.quizzes.filter(is_active=True)
+        return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes})
+    except Exception as e:
+        messages.error(request, f'Error loading exhibit: {str(e)}')
+        return redirect('/')
 
-    return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes}) 
+
+def take_quiz(request, quiz_id):
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id, is_active=True)
+        questions = quiz.questions.all()
+        return render(request, 'quiz/take_quiz.html', {'quiz': quiz, 'questions': questions})
+    except Exception as e:
+        messages.error(request, f'Error loading quiz: {str(e)}')
+        return redirect('/')
+
+
+@login_required
+def submit_quiz(request, quiz_id):
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id)
+
+        if request.method == 'POST':
+            attempt = QuizAttempt.objects.create(user=request.user, quiz=quiz)
+
+            responses_data = []
+            correct_count = 0
+            total_count = 0
+
+            for question in quiz.questions.all():
+                if question.qtype == 'mc':
+                    # Multiple choice - get selected option ID
+                    option_id = request.POST.get(f'question_{question.id}')
+                    if option_id:
+                        try:
+                            selected_option = AnswerOption.objects.get(id=option_id, question=question)
+                            Response.objects.create(
+                                attempt=attempt,
+                                question=question,
+                                selected_option=selected_option
+                            )
+
+                            is_correct = selected_option.is_correct
+                            if is_correct:
+                                correct_count += 1
+                            total_count += 1
+
+                            responses_data.append({
+                                'question': question.prompt,
+                                'answer': selected_option.text,
+                                'is_correct': is_correct,
+                                'correct_answer': question.options.filter(is_correct=True).first().text if not is_correct else None
+                            })
+                        except AnswerOption.DoesNotExist:
+                            pass
+                else:
+                    # Text answer
+                    answer = request.POST.get(f'question_{question.id}', '').strip()
+                    if answer:
+                        Response.objects.create(
+                            attempt=attempt,
+                            question=question,
+                            text_answer=answer
+                        )
+                        responses_data.append({
+                            'question': question.prompt,
+                            'answer': answer,
+                            'is_correct': None  # No grading for text answers
+                        })
+
+            # Award 1 point per correct answer
+            points_earned = correct_count
+            award_points(request.user, points_earned)
+
+            return render(request, 'quiz/quiz_results.html', {
+                'quiz': quiz,
+                'responses': responses_data,
+                'points': points_earned,
+                'exhibit': quiz.exhibit,
+                'correct_count': correct_count,
+                'total_count': total_count
+            })
+
+        return redirect('take_quiz', quiz_id=quiz_id)
+    except Exception as e:
+        messages.error(request, f'Error submitting quiz: {str(e)}')
+        return redirect('/')
+
+
+@login_required
+def edit_exhibit(request, exhibit_id):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/login/?next=/curator/')
+
+    try:
+        exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+        quiz = exhibit.quizzes.first() if exhibit.quizzes.exists() else None
+
+        if request.method == 'POST':
+            exhibit_form = ExhibitForm(request.POST, request.FILES, instance=exhibit)
+
+            if exhibit_form.is_valid():
+                exhibit = exhibit_form.save()
+
+                # Handle quiz creation/update
+                quiz_title = request.POST.get('quiz_title', '').strip()
+                if quiz_title:
+                    if quiz:
+                        quiz.title = quiz_title
+                        quiz.description = request.POST.get('quiz_description', '')
+                        quiz.save()
+                    else:
+                        quiz = Quiz.objects.create(
+                            exhibit=exhibit,
+                            title=quiz_title,
+                            description=request.POST.get('quiz_description', ''),
+                            is_active=True,
+                            points_for_completion=10
+                        )
+
+                    # Handle 3 multiple choice questions
+                    for i in range(1, 4):
+                        question_text = request.POST.get(f'question_{i}', '').strip()
+                        true_answer = request.POST.get(f'question_{i}_true', '').strip()
+                        false_answer = request.POST.get(f'question_{i}_false', '').strip()
+
+                        if question_text and true_answer and false_answer:
+                            # Create or update question
+                            question, created = Question.objects.update_or_create(
+                                quiz=quiz,
+                                order=i,
+                                defaults={'prompt': question_text, 'qtype': 'mc'}
+                            )
+
+                            # Delete old answer options
+                            question.options.all().delete()
+
+                            # Create new answer options
+                            AnswerOption.objects.create(
+                                question=question,
+                                text=true_answer,
+                                is_correct=True,
+                                order=1
+                            )
+                            AnswerOption.objects.create(
+                                question=question,
+                                text=false_answer,
+                                is_correct=False,
+                                order=2
+                            )
+
+                messages.success(request, f'Exhibit "{exhibit.title}" updated successfully')
+                return redirect('curator_dashboard')
+        else:
+            exhibit_form = ExhibitForm(instance=exhibit)
+
+        # Get existing questions if quiz exists
+        questions = list(quiz.questions.all()[:3]) if quiz else []
+        while len(questions) < 3:
+            questions.append(None)
+
+        return render(request, 'curator/edit_exhibit.html', {
+            'form': exhibit_form,
+            'exhibit': exhibit,
+            'quiz': quiz,
+            'questions': questions
+        })
+    except Exception as e:
+        messages.error(request, f'Error: {str(e)}')
+        return redirect('curator_dashboard')
+
 
 @login_required
 def delete_exhibit(request, exhibit_id):
@@ -205,5 +375,5 @@ def delete_exhibit(request, exhibit_id):
         exhibit.delete()
         messages.success(request, f'exhibit "{exhibit_title}" deleted successfully')
         return redirect('curator_dashboard')
-    
+
     return render(request, 'curator/dashboard.html', {'active_exhibits': Exhibit.objects.filter(is_active=True)})

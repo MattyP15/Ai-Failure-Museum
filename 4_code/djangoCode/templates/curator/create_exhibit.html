@@ -1,150 +1,147 @@
-/* TEMP HTML TO BE REPLACED, from discord chat */
-
 {% extends "base.html" %}
 
-{% block title %}Create Exhibit - Curator Dashboard{% endblock %}
-
-{% block extra_css %}
-<style>
-    .form-group {
-        margin-bottom: 20px;
-    }
-    .form-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #2c3e50;
-    }
-    .form-group input[type="text"],
-    .form-group select,
-    .form-group textarea,
-    .form-group input[type="file"] {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e0e0e0;
-        border-radius: 6px;
-        font-size: 1rem;
-        transition: border-color 0.3s;
-    }
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        outline: none;
-        border-color: #667eea;
-    }
-    .form-group textarea {
-        resize: vertical;
-        font-family: inherit;
-    }
-    .form-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 30px;
-    }
-    .help-text {
-        font-size: 0.85rem;
-        color: #6c757d;
-        margin-top: 5px;
-    }
-    .section-header {
-        background: #f8f9fa;
-        padding: 12px 16px;
-        border-radius: 6px;
-        margin: 30px 0 20px 0;
-        font-weight: bold;
-        color: #495057;
-    }
-</style>
-{% endblock %}
+{% block title %}Create Exhibit{% endblock %}
 
 {% block content %}
-<div class="content">
-    <h1>Create New Exhibit</h1>
-    <p style="color: #6c757d; margin-bottom: 30px;">Add a new AI failure case to the museum collection.</p>
+<style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; max-width: 900px; }
+    h1 { color: #333; border-bottom: 3px solid #2196F3; padding-bottom: 10px; }
+    h2 {
+        background: #e3f2fd;
+        padding: 10px;
+        margin-top: 25px;
+        border-left: 5px solid #2196F3;
+        font-size: 1.1em;
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-top: 12px;
+        color: #555;
+    }
+    input[type="text"], select, textarea {
+        width: 100%;
+        padding: 8px;
+        border: 2px solid #ddd;
+        margin-top: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+    input:focus, select:focus, textarea:focus {
+        border-color: #2196F3;
+        outline: none;
+        background: #fffef7;
+    }
+    textarea {
+        resize: vertical;
+        min-height: 80px;
+        font-family: Arial, sans-serif;
+    }
+    button {
+        background: #4CAF50;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+    button:hover { background: #45a049; }
+    .cancel-btn { background: #999; }
+    .cancel-btn:hover { background: #777; }
+    .help-text {
+        font-size: 12px;
+        color: #888;
+        font-style: italic;
+        margin-top: 3px;
+    }
+    .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-left: 4px solid #4CAF50;
+        background: #dff0d8;
+    }
+    .message.error { border-color: #f44336; background: #f8d7da; }
+</style>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        <div class="section-header">📋 Basic Information</div>
-        
-        <div class="form-group">
-            <label for="id_title">Exhibit Title *</label>
-            {{ form.title }}
-            <div class="help-text">A clear, descriptive title for this AI failure case</div>
-        </div>
+<h1>CREATE NEW EXHIBIT [PROTOTYPE FORM]</h1>
 
-        <div class="form-group">
-            <label for="id_category">Category *</label>
-            {{ form.category }}
-            <div class="help-text">Select the primary domain this failure relates to</div>
-        </div>
+{% if messages %}
+    {% for message in messages %}
+    <div class="message {% if message.tags == 'error' %}error{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
 
-        <div class="form-group">
-            <label for="id_domain">Domain</label>
-            {{ form.domain }}
-            <div class="help-text">Specific subdomain (e.g., flood prediction, species detection)</div>
-        </div>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
 
-        <div class="section-header">🤖 AI System Context</div>
+    <h2>Basic Info</h2>
 
-        <div class="form-group">
-            <label for="id_deployment_context">Deployment Context</label>
-            {{ form.deployment_context }}
-            <div class="help-text">Where and how was this AI system deployed?</div>
-        </div>
+    <label>Exhibit Title *</label>
+    {{ form.title }}
+    <div class="help-text">Give it a clear, descriptive name</div>
 
-        <div class="form-group">
-            <label for="id_intended_use">Intended Use</label>
-            {{ form.intended_use }}
-            <div class="help-text">What was the system supposed to do?</div>
-        </div>
+    <label>Category *</label>
+    {{ form.category }}
+    <div class="help-text">Which domain does this failure belong to?</div>
 
-        <div class="form-group">
-            <label for="id_system_type">System Type</label>
-            {{ form.system_type }}
-            <div class="help-text">E.g., classifier, chatbot, decision support, prediction model</div>
-        </div>
+    <label>Failure Type</label>
+    {{ form.failure_type }}
+    <div class="help-text">e.g., bias, privacy breach, misclassification</div>
 
-        <div class="section-header">⚠️ Failure Description</div>
+    <h2>AI System Details</h2>
 
-        <div class="form-group">
-            <label for="id_what_went_wrong">What Went Wrong</label>
-            {{ form.what_went_wrong }}
-            <div class="help-text">Describe the failure and its consequences</div>
-        </div>
+    <label>Deployment Context</label>
+    {{ form.deployment_context }}
+    <div class="help-text">Where/how was this deployed?</div>
 
-        <div class="form-group">
-            <label for="id_data_issues">Contributing Factors (Data Issues)</label>
-            {{ form.data_issues }}
-            <div class="help-text">Problems with training data, bias, missing data, etc.</div>
-        </div>
+    <label>Intended Use</label>
+    {{ form.intended_use }}
+    <div class="help-text">What was it supposed to do?</div>
 
-        <div class="section-header">💡 Lessons Learned</div>
+    <label>System Type</label>
+    {{ form.system_type }}
+    <div class="help-text">classifier, chatbot, predictor, etc.</div>
 
-        <div class="form-group">
-            <label for="id_recommendations">Recommendations</label>
-            {{ form.recommendations }}
-            <div class="help-text">Practical advice for preventing similar failures</div>
-        </div>
+    <h2>What Went Wrong</h2>
 
-        <div class="form-group">
-            <label for="id_description">Summary</label>
-            {{ form.description }}
-            <div class="help-text">Brief overview for catalog listings</div>
-        </div>
+    <label>Failure Description</label>
+    {{ form.what_went_wrong }}
+    <div class="help-text">Describe the failure and its impact</div>
 
-        <div class="section-header">📎 Supporting Materials</div>
+    <label>Data Issues</label>
+    {{ form.data_issues }}
+    <div class="help-text">Training data problems, bias, missing data, etc.</div>
 
-        <div class="form-group">
-            <label for="id_file">Upload File (Optional)</label>
-            {{ form.file }}
-            <div class="help-text">Supporting documents, images, or data files</div>
-        </div>
+    <h2>Lessons & Summary</h2>
 
-        <div class="form-actions">
-            <button type="submit" class="btn">Create Exhibit</button>
-            <a href="{% url 'curator_dashboard' %}" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
-</div>
+    <label>Recommendations</label>
+    {{ form.recommendations }}
+    <div class="help-text">How to prevent similar failures</div>
+
+    <label>Summary *</label>
+    {{ form.description }}
+    <div class="help-text">Brief overview for listings (2-3 sentences)</div>
+
+    <h2>Files</h2>
+
+    <label>Upload Supporting File (optional)</label>
+    {{ form.file }}
+    <div class="help-text">Documents, images, data files</div>
+
+    <hr style="margin: 30px 0; border: 1px dashed #ccc;">
+
+    <button type="submit">CREATE EXHIBIT</button>
+    <a href="/curator/dashboard/">
+        <button type="button" class="cancel-btn">Cancel</button>
+    </a>
+</form>
+
+<p style="color: #999; font-size: 12px; margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 20px;">
+    NOTE: This is a quick prototype interface. Some fields optional, marked with * are required.
+</p>
+
 {% endblock %}

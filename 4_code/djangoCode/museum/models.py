@@ -56,6 +56,7 @@ class Question(models.Model):
 class AnswerOption(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
     text = models.CharField(max_length=300)
+    is_correct = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:

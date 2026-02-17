@@ -19,6 +19,7 @@ urlpatterns = [
     ##curator stuffs
     path("curator/dashboard/", views.curator_dashboard, name="curator_dashboard"),
     path("curator/create/", views.create_exhibit, name="create_exhibit"),
+    path("curator/edit/<int:exhibit_id>/", views.edit_exhibit, name="edit_exhibit"),
     path("curator/analytics/", views.analytics_view, name="analytics_dashboard"),
     path("curator/create-quiz/", views.create_quiz, name="create_quiz"),
     path("curator/delete/<int:exhibit_id>/", views.delete_exhibit, name="delete_exhibit"),
@@ -26,6 +27,8 @@ urlpatterns = [
     
     ##public routes
     path("exhibit/<int:exhibit_id>/", views.exhibit_detail, name="exhibit_detail"),
+    path("quiz/<int:quiz_id>/", views.take_quiz, name="take_quiz"),
+    path("quiz/<int:quiz_id>/submit/", views.submit_quiz, name="submit_quiz"),
 
 ## wquizz stuffs
     path("api/quizzes/", views.api_quizzes, name="api_quizzes"),
