@@ -47,8 +47,8 @@ def curator_dashboard(request):
         return redirect('/login/?next=/curator/ ')
     ##if curator, get exhibits and show dashboard
 
-    active_exhibits = Exhibit.objects.filter(is_archieved=False)
-    archieved_exhibits = Exhibit.objects.filter(is_archieved=True)
+    active_exhibits = Exhibit.objects.filter(is_archived=False)
+    archieved_exhibits = Exhibit.objects.filter(is_archived=True)
 
     return render(request, 'curator/dashboard.html', {
         'active_exhibits': active_exhibits,
