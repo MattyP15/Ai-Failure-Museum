@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Exhibit</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        form { max-width: 600px; }
+        label { display: block; margin: 15px 0 5px; font-weight: bold; }
+        input[type="text"], textarea, input[type="file"] { 
+            width: 100%; padding: 8px; margin: 5px 0 15px;
+            border: 1px solid #ddd; border-radius: 4px;
+        }
+        textarea { height: 100px; }
+        .btn { background: #0066cc; color: white; padding: 10px 20px; 
+               border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .btn:hover { background: #0052a3; }
+        .back { color: #666; text-decoration: none; }
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Create New Exhibit</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding:10px; background:#ffffcc; margin:10px 0;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <label for="id_title">Title:</label>
+        {{ form.title }}
+        
+        <label for="id_domain">Domain:</label>
+        {{ form.domain }}
+        
+        <label for="id_description">Description:</label>
+        {{ form.description }}
+        
+        <label for="id_file">File Upload:</label>
+        {{ form.file }}
+        
+        <button type="submit" class="btn">Create Exhibit</button>
+    </form>
+    
+    <br>
+    <a href="/curator/" class="back">← Back to Dashboard</a>
+</body>
+</html>
