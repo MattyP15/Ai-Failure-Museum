@@ -21,6 +21,7 @@ urlpatterns = [
     path("curator/create/", views.create_exhibit, name="create_exhibit"),
     path("curator/analytics/", views.analytics_view, name="analytics_dashboard"),
     path("curator/create-quiz/", views.create_quiz, name="create_quiz"),
+    path("curator/delete/<int:exhibit_id>/", views.delete_exhibit, name="delete_exhibit"),
     path("curator/", curator_redirect, name="curator_redirect"),
     
     ##public routes
