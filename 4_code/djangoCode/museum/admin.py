@@ -9,6 +9,7 @@ from .models import (
     AnswerOption,
     QuizAttempt,
     Response,
+    Exhibit,
 )
 
 admin.site.register(UserProfile)
@@ -19,3 +20,4 @@ admin.site.register(Question)
 admin.site.register(AnswerOption)
 admin.site.register(QuizAttempt)
 admin.site.register(Response)
+admin.site.register(Exhibit)
