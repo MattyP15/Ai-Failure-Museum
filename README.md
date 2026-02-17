@@ -13,8 +13,7 @@
 pip install -r requirements.txt
 cd 4_code\djangoCode
 python manage.py migrate
-python manage.py loaddata museum/fixtures/seed_data.json
-python3 manage.py loaddata museum/fixtures/demo_data.json
+python manage.py loaddata museum/fixtures/demo_data.json
 python manage.py runserver
 
 
@@ -24,11 +23,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cd 4_code/djangoCode
-python manage.py migrate
-python manage.py loaddata museum/fixtures/seed_data.json
-python manage.py loaddata museum/fixtures/demo_data.json
-python manage.py runserver
+python3 manage.py migrate
+python3 manage.py loaddata museum/fixtures/demo_data.json
+python3 manage.py runserver
 
+
+(wait a second after pasting to hit enter)
 Open browser at http://127.0.0.1:8000/
 
 
@@ -43,6 +43,10 @@ Open browser at http://127.0.0.1:8000/
 
 * Username : 'curator_demo'
 * Password : 'P4ace_CHASer' 
+
+-- Visitor --
+* username : 'visitor'
+* password : ''
 
 
 ==== Important URLS ====
@@ -80,8 +84,14 @@ python manage.py createsuperuser
 cd 4_code/djangoCode
 rm db.sqlite3
 python manage.py migrate
-python manage.py loaddata museum/fixtures/seed_data.json
 python manage.py loaddata museum/fixtures/demo_data.json
 
+
+for mac:
+
+cd 4_code/djangoCode
+rm db.sqlite3
+python3 manage.py migrate
+python3 manage.py loaddata museum/fixtures/demo_data.json
 
 ```
