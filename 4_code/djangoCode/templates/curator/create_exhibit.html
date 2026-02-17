@@ -1,147 +1,26 @@
+/* TEMP HTML TO BE REPLACED, from discord chat */
+
 {% extends "base.html" %}
 
-{% block title %}Create Exhibit{% endblock %}
-
 {% block content %}
-<style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; max-width: 900px; }
-    h1 { color: #333; border-bottom: 3px solid #2196F3; padding-bottom: 10px; }
-    h2 {
-        background: #e3f2fd;
-        padding: 10px;
-        margin-top: 25px;
-        border-left: 5px solid #2196F3;
-        font-size: 1.1em;
-    }
-    label {
-        display: block;
-        font-weight: bold;
-        margin-top: 12px;
-        color: #555;
-    }
-    input[type="text"], select, textarea {
-        width: 100%;
-        padding: 8px;
-        border: 2px solid #ddd;
-        margin-top: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
-    input:focus, select:focus, textarea:focus {
-        border-color: #2196F3;
-        outline: none;
-        background: #fffef7;
-    }
-    textarea {
-        resize: vertical;
-        min-height: 80px;
-        font-family: Arial, sans-serif;
-    }
-    button {
-        background: #4CAF50;
-        color: white;
-        padding: 12px 30px;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 20px;
-        margin-right: 10px;
-    }
-    button:hover { background: #45a049; }
-    .cancel-btn { background: #999; }
-    .cancel-btn:hover { background: #777; }
-    .help-text {
-        font-size: 12px;
-        color: #888;
-        font-style: italic;
-        margin-top: 3px;
-    }
-    .message {
-        padding: 10px;
-        margin: 10px 0;
-        border-left: 4px solid #4CAF50;
-        background: #dff0d8;
-    }
-    .message.error { border-color: #f44336; background: #f8d7da; }
-</style>
-
-<h1>CREATE NEW EXHIBIT [PROTOTYPE FORM]</h1>
-
-{% if messages %}
-    {% for message in messages %}
-    <div class="message {% if message.tags == 'error' %}error{% endif %}">
-        {{ message }}
-    </div>
-    {% endfor %}
-{% endif %}
+<h1>Create Exhibit</h1>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
-    <h2>Basic Info</h2>
-
-    <label>Exhibit Title *</label>
-    {{ form.title }}
-    <div class="help-text">Give it a clear, descriptive name</div>
-
-    <label>Category *</label>
-    {{ form.category }}
-    <div class="help-text">Which domain does this failure belong to?</div>
-
-    <label>Failure Type</label>
-    {{ form.failure_type }}
-    <div class="help-text">e.g., bias, privacy breach, misclassification</div>
-
-    <h2>AI System Details</h2>
-
-    <label>Deployment Context</label>
-    {{ form.deployment_context }}
-    <div class="help-text">Where/how was this deployed?</div>
-
-    <label>Intended Use</label>
-    {{ form.intended_use }}
-    <div class="help-text">What was it supposed to do?</div>
-
-    <label>System Type</label>
-    {{ form.system_type }}
-    <div class="help-text">classifier, chatbot, predictor, etc.</div>
-
-    <h2>What Went Wrong</h2>
-
-    <label>Failure Description</label>
-    {{ form.what_went_wrong }}
-    <div class="help-text">Describe the failure and its impact</div>
-
-    <label>Data Issues</label>
-    {{ form.data_issues }}
-    <div class="help-text">Training data problems, bias, missing data, etc.</div>
-
-    <h2>Lessons & Summary</h2>
-
-    <label>Recommendations</label>
-    {{ form.recommendations }}
-    <div class="help-text">How to prevent similar failures</div>
-
-    <label>Summary *</label>
-    {{ form.description }}
-    <div class="help-text">Brief overview for listings (2-3 sentences)</div>
-
-    <h2>Files</h2>
-
-    <label>Upload Supporting File (optional)</label>
-    {{ form.file }}
-    <div class="help-text">Documents, images, data files</div>
-
-    <hr style="margin: 30px 0; border: 1px dashed #ccc;">
-
-    <button type="submit">CREATE EXHIBIT</button>
-    <a href="/curator/dashboard/">
-        <button type="button" class="cancel-btn">Cancel</button>
-    </a>
+    
+    <p><label>Title:</label> {{ form.title }}</p>
+    <p><label>Category:</label> {{ form.category }}</p>
+    <p><label>AI Failure Type:</label> {{ form.failure_type }}</p>
+    <p><label>Description:</label> {{ form.description }}</p>
+    <p><label>Deployment Context:</label> {{ form.deployment_context }}</p>
+    <p><label>Intended Use:</label> {{ form.intended_use }}</p>
+    <p><label>System Type:</label> {{ form.system_type }}</p>
+    <p><label>What Went Wrong:</label> {{ form.what_went_wrong }}</p>
+    <p><label>Data Issues:</label> {{ form.data_issues }}</p>
+    <p><label>Recommendations:</label> {{ form.recommendations }}</p>
+    <p><label>File:</label> {{ form.file }}</p>
+    
+    <button type="submit">Create</button>
+    <a href="/curator/dashboard/">Cancel</a>
 </form>
-
-<p style="color: #999; font-size: 12px; margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 20px;">
-    NOTE: This is a quick prototype interface. Some fields optional, marked with * are required.
-</p>
-
 {% endblock %}

@@ -13,8 +13,13 @@
 pip install -r requirements.txt
 cd 4_code\djangoCode
 python manage.py migrate
+<<<<<<< Updated upstream
 python manage.py loaddata museum/fixtures/seed_data.json
 python3 manage.py loaddata museum/fixtures/demo_data.json
+=======
+python manage.py loaddata museum/fixtures/demo_data.json
+python set_passwords.py
+>>>>>>> Stashed changes
 python manage.py runserver
 
 
@@ -24,11 +29,21 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cd 4_code/djangoCode
+<<<<<<< Updated upstream
 python manage.py migrate
 python manage.py loaddata museum/fixtures/seed_data.json
 python manage.py loaddata museum/fixtures/demo_data.json
 python manage.py runserver
 
+=======
+python3 manage.py migrate
+python3 manage.py loaddata museum/fixtures/demo_data.json
+python3 set_passwords.py
+python3 manage.py runserver
+
+
+(wait 5 seconds after pasting to hit enter)
+>>>>>>> Stashed changes
 Open browser at http://127.0.0.1:8000/
 
 
@@ -44,6 +59,13 @@ Open browser at http://127.0.0.1:8000/
 * Username : 'curator_demo'
 * Password : 'P4ace_CHASer' 
 
+<<<<<<< Updated upstream
+=======
+-- Visitor --
+* username : 'visitor'
+* password : 'password123'
+
+>>>>>>> Stashed changes
 
 ==== Important URLS ====
 
