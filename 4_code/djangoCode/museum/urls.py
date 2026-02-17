@@ -5,14 +5,13 @@ from . import views
 urlpatterns = [
 
 
-
     path("login/", auth_views.LoginView.as_view(), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     
     path("privacy/", views.privacy_policy, name="privacy"),
     path("delete-my-data/", views.delete_my_data, name="delete_my_data"),
     
-    path("curator/", views.curator_dashboard, name="curator_dashboard"),
+    path("curator/dashboard/", views.curator_dashboard, name="curator_dashboard"),
     path("curator/create/", views.create_exhibit, name="create_exhibit"),
     path("curator/analytics/", views.analytics_view, name="analytics_dashboard"),
 
