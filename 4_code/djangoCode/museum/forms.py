@@ -4,7 +4,7 @@ from .models import Exhibit, Quiz
 class ExhibitForm(forms.ModelForm):
     class Meta:
         model = Exhibit
-        fields = ['title', 'category', 'domain','description','deployment_context', 'intended_use', 'system_type', 'what_went_wrong','data_issues', 'recommendations', 'file']
+        fields = ['title', 'category', 'failure_type','description','deployment_context', 'intended_use', 'system_type', 'what_went_wrong','data_issues', 'recommendations', 'file']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'deployment_context': forms.Textarea(attrs={'rows': 3}),
