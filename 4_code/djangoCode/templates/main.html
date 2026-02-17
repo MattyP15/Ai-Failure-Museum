@@ -52,15 +52,17 @@
 
         <section class="categoryGrid">
             <!-- Loop through all data -->
-            <a href="/category" class="categoryLink">
+            {% for cat in categories %}
+            <a href="/category/{{ cat.slug }}/" class="categoryLink">
                 <article class="categoryCards" style="--accent-color: {{ cat.color }};">
                     <div class="cardText">
-                        <h3>PlaceHolderTitle</h3>
-                        <p>PlaceHolderDescription</p>
+                        <h3>{{ cat.name }}</h3>
+                        <p>{{ cat.description }}</p>
                     </div>
                     <div class="icon">🎉</div>
                 </article>
             </a>
+            {% endfor %}
             <!-- Loop through end -->
         </section>
     </main>

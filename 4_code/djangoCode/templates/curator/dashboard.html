@@ -12,10 +12,16 @@
 <h2>Active Exhibits ({{ active_exhibits.count }})</h2>
 <ul>
 {% for exhibit in active_exhibits %}
-    <li>
-        <a href="/exhibit/{{ exhibit.id }}/">{{ exhibit.title }}</a>
-        {% if exhibit.category %} - {{ exhibit.category.name }}{% endif %}
-    </li>
+<li>
+    <a href="/exhibit/{{ exhibit.id }}/">{{ exhibit.title }}</a>
+    {% if exhibit.category %} - {{ exhibit.category.name }}{% endif %}
+    
+    <!-- Add this delete form -->
+    <form method="post" action="{% url 'delete_exhibit' exhibit.id %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" onclick="return confirm('Delete {{ exhibit.title }}?')">Delete</button>
+    </form>
+</li>
 {% endfor %}
 </ul>
 

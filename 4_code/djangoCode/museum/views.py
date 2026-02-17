@@ -10,7 +10,7 @@ from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBad
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
 from .models import Exhibit
-from .forms import ExhibitForm
+from .forms import ExhibitForm, QuizForm
 from .rbac import is_curator
 
 
@@ -28,7 +28,7 @@ def delete_my_data(request):
 
     user = request.user
 
-    # Delete quiz attempts & responses via cascade
+    # delete quiz attempts & responses via cascade
     QuizAttempt.objects.filter(user=user).delete()
 
     # Delete user badges
@@ -192,3 +192,18 @@ def exhibit_detail(request, exhibit_id):
     quizzes = exhibit.quizzes.filter(is_active=True) #gets ACTIVE quizzes for this bad boy
 
     return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes}) 
+
+@login_required
+def delete_exhibit(request, exhibit_id):
+    if not is_curator(request.user):
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/ ')
+    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+
+    if request.method == 'POST':
+        exhibit_title = exhibit.title
+        exhibit.delete()
+        messages.success(request, f'exhibit "{exhibit_title}" deleted successfully')
+        return redirect('curator_dashboard')
+    
+    return render(request, 'curator/dashboard.html', {'active_exhibits': Exhibit.objects.filter(is_active=True)})
