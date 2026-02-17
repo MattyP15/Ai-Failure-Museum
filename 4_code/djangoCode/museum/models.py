@@ -67,7 +67,7 @@ class AnswerOption(models.Model):
 
 class QuizAttempt(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="quiz_attempts")
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="attempts")
+    quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE, related_name="attempts")
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
