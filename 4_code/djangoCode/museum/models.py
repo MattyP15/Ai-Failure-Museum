@@ -114,7 +114,7 @@ class Exhibit(models.Model):
 
     #basic info
     title = models.CharField(max_length=200)
-    Category= models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True) 
+    category= models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True) 
     #Domain as in flooding, earthquakes etc
     domain = models.CharField(max_length=100)
     deployment_context = models.TextField(blank=True)  
