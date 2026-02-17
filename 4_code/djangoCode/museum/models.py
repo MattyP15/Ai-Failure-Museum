@@ -105,7 +105,7 @@ class Exhibit(models.Model):
     is_archived = models.BooleanField(default=False)
     
     ##to create upload field for the database
-    file = models.FileField(upload_to='exhibits/')
+    file = models.FileField(upload_to='exhibits/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
