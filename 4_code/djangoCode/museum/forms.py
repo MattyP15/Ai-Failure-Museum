@@ -4,5 +4,13 @@ from .models import Exhibit
 class ExhibitForm(forms.ModelForm):
     class Meta:
         model = Exhibit
-        fields = ['title', 'domain', 'description', 'file']
+        fields = ['title', 'category', 'domain','description','deployment_context', 'intended_use', 'system_type', 'what_went_wrong','data_issues', 'recommendations', 'file']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+            'deployment_context': forms.Textarea(attrs={'rows': 3}),
+            'intended_use': forms.Textarea(attrs={'rows': 3}),
+            'what_went_wrong': forms.Textarea(attrs={'rows': 3}),
+            'data_issues': forms.Textarea(attrs={'rows': 3}),
+            'recommendations': forms.Textarea(attrs={'rows': 3}),
+        }
         
