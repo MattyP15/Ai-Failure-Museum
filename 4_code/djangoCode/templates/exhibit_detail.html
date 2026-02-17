@@ -1,0 +1,171 @@
+/* TEMP HTML TO BE REPLACED, from discord chat */
+
+{% extends "base.html" %}
+
+{% block title %}{{ exhibit.title }} - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+<style>
+    .exhibit-header {
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+    .exhibit-title {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+    .exhibit-meta {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+    .badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background: #667eea;
+        color: white;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        margin-right: 10px;
+    }
+    .section {
+        margin: 30px 0;
+    }
+    .section-title {
+        font-size: 1.4rem;
+        color: #495057;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e9ecef;
+    }
+    .section-content {
+        line-height: 1.8;
+        color: #333;
+    }
+    .action-bar {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 30px;
+        display: flex;
+        gap: 10px;
+    }
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    .info-card {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        border-left: 3px solid #667eea;
+    }
+    .info-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+    .info-value {
+        font-size: 1.1rem;
+        color: #2c3e50;
+        font-weight: 500;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="exhibit-header">
+        <div class="exhibit-title">{{ exhibit.title }}</div>
+        <div class="exhibit-meta">
+            {% if exhibit.category %}<span class="badge">{{ exhibit.category.name }}</span>{% endif %}
+            <span class="badge" style="background: #6c757d;">{{ exhibit.domain }}</span>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-label">System Type</div>
+            <div class="info-value">{{ exhibit.system_type|default:"Not specified" }}</div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">Created</div>
+            <div class="info-value">{{ exhibit.uploaded_at|date:"F d, Y" }}</div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">Status</div>
+            <div class="info-value">{% if exhibit.is_archived %}Archived{% else %}Active{% endif %}</div>
+        </div>
+    </div>
+
+    {% if exhibit.deployment_context %}
+    <div class="section">
+        <div class="section-title">🌍 Deployment Context</div>
+        <div class="section-content">{{ exhibit.deployment_context }}</div>
+    </div>
+    {% endif %}
+
+    {% if exhibit.intended_use %}
+    <div class="section">
+        <div class="section-title">🎯 Intended Use</div>
+        <div class="section-content">{{ exhibit.intended_use }}</div>
+    </div>
+    {% endif %}
+
+    {% if exhibit.what_went_wrong %}
+    <div class="section">
+        <div class="section-title">⚠️ What Went Wrong</div>
+        <div class="section-content">{{ exhibit.what_went_wrong }}</div>
+    </div>
+    {% endif %}
+
+    {% if exhibit.data_issues %}
+    <div class="section">
+        <div class="section-title">📊 Contributing Factors</div>
+        <div class="section-content">{{ exhibit.data_issues }}</div>
+    </div>
+    {% endif %}
+
+    {% if exhibit.recommendations %}
+    <div class="section">
+        <div class="section-title">💡 Recommendations</div>
+        <div class="section-content">{{ exhibit.recommendations }}</div>
+    </div>
+    {% endif %}
+
+    {% if exhibit.file %}
+    <div class="section">
+        <div class="section-title">📎 Supporting Materials</div>
+        <div class="section-content">
+            <a href="{{ exhibit.file.url }}" class="btn" target="_blank">Download File</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="action-bar">
+        <a href="{% url 'curator_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+</div>
+{% if quizzes %}
+    <div class="section">
+        <div class="section-title">📝 Reflection Quizzes</div>
+        {% for quiz in quizzes %}
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+            <h3 style="margin-bottom: 10px;">{{ quiz.title }}</h3>
+            {% if quiz.description %}
+            <p style="color: #6c757d; margin-bottom: 15px;">{{ quiz.description }}</p>
+            {% endif %}
+            <a href="/api/quizzes/{{ quiz.id }}/" class="btn">Take Quiz ({{ quiz.points_for_completion }} points)</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="action-bar">
+        <a href="{% url 'curator_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+{% endblock %}

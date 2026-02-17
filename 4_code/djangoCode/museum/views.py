@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Exhibit
 from .forms import ExhibitForm
 from .rbac import is_curator
+from .forms import QuizForm
 
 def privacy_policy(request):
     return render(request, "privacy.html")
@@ -48,11 +49,15 @@ def curator_dashboard(request):
     ##if curator, get exhibits and show dashboard
 
     active_exhibits = Exhibit.objects.filter(is_archived=False)
-    archieved_exhibits = Exhibit.objects.filter(is_archived=True)
+    archived_exhibits = Exhibit.objects.filter(is_archived=True)
+    total_quizzes = Quiz.objects.count()
+    ##add more stats for curator dashboard :) 
 
     return render(request, 'curator/dashboard.html', {
         'active_exhibits': active_exhibits,
-        'archieved_exhibits': archieved_exhibits,})
+        'archived_exhibits': archived_exhibits,
+        'total_quizzes': total_quizzes})
+
 
 
 
@@ -166,3 +171,24 @@ def analytics_view(request):
         return redirect('/login/?next=/curator/ ')
     return render(request, 'curator/analytics.html')
 
+@login_required
+def create_quiz(request):
+    if not is_curator(request.user):
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/ ')
+    if request.method == 'POST' : 
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            quiz = form.save()
+            messages.success(request, f'Quiz "{quiz.title}" created successfully')
+            return redirect('curator_dashboard')
+    else:
+        form = QuizForm()
+
+    return render(request, 'curator/create_quiz.html', {'form': form})
+
+def exhibit_detail(request, exhibit_id):
+    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+    quizzes = exhibit.quizzes.filter(is_active=True) #gets ACTIVE quizzes for this bad boy
+
+    return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes}) 
