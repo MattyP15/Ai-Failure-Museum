@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Exhibit
 from .forms import ExhibitForm
 from .rbac import is_curator
-from .forms import QuizForm
+
 
 def privacy_policy(request):
     return render(request, "privacy.html")
@@ -174,9 +174,10 @@ def analytics_view(request):
 @login_required
 def create_quiz(request):
     if not is_curator(request.user):
-        messages.error(request, "you do not have curator permissions")
-        return redirect('/login/?next=/curator/ ')
-    if request.method == 'POST' : 
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/login/?next=/curator/')
+    
+    if request.method == 'POST':
         form = QuizForm(request.POST)
         if form.is_valid():
             quiz = form.save()
@@ -184,9 +185,8 @@ def create_quiz(request):
             return redirect('curator_dashboard')
     else:
         form = QuizForm()
-
+    
     return render(request, 'curator/create_quiz.html', {'form': form})
-
 def exhibit_detail(request, exhibit_id):
     exhibit = get_object_or_404(Exhibit, id=exhibit_id)
     quizzes = exhibit.quizzes.filter(is_active=True) #gets ACTIVE quizzes for this bad boy

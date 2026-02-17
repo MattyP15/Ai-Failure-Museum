@@ -1,167 +1,26 @@
 /* TEMP HTML TO BE REPLACED, from discord chat */
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AI Failure Museum{% endblock %}</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6; 
-            color: #333;
-            background: #f5f5f5;
-        }
-        
-        /* Navigation */
-        nav { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; 
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav .logo { 
-            font-size: 1.5rem; 
-            font-weight: bold;
-            text-decoration: none;
-            color: white;
-        }
-        nav .nav-links a { 
-            color: white; 
-            text-decoration: none; 
-            margin: 0 15px;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-        nav .nav-links a:hover { 
-            background: rgba(255,255,255,0.2);
-        }
-        
-        /* Container */
-        .container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 20px; 
-        }
-        
-        /* Messages */
-        .messages {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .alert { 
-            padding: 15px 20px;
-            margin: 10px 0;
-            background: #fff3cd;
-            border: 1px solid #ffeeba;
-            border-radius: 6px;
-            color: #856404;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .alert.success { 
-            background: #d4edda; 
-            border-color: #c3e6cb; 
-            color: #155724; 
-        }
-        .alert.error { 
-            background: #f8d7da; 
-            border-color: #f5c6cb; 
-            color: #721c24; 
-        }
-        
-        /* Buttons */
-        .btn { 
-            display: inline-block; 
-            padding: 12px 24px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .btn:hover { 
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        .btn-secondary {
-            background: #6c757d;
-        }
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-        .btn-danger {
-            background: #dc3545;
-        }
-        .btn-danger:hover {
-            background: #c82333;
-        }
-        
-        /* Content area */
-        .content {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-        
-        h1 { 
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-        h2 {
-            color: #34495e;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-    </style>
-    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <nav>
-        <div class="container">
-            <a href="/" class="logo">🏛️ AI Failure Museum</a>
-            <div class="nav-links">
-                <a href="/">Home</a>
-                {% if user.is_authenticated %}
-                    <a href="/curator/dashboard/">Curator Dashboard</a>
-                    <a href="/logout/">Logout ({{ user.username }})</a>
-                {% else %}
-                    <a href="/login/">Login</a>
-                {% endif %}
-            </div>
-        </div>
+        <a href="/">Home</a>
+        {% if user.is_authenticated %}
+            <a href="/curator/dashboard/">Dashboard</a>
+            <a href="/logout/">Logout</a>
+        {% else %}
+            <a href="/login/">Login</a>
+        {% endif %}
     </nav>
     
     {% if messages %}
-    <div class="messages">
         {% for message in messages %}
-            <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
+            <p>{{ message }}</p>
         {% endfor %}
-    </div>
     {% endif %}
     
-    <div class="container">
-        {% block content %}{% endblock %}
-    </div>
+    {% block content %}{% endblock %}
 </body>
 </html>

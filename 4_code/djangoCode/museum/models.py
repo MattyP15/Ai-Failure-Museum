@@ -32,16 +32,6 @@ class UserBadge(models.Model):
         return f"{self.user.username} -> {self.badge.code}"
 
 
-class Quiz(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    is_active = models.BooleanField(default=True)
-    points_for_completion = models.PositiveIntegerField(default=10)
-
-    def __str__(self):
-        return self.title
-
-
 class Question(models.Model):
     TEXT = "text"
     MULTIPLE_CHOICE = "mc"
@@ -51,7 +41,7 @@ class Question(models.Model):
         (MULTIPLE_CHOICE, "Multiple choice"),
     ]
 
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="questions")
+    quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE, related_name="questions")
     prompt = models.TextField()
     qtype = models.CharField(max_length=10, choices=TYPE_CHOICES, default=TEXT)
     order = models.PositiveIntegerField(default=0)
@@ -116,7 +106,7 @@ class Exhibit(models.Model):
     title = models.CharField(max_length=200)
     category= models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True) 
     #Domain as in flooding, earthquakes etc
-    domain = models.CharField(max_length=100)
+    failure_type = models.CharField(max_length=100, blank=True)
     deployment_context = models.TextField(blank=True)  
     intended_use = models.TextField(blank=True)
 
@@ -149,6 +139,19 @@ class Exhibit(models.Model):
     ##to create upload field for the database
     file = models.FileField(upload_to='exhibits/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Quiz(models.Model):
+    #link exhibit to quiz:
+    exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)  # ADD THIS LINE
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
+    points_for_completion = models.PositiveIntegerField(default=10)
 
     def __str__(self):
         return self.title
