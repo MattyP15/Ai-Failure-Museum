@@ -25,16 +25,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.homepage),
     path("category/", views.category),
-    path("login/", views.login),
-    
-    ##curator tools url
-
-    path('dashboard/', views.curator_dashboard, name='curator_dashboard'),
-    path('analytics/', views.analytics_view, name='analytics_view'),
-    path('create/', views.create_exhibit, name='create_exhibit'),
-    path('delete/<int:pk>/', views.delete_exhibit, name = 'delete_exhibit'),
-    path('archive/<int:pk>/', views.archive_exhibit, name='archive_exhibit'),
-
     path("login/", auth_views.LoginView.as_view(), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path('', include('museum.urls')),

@@ -160,7 +160,7 @@ def create_exhibit(request):
 ##functions for delete, archieve, edit
 
 @login_required
-def analystics_view(request):
+def analytics_view(request):
     if not is_curator(request.user):
         messages.error(request, "you do not have curator permissions")
         return redirect('/login/?next=/curator/ ')
