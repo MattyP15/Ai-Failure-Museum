@@ -92,13 +92,55 @@ class Response(models.Model):
 
     def __str__(self):
         return f"Response({self.attempt_id}, q={self.question_id})"
+    
+##category model 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True )
+    description = models.TextField(blank=True)
+    slug = models.SlugField(unique=True)   
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
+
+    def __str__(self):
+        return self.name
+
+
+##exhibit model (extended)
 class Exhibit(models.Model):
 
+
+    #basic info
     title = models.CharField(max_length=200)
-    
+    Category= models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True) 
     #Domain as in flooding, earthquakes etc
     domain = models.CharField(max_length=100)
+    deployment_context = models.TextField(blank=True)  
+    intended_use = models.TextField(blank=True)
+
+
+    #Ai system desciption 
+    system_type = models.CharField(max_length=100, blank=True)  
+    inputs_assumptions = models.TextField(blank=True)
+    outputs_to_users = models.TextField(blank=True)
+
+    # failure description
+
+    what_went_wrong = models.TextField(blank=True)
+    how_detected = models.TextField(blank=True)
+    who_affected = models.TextField(blank=True)
+
+
+    #contributing factors
+    data_issues = models.TextField(blank=True)
+    design_choices = models.TextField(blank=True)
+    org_governance_issues = models.TextField(blank=True)
+
+    #lessons learned
+    recommendations = models.TextField(blank=True)
+    warnings = models.TextField(blank=True)
 
     #Short summary of the exhibit
     description = models.TextField()
@@ -110,3 +152,4 @@ class Exhibit(models.Model):
 
     def __str__(self):
         return self.title
+
