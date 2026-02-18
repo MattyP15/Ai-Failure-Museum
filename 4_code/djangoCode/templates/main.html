@@ -28,6 +28,11 @@
             </a>
 
             {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <a href="/curator/dashboard/">
+                <button class="loginBtn">Curator Dashboard</button>
+            </a>
+            {% endif %}
             <a href = "/logout">
                 <button class="loginBtn">
                     Logout
