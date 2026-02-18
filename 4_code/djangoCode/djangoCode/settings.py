@@ -140,5 +140,5 @@ if not SECRET_KEY:
 DEBUG = os.getenv('DEBUG', 'FALSE') == 'True' 
 
 LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = "/curator/dashboard/"  ## redirects ALL users, fix later
+LOGIN_REDIRECT_URL = "/"  ## redirects ALL users, fix later
 LOGOUT_REDIRECT_URL = "/"
