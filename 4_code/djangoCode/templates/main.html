@@ -18,14 +18,38 @@
     <main class="app">
         <header class="appHeader">
             <div class="points">
-                ⭐ <span>0 Points</span>
+                <span>{{ user_points }} Points</span>
             </div>
+            
+            {% if user.is_superuser%}
+                <a href="/admin/">
+                    <button class="loginBtn">Admin Page</button>
+                </a>
+            {% endif %}
 
-            <a href = "/login">
-            <button class="loginBtn">
-                Log In
-            </button>
+            <a href = "/">
+                <button class="loginBtn">
+                    Home
+                </button>
             </a>
+
+            {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <a href="/curator/dashboard/">
+                <button class="loginBtn">Curator Dashboard</button>
+            </a>
+            {% endif %}
+            <form method="post" action="/logout/">
+                {% csrf_token %}
+                <button type="submit" class="loginBtn">Logout</button>
+            </form>
+            {% else %}
+            <a href = "/login">
+                <button class="loginBtn">
+                    Log In
+                </button>
+            </a>
+            {% endif %}
         </header>
 
 
@@ -39,22 +63,24 @@
 
         <div class="sortBar">
             <label for="category-filter" class="sortBtn">
-                ☰
+                Filter
             </label>
         </div>
 
 
         <section class="categoryGrid">
             <!-- Loop through all data -->
-            <a href="/category" class="categoryLink">
+            {% for cat in categories %}
+            <a href="/category/{{ cat.slug }}/" class="categoryLink">
                 <article class="categoryCards" style="--accent-color: {{ cat.color }};">
                     <div class="cardText">
-                        <h3>PlaceHolderTitle</h3>
-                        <p>PlaceHolderDescription</p>
+                        <h3>{{ cat.name }}</h3>
+                        <p>{{ cat.description }}</p>
                     </div>
-                    <div class="icon">🎉</div>
+                    <div class="icon">+</div>
                 </article>
             </a>
+            {% endfor %}
             <!-- Loop through end -->
         </section>
     </main>

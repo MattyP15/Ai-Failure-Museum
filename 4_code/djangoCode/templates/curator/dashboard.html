@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Curator Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+    h1 { color: #333; border-bottom: 2px solid #ccc; padding-bottom: 10px; }
+    h2 { color: #666; font-size: 1.2em; margin-top: 30px; }
+    .exhibit-box {
+        background: white;
+        border: 2px dashed #999;
+        padding: 15px;
+        margin: 10px 0;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .exhibit-box h3 { margin: 0 0 10px 0; color: #444; }
+    .exhibit-box p { margin: 5px 0; color: #666; font-size: 0.9em; }
+    button, .btn {
+        background: #4CAF50;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: 5px;
+    }
+    button:hover, .btn:hover { background: #45a049; }
+    .delete-btn { background: #f44336; }
+    .delete-btn:hover { background: #da190b; }
+    .create-btn { background: #2196F3; padding: 12px 25px; font-size: 16px; }
+    .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-left: 4px solid #4CAF50;
+        background: #dff0d8;
+    }
+    .message.error { border-color: #f44336; background: #f8d7da; }
+</style>
+
+<h1>CURATOR DASHBOARD (PROTOTYPE)</h1>
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="message {% if message.tags == 'error' %}error{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div style="margin: 20px 0;">
+    <a href="/curator/create/">
+        <button class="create-btn">+ CREATE NEW EXHIBIT</button>
+    </a>
+</div>
+
+<h2>Active Exhibits ({{ active_exhibits.count }})</h2>
+
+{% for exhibit in active_exhibits %}
+<div class="exhibit-box">
+    <h3>{{ exhibit.title }}</h3>
+    {% if exhibit.category %}
+    <p><strong>Category:</strong> {{ exhibit.category.name }}</p>
+    {% endif %}
+    <p>{{ exhibit.description|truncatewords:25 }}</p>
+
+    <div style="margin-top: 10px;">
+        <a href="{% url 'edit_exhibit' exhibit.id %}">
+            <button>Edit</button>
+        </a>
+        <a href="/exhibit/{{ exhibit.id }}/">
+            <button>View</button>
+        </a>
+        <form method="post" action="{% url 'delete_exhibit' exhibit.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn" onclick="return confirm('Really delete {{ exhibit.title }}?')">
+                Delete
+            </button>
+        </form>
+    </div>
+</div>
+{% empty %}
+<p style="color: #999; font-style: italic;">No exhibits yet. Create one to get started!</p>
+{% endfor %}
+
+{% if archived_exhibits %}
+<h2>Archived Exhibits ({{ archived_exhibits.count }})</h2>
+{% for exhibit in archived_exhibits %}
+<div class="exhibit-box" style="opacity: 0.6; border-style: dotted;">
+    <h3>{{ exhibit.title }} [ARCHIVED]</h3>
+    {% if exhibit.category %}
+    <p><strong>Category:</strong> {{ exhibit.category.name }}</p>
+    {% endif %}
+</div>
+{% endfor %}
+{% endif %}
+
+<hr style="margin: 40px 0; border: 1px dashed #ccc;">
+<p style="color: #999; font-size: 0.85em;">
+    TIP: This is a rough prototype interface. Final version will be more polished!
+</p>
+
+{% endblock %}

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AI Failure Museum</title>
 
-    <link rel="stylesheet" href={% static "css/style.css" % }>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- Very awesome font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,42 +18,60 @@
     <main class="app">
         <header class="appHeader">
             <div class="points">
-                ⭐ <span>0 Points</span>
+                ⭐ <span>{{ user_points }} Points</span>
             </div>
 
-            <a href = "/login">
-            <button class="loginBtn">
-                Log In
-            </button>
+            {% if user.is_superuser%}
+                <a href="/admin/">
+                    <button class="loginBtn">Admin Page</button>
+                </a>
+            {% endif %}
+
+            <a href = "/">
+                <button class="loginBtn">
+                    Home
+                </button>
             </a>
+
+            {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <a href="/curator/dashboard/">
+                <button class="loginBtn">Curator Dashboard</button>
+            </a>
+            {% endif %}
+            <form method="post" action="/logout/">
+                {% csrf_token %}
+                <button type="submit" class="loginBtn">Logout</button>
+            </form>
+            {% else %}
+            <a href = "/login">
+                <button class="loginBtn">
+                    Log In
+                </button>
+            </a>
+            {% endif %}
         </header>
 
         <section class="title">
-            <h1>PlaceHolderTitle</h1>
-            <p>PlaceHolderDescription</p>
+            <h1>{{ category.name }}</h1>
+            <p>{{ category.description }}</p>
         </section>
 
-        <div class="mostViewed">
-            <h2>Most Viewed</h2>
-            <div class="mostViewedGrid">
-                <!-- Loop through all data -->
-                <article class="failureCard">
-                    <h3>PlaceHolderTitle</h3>
-                    <p>PlaceHolderDescription</p>
-                    <div class="views">👁️ 0 views</div>
-                </article>
-                <!-- Loop through end -->
-        </div>
-
         <div class="all">
-            <h2>All</h2>
+            <h2>All Exhibits</h2>
             <div class="allGrid">
                 <!-- Loop through all data -->
+                {% for exhibit in exhibits %}
+                <a href="/exhibit/{{ exhibit.id }}/" style="text-decoration: none; color: inherit;">
                 <article class="failureCard">
-                    <h3>PlaceHolderTitle</h3>
-                    <p>PlaceHolderDescription</p>
-                    <div class="views">👁️ 0 views</div>
+                    <h3>{{ exhibit.title }}</h3>
+                    <p>{{ exhibit.description|truncatewords:20 }}</p>
+                    <div class="views">{{ exhibit.failure_type|default:"AI Failure" }}</div>
                 </article>
+                </a>
+                {% empty %}
+                <p>No exhibits in this category yet.</p>
+                {% endfor %}
                 <!-- Loop through end -->
         </div>
     </main>

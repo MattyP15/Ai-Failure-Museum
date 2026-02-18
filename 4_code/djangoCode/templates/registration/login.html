@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head><title>Login</title></head>
+  <body>
+    <h1>Login</h1>
+    <header class="appHeader">
+      <a href = "/">
+        <button class="loginBtn">
+          Home
+        </button>
+      </a>
+
+    {% if form.errors %}
+      <p style="color:red;">Invalid username or password.</p>
+    {% endif %}
+
+    <form method="post" action="">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Log in</button>
+    </form>
+
+    {% if next %}
+      <p>After login you will be sent to: <code>{{ next }}</code></p>
+    {% endif %}
+  </body>
+</html>
+

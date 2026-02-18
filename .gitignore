@@ -6,3 +6,6 @@ __pycache__/
 *.pyc
 media/
 .command
+.pdf
+COMM2020_Project_11-Spec_AI_Failures_Museum.pdf
+IGNOREME/

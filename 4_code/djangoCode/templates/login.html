@@ -1,34 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>AI Failure Museum</title>
+<!doctype html>
+{% load static %}
 
-    <link rel="stylesheet" href="style.css">
+<html>
+  
+  <head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
 
-    <!-- Very awesome font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
+  <body>
+    <h1>Login</h1>
 
-<body>
-    <main class="app">
-        <header class="appHeader">
-            <div class="points">
-                ⭐ <span>0 Points</span>
-            </div>
+    
 
-            <button class="loginBtn">
-                Log In
-            </button>
-        </header>
+    {% if form.errors %}
+      <p style="color:red;">Invalid username or password.</p>
+    {% endif %}
 
-        <section class="title">
-            <h1>Login placeholder page</h1>
-            <p></p>
-        </section>
-    </main>
-</body>
+    <form method="post" action="">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Log in</button>
+    </form>
+
+    {% if next %}
+      <p>After login you will be sent to: <code>{{ next }}</code></p>
+    {% endif %}
+  </body>
 </html>
+

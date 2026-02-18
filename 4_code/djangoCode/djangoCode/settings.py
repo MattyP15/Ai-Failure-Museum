@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "museum",
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,7 @@ ROOT_URLCONF = "djangoCode.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["templates"],
+        'DIRS': [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -120,3 +122,23 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+
+
+## 'media' to store the artifacts 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+## 'dotenv' to load enviroment variables from local .env
+
+load_dotenv()
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', SECRET_KEY )## get password from .env 
+if not SECRET_KEY:
+    raise ValueError("The SECRET_KEY environment variable is not set")
+
+DEBUG = os.getenv('DEBUG', 'FALSE') == 'True' 
+
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"  ## redirects ALL users, fix later
+LOGOUT_REDIRECT_URL = "/"

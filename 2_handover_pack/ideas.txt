@@ -1,0 +1,1 @@
+security baseline: in the curator dashboard we used djangos built in measures to ensure only curators can access it.

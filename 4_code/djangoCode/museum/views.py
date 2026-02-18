@@ -1,0 +1,379 @@
+import json
+
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from .gamification import award_points
+from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
+from .rbac import is_curator
+from django.contrib.auth.decorators import login_required
+from .models import Exhibit
+from .forms import ExhibitForm, QuizForm
+from .rbac import is_curator
+
+
+def privacy_policy(request):
+    return render(request, "privacy.html")
+
+
+@login_required
+def delete_my_data(request):
+    if request.method == "GET":
+        return render(request, "delete_my_data.html")
+
+    if request.method != "POST":
+        return HttpResponseBadRequest("Invalid method")
+
+    user = request.user
+
+    # delete quiz attempts & responses via cascade
+    QuizAttempt.objects.filter(user=user).delete()
+
+    # Delete user badges
+    UserBadge.objects.filter(user=user).delete()
+
+    # Finally delete the account (profile cascades)
+    user.delete()
+
+    return redirect("/")
+
+
+@login_required
+def curator_dashboard(request):
+    ##check if curator
+    if not is_curator(request.user):
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/dashboard ')
+    ##if curator, get exhibits and show dashboard
+
+    active_exhibits = Exhibit.objects.filter(is_archived=False)
+    archived_exhibits = Exhibit.objects.filter(is_archived=True)
+    total_quizzes = Quiz.objects.count()
+    ##add more stats for curator dashboard :) 
+
+    return render(request, 'curator/dashboard.html', {
+        'active_exhibits': active_exhibits,
+        'archived_exhibits': archived_exhibits,
+        'total_quizzes': total_quizzes})
+
+
+
+
+def api_quizzes(request):
+    quizzes = Quiz.objects.filter(is_active=True).order_by("id")
+    data = [{"id": q.id, "title": q.title, "description": q.description} for q in quizzes]
+    return JsonResponse({"quizzes": data})
+
+
+def api_quiz_detail(request, quiz_id: int):
+    quiz = get_object_or_404(Quiz, id=quiz_id, is_active=True)
+    questions = []
+    for q in quiz.questions.all():
+        questions.append(
+            {
+                "id": q.id,
+                "prompt": q.prompt,
+                "qtype": q.qtype,
+                "options": [{"id": o.id, "text": o.text} for o in q.options.all()],
+            }
+        )
+    return JsonResponse(
+        {
+            "id": quiz.id,
+            "title": quiz.title,
+            "description": quiz.description,
+            "points_for_completion": quiz.points_for_completion,
+            "questions": questions,
+        }
+    )
+
+
+@csrf_exempt  # OK for prototype; remove once your frontend sends CSRF token
+@login_required
+def api_quiz_submit(request, quiz_id: int):
+    if request.method != "POST":
+        return HttpResponseBadRequest("POST required")
+
+    quiz = get_object_or_404(Quiz, id=quiz_id, is_active=True)
+
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return HttpResponseBadRequest("Invalid JSON")
+
+    answers = payload.get("answers", [])
+    if not isinstance(answers, list):
+        return HttpResponseBadRequest("answers must be a list")
+
+    attempt = QuizAttempt.objects.create(user=request.user, quiz=quiz)
+
+    for a in answers:
+        qid = a.get("question_id")
+        if not qid:
+            continue
+
+        question = get_object_or_404(Question, id=qid, quiz=quiz)
+
+        selected_option = None
+        text_answer = ""
+
+        if question.qtype == Question.MULTIPLE_CHOICE:
+            oid = a.get("option_id")
+            if oid:
+                selected_option = get_object_or_404(AnswerOption, id=oid, question=question)
+        else:
+            text_answer = (a.get("text") or "").strip()
+
+        Response.objects.create(
+            attempt=attempt,
+            question=question,
+            selected_option=selected_option,
+            text_answer=text_answer,
+        )
+
+    total_points, newly_awarded = award_points(request.user, quiz.points_for_completion)
+
+    return JsonResponse(
+        {
+            "status": "ok",
+            "attempt_id": attempt.id,
+            "points_awarded": quiz.points_for_completion,
+            "total_points": total_points,
+            "new_badges": [{"code": b.code, "name": b.name} for b in newly_awarded],
+        }
+    )
+
+@login_required
+
+def create_exhibit(request):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/login/?next=/curator/dashboard ')
+    if request.method == 'POST' : 
+        form = ExhibitForm(request.POST, request.FILES)
+        if form.is_valid():
+            exhibit = form.save()
+            messages.success(request, f'Exhibit "{exhibit.title}" created successfully')
+            return redirect('curator_dashboard')
+    else:
+        form = ExhibitForm()
+
+    return render(request, 'curator/create_exhibit.html', {'form': form})
+
+##functions for delete, archieve, edit
+
+@login_required
+def analytics_view(request):
+    if not is_curator(request.user):
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/dashboard ')
+    return render(request, 'curator/analytics.html')
+
+@login_required
+def create_quiz(request):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/login/?next=/curator/dashboard')
+    
+    if request.method == 'POST':
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            quiz = form.save()
+            messages.success(request, f'Quiz "{quiz.title}" created successfully')
+            return redirect('curator_dashboard')
+    else:
+        form = QuizForm()
+    
+    return render(request, 'curator/create_quiz.html', {'form': form})
+def exhibit_detail(request, exhibit_id):
+    try:
+        exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+        quizzes = exhibit.quizzes.filter(is_active=True)
+        return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes})
+    except Exception as e:
+        messages.error(request, f'Error loading exhibit: {str(e)}')
+        return redirect('/')
+
+
+def take_quiz(request, quiz_id):
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id, is_active=True)
+        questions = quiz.questions.all()
+        return render(request, 'quiz/take_quiz.html', {'quiz': quiz, 'questions': questions})
+    except Exception as e:
+        messages.error(request, f'Error loading quiz: {str(e)}')
+        return redirect('/')
+
+
+@login_required
+def submit_quiz(request, quiz_id):
+    try:
+        quiz = get_object_or_404(Quiz, id=quiz_id)
+
+        if request.method == 'POST':
+            attempt = QuizAttempt.objects.create(user=request.user, quiz=quiz)
+
+            responses_data = []
+            correct_count = 0
+            total_count = 0
+
+            for question in quiz.questions.all():
+                if question.qtype == 'mc':
+                    # Multiple choice - get selected option ID
+                    option_id = request.POST.get(f'question_{question.id}')
+                    if option_id:
+                        try:
+                            selected_option = AnswerOption.objects.get(id=option_id, question=question)
+                            Response.objects.create(
+                                attempt=attempt,
+                                question=question,
+                                selected_option=selected_option
+                            )
+
+                            is_correct = selected_option.is_correct
+                            if is_correct:
+                                correct_count += 1
+                            total_count += 1
+
+                            responses_data.append({
+                                'question': question.prompt,
+                                'answer': selected_option.text,
+                                'is_correct': is_correct,
+                                'correct_answer': question.options.filter(is_correct=True).first().text if not is_correct else None
+                            })
+                        except AnswerOption.DoesNotExist:
+                            pass
+                else:
+                    # Text answer
+                    answer = request.POST.get(f'question_{question.id}', '').strip()
+                    if answer:
+                        Response.objects.create(
+                            attempt=attempt,
+                            question=question,
+                            text_answer=answer
+                        )
+                        responses_data.append({
+                            'question': question.prompt,
+                            'answer': answer,
+                            'is_correct': None  # No grading for text answers
+                        })
+
+            # Award 1 point per correct answer
+            points_earned = correct_count
+            award_points(request.user, points_earned)
+
+            return render(request, 'quiz/quiz_results.html', {
+                'quiz': quiz,
+                'responses': responses_data,
+                'points': points_earned,
+                'exhibit': quiz.exhibit,
+                'correct_count': correct_count,
+                'total_count': total_count
+            })
+
+        return redirect('take_quiz', quiz_id=quiz_id)
+    except Exception as e:
+        messages.error(request, f'Error submitting quiz: {str(e)}')
+        return redirect('/')
+
+
+@login_required
+def edit_exhibit(request, exhibit_id):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/login/?next=/curator/dashboard')
+
+    try:
+        exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+        quiz = exhibit.quizzes.first() if exhibit.quizzes.exists() else None
+
+        if request.method == 'POST':
+            exhibit_form = ExhibitForm(request.POST, request.FILES, instance=exhibit)
+
+            if exhibit_form.is_valid():
+                exhibit = exhibit_form.save()
+
+                # Handle quiz creation/update
+                quiz_title = request.POST.get('quiz_title', '').strip()
+                if quiz_title:
+                    if quiz:
+                        quiz.title = quiz_title
+                        quiz.description = request.POST.get('quiz_description', '')
+                        quiz.save()
+                    else:
+                        quiz = Quiz.objects.create(
+                            exhibit=exhibit,
+                            title=quiz_title,
+                            description=request.POST.get('quiz_description', ''),
+                            is_active=True,
+                            points_for_completion=10
+                        )
+
+                    # Handle 3 multiple choice questions
+                    for i in range(1, 4):
+                        question_text = request.POST.get(f'question_{i}', '').strip()
+                        true_answer = request.POST.get(f'question_{i}_true', '').strip()
+                        false_answer = request.POST.get(f'question_{i}_false', '').strip()
+
+                        if question_text and true_answer and false_answer:
+                            # Create or update question
+                            question, created = Question.objects.update_or_create(
+                                quiz=quiz,
+                                order=i,
+                                defaults={'prompt': question_text, 'qtype': 'mc'}
+                            )
+
+                            # Delete old answer options
+                            question.options.all().delete()
+
+                            # Create new answer options
+                            AnswerOption.objects.create(
+                                question=question,
+                                text=true_answer,
+                                is_correct=True,
+                                order=1
+                            )
+                            AnswerOption.objects.create(
+                                question=question,
+                                text=false_answer,
+                                is_correct=False,
+                                order=2
+                            )
+
+                messages.success(request, f'Exhibit "{exhibit.title}" updated successfully')
+                return redirect('curator_dashboard')
+        else:
+            exhibit_form = ExhibitForm(instance=exhibit)
+
+        # Get existing questions if quiz exists
+        questions = list(quiz.questions.all()[:3]) if quiz else []
+        while len(questions) < 3:
+            questions.append(None)
+
+        return render(request, 'curator/edit_exhibit.html', {
+            'form': exhibit_form,
+            'exhibit': exhibit,
+            'quiz': quiz,
+            'questions': questions
+        })
+    except Exception as e:
+        messages.error(request, f'Error: {str(e)}')
+        return redirect('curator_dashboard')
+
+
+@login_required
+def delete_exhibit(request, exhibit_id):
+    if not is_curator(request.user):
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/dashboard ')
+    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+
+    if request.method == 'POST':
+        exhibit_title = exhibit.title
+        exhibit.delete()
+        messages.success(request, f'exhibit "{exhibit_title}" deleted successfully')
+        return redirect('curator_dashboard')
+
+    return render(request, 'curator/dashboard.html', {'active_exhibits': Exhibit.objects.filter(is_active=True)})
