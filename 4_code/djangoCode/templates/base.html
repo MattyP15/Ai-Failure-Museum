@@ -6,15 +6,27 @@
 </head>
 <body>
     <nav>
-        <a href="/">Home</a>
+        <a href = "/">
+            <button class="loginBtn">
+                Home
+            </button>
+        </a>
         {% if user.is_authenticated %}
-            <a href="/curator/dashboard/">Dashboard</a>
+            <a href = "/curator/dashboard/">
+                <button class="loginBtn">
+                    Dashboard
+                </button>
+            </a>
             <form method="post" action="/logout/">
                 {% csrf_token %}
                 <button type="submit" class="loginBtn">Logout</button>
             </form>
         {% else %}
-            <a href="/login/">Login</a>
+            <a href = "/login/">
+                <button class="loginBtn">
+                    Login
+                </button>
+            </a>
         {% endif %}
     </nav>
     
