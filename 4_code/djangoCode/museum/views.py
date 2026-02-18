@@ -45,7 +45,7 @@ def curator_dashboard(request):
     ##check if curator
     if not is_curator(request.user):
         messages.error(request, "you do not have curator permissions")
-        return redirect('/login/?next=/curator/ ')
+        return redirect('/login/?next=/curator/dashboard ')
     ##if curator, get exhibits and show dashboard
 
     active_exhibits = Exhibit.objects.filter(is_archived=False)
@@ -150,7 +150,7 @@ def api_quiz_submit(request, quiz_id: int):
 def create_exhibit(request):
     if not is_curator(request.user):
         messages.error(request, "You do not have curator permissions")
-        return redirect('/login/?next=/curator/ ')
+        return redirect('/login/?next=/curator/dashboard ')
     if request.method == 'POST' : 
         form = ExhibitForm(request.POST, request.FILES)
         if form.is_valid():
@@ -168,14 +168,14 @@ def create_exhibit(request):
 def analytics_view(request):
     if not is_curator(request.user):
         messages.error(request, "you do not have curator permissions")
-        return redirect('/login/?next=/curator/ ')
+        return redirect('/login/?next=/curator/dashboard ')
     return render(request, 'curator/analytics.html')
 
 @login_required
 def create_quiz(request):
     if not is_curator(request.user):
         messages.error(request, "You do not have curator permissions")
-        return redirect('/login/?next=/curator/')
+        return redirect('/login/?next=/curator/dashboard')
     
     if request.method == 'POST':
         form = QuizForm(request.POST)
@@ -283,7 +283,7 @@ def submit_quiz(request, quiz_id):
 def edit_exhibit(request, exhibit_id):
     if not is_curator(request.user):
         messages.error(request, "You do not have curator permissions")
-        return redirect('/login/?next=/curator/')
+        return redirect('/login/?next=/curator/dashboard')
 
     try:
         exhibit = get_object_or_404(Exhibit, id=exhibit_id)
@@ -367,7 +367,7 @@ def edit_exhibit(request, exhibit_id):
 def delete_exhibit(request, exhibit_id):
     if not is_curator(request.user):
         messages.error(request, "you do not have curator permissions")
-        return redirect('/login/?next=/curator/ ')
+        return redirect('/login/?next=/curator/dashboard ')
     exhibit = get_object_or_404(Exhibit, id=exhibit_id)
 
     if request.method == 'POST':
