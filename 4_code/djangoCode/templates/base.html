@@ -9,7 +9,10 @@
         <a href="/">Home</a>
         {% if user.is_authenticated %}
             <a href="/curator/dashboard/">Dashboard</a>
-            <a href="/logout/">Logout</a>
+            <form method="post" action="/logout/">
+                {% csrf_token %}
+                <button type="submit" class="loginBtn">Logout</button>
+            </form>
         {% else %}
             <a href="/login/">Login</a>
         {% endif %}

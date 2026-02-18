@@ -18,20 +18,32 @@
     <main class="app">
         <header class="appHeader">
             <div class="points">
-                ⭐ <span>0 Points</span>
+                ⭐ <span>{{ user_points }} Points</span>
             </div>
 
             <a href = "/">
                 <button class="loginBtn">
-                    🏠 Home
+                    Home
                 </button>
             </a>
 
-            <a href = "/login">
-            <button class="loginBtn">
-                Log In
-            </button>
+            {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <a href="/curator/dashboard/">
+                <button class="loginBtn">Curator Dashboard</button>
             </a>
+            {% endif %}
+            <form method="post" action="/logout/">
+                {% csrf_token %}
+                <button type="submit" class="loginBtn">Logout</button>
+            </form>
+            {% else %}
+            <a href = "/login">
+                <button class="loginBtn">
+                    Log In
+                </button>
+            </a>
+            {% endif %}
         </header>
 
         <section class="title">
