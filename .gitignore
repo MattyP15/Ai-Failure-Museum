@@ -1,11 +1,31 @@
-.venv/
-.venv-1/
-.env
-db.sqlite3
+# Python
 __pycache__/
+*.py[cod]
 *.pyc
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
 media/
-.command
-.pdf
-COMM2020_Project_11-Spec_AI_Failures_Museum.pdf
-IGNOREME/
+staticfiles/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Uploads
+uploads/
+
+# Render specific
+render.yaml
