@@ -207,17 +207,19 @@ def take_quiz(request, quiz_id):
         return redirect('/')
 
 
-@login_required
 def submit_quiz(request, quiz_id):
     try:
         quiz = get_object_or_404(Quiz, id=quiz_id)
 
         if request.method == 'POST':
-            attempt = QuizAttempt.objects.create(user=request.user, quiz=quiz)
-
             responses_data = []
             correct_count = 0
             total_count = 0
+
+            # Only create an attempt record if the user is logged in
+            attempt = None
+            if request.user.is_authenticated:
+                attempt = QuizAttempt.objects.create(user=request.user, quiz=quiz)
 
             for question in quiz.questions.all():
                 if question.qtype == 'mc':
@@ -226,11 +228,13 @@ def submit_quiz(request, quiz_id):
                     if option_id:
                         try:
                             selected_option = AnswerOption.objects.get(id=option_id, question=question)
-                            Response.objects.create(
-                                attempt=attempt,
-                                question=question,
-                                selected_option=selected_option
-                            )
+
+                            if attempt:
+                                Response.objects.create(
+                                    attempt=attempt,
+                                    question=question,
+                                    selected_option=selected_option
+                                )
 
                             is_correct = selected_option.is_correct
                             if is_correct:
@@ -249,25 +253,27 @@ def submit_quiz(request, quiz_id):
                     # Text answer
                     answer = request.POST.get(f'question_{question.id}', '').strip()
                     if answer:
-                        Response.objects.create(
-                            attempt=attempt,
-                            question=question,
-                            text_answer=answer
-                        )
+                        if attempt:
+                            Response.objects.create(
+                                attempt=attempt,
+                                question=question,
+                                text_answer=answer
+                            )
                         responses_data.append({
                             'question': question.prompt,
                             'answer': answer,
                             'is_correct': None  # No grading for text answers
                         })
 
-            # Award 1 point per correct answer
+            # Award points only if logged in
             points_earned = correct_count
-            award_points(request.user, points_earned)
+            if request.user.is_authenticated:
+                award_points(request.user, points_earned)
 
             return render(request, 'quiz/quiz_results.html', {
                 'quiz': quiz,
                 'responses': responses_data,
-                'points': points_earned,
+                'points': points_earned if request.user.is_authenticated else None,
                 'exhibit': quiz.exhibit,
                 'correct_count': correct_count,
                 'total_count': total_count

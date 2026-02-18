@@ -28,7 +28,11 @@
             {% if total_count > 0 %}
             <h2 style="color: #4CAF50;">Score: {{ correct_count }}/{{ total_count }}</h2>
             {% endif %}
+            {% if points is not None %}
             <h2 style="color: #4CAF50;">+{{ points }} Points Earned!</h2>
+            {% else %}
+            <p><a href="/login/">Log in</a> or <a href="/register/">register</a> to earn points and track your progress.</p>
+            {% endif %}
         </section>
 
         <div class="all">
