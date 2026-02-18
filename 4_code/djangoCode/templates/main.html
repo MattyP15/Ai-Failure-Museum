@@ -33,11 +33,10 @@
                 <button class="loginBtn">Curator Dashboard</button>
             </a>
             {% endif %}
-            <a href = "/logout">
-                <button class="loginBtn">
-                    Logout
-                </button>
-            </a>
+            <form method="post" action="/logout/">
+                {% csrf_token %}
+                <button type="submit" class="loginBtn">Logout</button>
+            </form>
             {% else %}
             <a href = "/login">
                 <button class="loginBtn">
