@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-hi1b)e(w88#2g5qt(m#ml^^79#orl^p70@hgftl47cu8)1sf_j
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "HL-AI-Museum.onrender.com",
+    ".onrender.com",
     "localhost",
     ]
 
