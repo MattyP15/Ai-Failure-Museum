@@ -1,0 +1,1 @@
+web: gunicorn djangoCode.wsgi:application
