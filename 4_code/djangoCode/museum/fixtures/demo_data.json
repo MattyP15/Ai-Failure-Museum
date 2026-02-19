@@ -536,7 +536,7 @@
     "model": "museum.userprofile",
     "pk": 4,
     "fields": {
-      "user": 1,
+      "user": 4,
       "points": 0
     }
   },
