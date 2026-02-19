@@ -1,11 +1,16 @@
-///// User login /////
+----------Team HL----------
+Project 11
 
+----- Github Repo Url -----
+https://github.com/MattyP15/Ai-Failure-Museum/
+
+----- Deployed Demo Url -----
+https://ai-failure-museum.onrender.com/
+
+----- Normal User login -----
 Username: VisitorUser
 Password: FailureVisit
 
-
-
-///// Curator login /////
-
+----- Curator login -----
 Username: curator_demo
 Password: P4ace_CHASer
