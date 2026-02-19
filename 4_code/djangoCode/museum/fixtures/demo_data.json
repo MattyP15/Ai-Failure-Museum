@@ -506,6 +506,7 @@
       "date_joined": "2026-02-19T00:25:34Z",
       "groups": [],
       "user_permissions": []
+    }
   },
   {
     "model": "museum.userprofile",
