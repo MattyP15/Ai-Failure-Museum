@@ -491,6 +491,23 @@
     }
   },
   {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$yafI3iulPUkQJwScdAsNBq$Qh7sozhZH+ul1HDJ17BfFNB340JkDukT1tvG6B/rMbg=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "VisitorUser",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-02-19T00:25:34Z",
+      "groups": [],
+      "user_permissions": []
+  },
+  {
     "model": "museum.userprofile",
     "pk": 1,
     "fields": {
@@ -511,6 +528,14 @@
     "pk": 3,
     "fields": {
       "user": 3,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 4,
+    "fields": {
+      "user": 1,
       "points": 0
     }
   },
