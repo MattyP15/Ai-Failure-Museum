@@ -1,5 +1,4 @@
-Development Log — AI Failure Museum (COMM2020)
-Sprint 1 activity log based on GitHub commit history. Team: Mathew, Osama, Kate, Stan, Louis, Hyam, Luqman 
+Development Log
 ________________________________________
 22 January 2026
 Mathew
