@@ -21,7 +21,7 @@ python manage.py runserver
 
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python3 install -r requirements.txt
 cd 4_code/djangoCode
 python3 manage.py migrate
 python3 manage.py loaddata museum/fixtures/demo_data.json
