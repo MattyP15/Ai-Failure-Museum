@@ -22,7 +22,7 @@
 
 1. python3 -m venv .venv
 2. source .venv/bin/activate
-3. python3 install -r requirements.txt
+3. pip install -r requirements.txt
 4. cd 4_code/djangoCode
 5. python3 manage.py migrate
 5. python3 manage.py loaddata museum/fixtures/demo_data.json
