@@ -1,0 +1,11 @@
+///// User login /////
+
+Username: VisitorUser
+Password: FailureVisit
+
+
+
+///// Curator login /////
+
+Username: curator_demo
+Password: P4ace_CHASer
