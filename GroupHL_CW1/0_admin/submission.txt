@@ -14,7 +14,3 @@ Password: FailureVisit
 ----- Curator login -----
 Username: curator_demo
 Password: P4ace_CHASer
-
------ Admin (Superuser) -----
-Username : Admin
-Password : Ric3Sh0wer
