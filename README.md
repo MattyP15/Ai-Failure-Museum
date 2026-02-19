@@ -9,6 +9,7 @@
 
 -- WINDOWS --
 
+python3 -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 cd 4_code\djangoCode
@@ -81,3 +82,12 @@ cd 4_code/djangoCode
 rm db.sqlite3
 python3 manage.py migrate
 python3 manage.py loaddata museum/fixtures/demo_data.json
+
+
+=== Run Tests ===
+
+Run Pytest : python manage.py test
+
+Run Full Django Test Suite: python manage.py test
+
+Run Specific test: python manage.py test museum.tests.<<Insert Test>>
