@@ -136,13 +136,30 @@ class Exhibit(models.Model):
     #Short summary of the exhibit
     description = models.TextField()
     is_archived = models.BooleanField(default=False)
-    
+
     ##to create upload field for the database
     file = models.FileField(upload_to='exhibits/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+    ## view tracking — the field stores the count,
+    ## the actual incrementing is handled elsewhere (see views.py exhibit_detail)
+    view_count = models.PositiveIntegerField(default=0)
+
     def __str__(self):
         return self.title
+
+    ## ── helper queries for search / homepage ──
+
+    @staticmethod
+    def top_viewed(n=3):
+        """Return the top n most-viewed non-archived exhibits."""
+        return Exhibit.objects.filter(is_archived=False).order_by('-view_count')[:n]
+
+    @staticmethod
+    def the_rest(n=3):
+        """Return every non-archived exhibit EXCEPT the top n most-viewed, ordered by title."""
+        top_ids = Exhibit.objects.filter(is_archived=False).order_by('-view_count').values_list('id', flat=True)[:n]
+        return Exhibit.objects.filter(is_archived=False).exclude(id__in=top_ids).order_by('title')
 
 
 class Quiz(models.Model):
@@ -156,4 +173,3 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
-

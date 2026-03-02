@@ -1,0 +1,134 @@
+<!doctype html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Search</title>
+
+        <link rel="stylesheet" type="text/css" href={% static "css/style.css" %}>
+
+        <!-- Very awesome font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <main class="app">
+        <header class="appHeader">
+            <div class="leftItems">
+                <div class="points">
+                    <span>⭐{{ user_points }} Points</span>
+                </div>
+
+                <form action="/search/" method="get" class="searchContainer">
+                    <div class="searchWrapper">
+                        <span class="searchIcon">🔍</span>
+                        <input type="search" name="q" placeholder="Search..." aria-label="Search">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="rightItems">
+                <a href = "/about">
+                    <button class="reportBtn">
+                        About
+                    </button>
+                </a>
+                <a href = "/search">
+                    <button class="reportBtn">
+                        Explore
+                    </button>
+                </a>
+                <a href = "">
+                    <button class="reportBtn">
+                        Submit Failure
+                    </button>
+                </a>
+                {% if user.is_superuser%}
+                    <a href="/admin/">
+                        <button class="reportBtn">Admin</button>
+                    </a>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <form method="post" action="/logout/">
+                    {% csrf_token %}
+                    <button type="submit" class="reportBtn">Logout</button>
+                </form>
+                {% else %}
+                <a href = "/login">
+                    <button class="loginBtn">
+                        Log In
+                    </button>
+                </a>
+                {% endif %}
+                {% if user.is_staff %}
+                <a href="/curator/dashboard/">
+                    <button class="loginBtn">Dashboard</button>
+                </a>
+                {% endif %}
+            </div>
+        </header>
+
+
+        <aside class="filters">
+
+        <div class="filtersInner">
+
+            <div class="resultsCount">
+                <strong>100</strong> results matched
+            </div>
+
+            <div class="filterItem" onclick="toggleSection('locations')">
+                AI
+                <span>▾</span>
+            </div>
+            <div class="filterContent" id="locations">
+                <label><input type="checkbox"> UK</label>
+                <label><input type="checkbox"> USA</label>
+                <label><input type="checkbox"> Remote</label>
+            </div>
+
+            <div class="filterItem" onclick="toggleSection('experience')">
+                AI
+                <span>▾</span>
+            </div>
+            <div class="filterContent" id="experience">
+                <label><input type="checkbox"> Entry</label>
+                <label><input type="checkbox"> Mid</label>
+                <label><input type="checkbox"> Senior</label>
+            </div>
+
+            <div class="filterItem" onclick="toggleSection('skills')">
+                AI
+                <span>▾</span>
+            </div>
+            <div class="filterContent" id="skills">
+                <label><input type="checkbox"> Python</label>
+                <label><input type="checkbox"> ML</label>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+        <div class="appFooter">
+            <t class="copyrightText">Copyright © 2026 Ai Museum All rights reserved.</t>
+            <div class="rightItemsFooter">
+                <a href="/privacy/">
+                    <button class="privacyBtn">Terms of Service</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="privacyBtn">Privacy Policy</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="privacyBtn">Accesability</button>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>
