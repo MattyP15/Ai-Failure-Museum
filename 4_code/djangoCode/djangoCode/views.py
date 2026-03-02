@@ -28,11 +28,8 @@ def category(request, slug):
         'top_three': top_three,
         'everything_else': everything_else,
     })
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 50b9d316754be598027d5214042cd3869488289f
 
 def login(request):
     return render(request, "login.html")
