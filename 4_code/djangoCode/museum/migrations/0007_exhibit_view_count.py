@@ -15,4 +15,8 @@ class Migration(migrations.Migration):
             name='view_count',
             field=models.PositiveIntegerField(default=0),
         ),
+<<<<<<< HEAD
     ]
+=======
+    ]
+>>>>>>> 50b9d316754be598027d5214042cd3869488289f
