@@ -4,7 +4,12 @@ from .models import Exhibit, Quiz
 class ExhibitForm(forms.ModelForm):
     class Meta:
         model = Exhibit
-        fields = ['title', 'category', 'failure_type','description','deployment_context', 'intended_use', 'system_type', 'what_went_wrong','data_issues', 'recommendations', 'file']
+        fields = ['title', 'category', 'failure_type', 'deployment_context', 
+        'intended_use', 'artefact1', 'system_type', 'inputs_assumptions', 
+        'outputs_to_users', 'artefact2', 'what_went_wrong', 'how_detected', 
+        'who_affected', 'artefact3', 'data_issues', 'design_choices', 
+        'org_governance_issues', 'artefact4', 'recommendations', 
+        'warnings', 'artefact5', 'description', 'is_archived',]
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'deployment_context': forms.Textarea(attrs={'rows': 3}),

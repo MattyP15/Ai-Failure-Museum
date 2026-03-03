@@ -76,13 +76,40 @@
 <h2>Deployment Context</h2>
 <div class="section">
     <p>{{ exhibit.deployment_context }}</p>
+    {% if exhibit.artefact1 %}
+    <div class="artefact-display">
+        {% with exhibit.artefact1.name as fname %}
+            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                <img src="{{ exhibit.artefact1.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+            {% elif ".pdf" in fname %}
+                <iframe src="{{ exhibit.artefact1.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+            {% else %}
+                <a href="{{ exhibit.artefact1.url }}" target="_blank">📎 Download Artefact</a>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% endif %}
 </div>
 {% endif %}
+
 
 {% if exhibit.intended_use %}
 <h2>Intended Use</h2>
 <div class="section">
     <p>{{ exhibit.intended_use }}</p>
+    {% if exhibit.artefact2 %}
+    <div class="artefact-display">
+        {% with exhibit.artefact2.name as fname %}
+            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                <img src="{{ exhibit.artefact2.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+            {% elif ".pdf" in fname %}
+                <iframe src="{{ exhibit.artefact2.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+            {% else %}
+                <a href="{{ exhibit.artefact2.url }}" target="_blank">📎 Download Artefact</a>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% endif %}
 </div>
 {% endif %}
 
@@ -90,6 +117,19 @@
 <h2>System Type</h2>
 <div class="section">
     <p>{{ exhibit.system_type }}</p>
+    {% if exhibit.artefact3 %}
+    <div class="artefact-display">
+        {% with exhibit.artefact3.name as fname %}
+            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                <img src="{{ exhibit.artefact3.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+            {% elif ".pdf" in fname %}
+                <iframe src="{{ exhibit.artefact3.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+            {% else %}
+                <a href="{{ exhibit.artefact3.url }}" target="_blank">📎 Download Artefact</a>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% endif %}
 </div>
 {% endif %}
 
@@ -97,13 +137,38 @@
 <h2>What Went Wrong</h2>
 <div class="section">
     <p>{{ exhibit.what_went_wrong }}</p>
+    {% if exhibit.artefact4 %}
+    <div class="artefact-display">
+        {% with exhibit.artefact4.name as fname %}
+            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                <img src="{{ exhibit.artefact4.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+            {% elif ".pdf" in fname %}
+                <iframe src="{{ exhibit.artefact4.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+            {% else %}
+                <a href="{{ exhibit.artefact4.url }}" target="_blank">📎 Download Artefact</a>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% endif %}
 </div>
 {% endif %}
 
 {% if exhibit.data_issues %}
 <h2>Contributing Factors (Data Issues)</h2>
 <div class="section">
-    <p>{{ exhibit.data_issues }}</p>
+    <p>{{ exhibit.data_issues }}</p>{% if exhibit.artefact1 %}
+    <div class="artefact-display">
+        {% with exhibit.artefact5.name as fname %}
+            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                <img src="{{ exhibit.artefact5.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+            {% elif ".pdf" in fname %}
+                <iframe src="{{ exhibit.artefact5.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+            {% else %}
+                <a href="{{ exhibit.artefact5.url }}" target="_blank">📎 Download Artefact</a>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% endif %}
 </div>
 {% endif %}
 
