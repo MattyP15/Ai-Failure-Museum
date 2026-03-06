@@ -10,10 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="exhibit",
-            name="file",
-        ),
         migrations.AddField(
             model_name="exhibit",
             name="artefact1",
