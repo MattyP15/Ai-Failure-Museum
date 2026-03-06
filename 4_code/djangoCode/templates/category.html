@@ -17,39 +17,59 @@
 <body>
     <main class="app">
         <header class="appHeader">
-            <div class="points">
-                ⭐ <span>{{ user_points }} Points</span>
+            <div class="leftItems">
+                <div class="points">
+                    <span>⭐{{ user_points }} Points</span>
+                </div>
+
+                <form action="/search/" method="get" class="searchContainer">
+                    <div class="searchWrapper">
+                        <span class="searchIcon">🔍</span>
+                        <input type="search" name="q" placeholder="Search..." aria-label="Search">
+                    </div>
+                </form>
             </div>
-
-            {% if user.is_superuser%}
-                <a href="/admin/">
-                    <button class="loginBtn">Admin Page</button>
+            
+            <div class="rightItems">
+                <a href = "/about">
+                    <button class="reportBtn">
+                        About
+                    </button>
                 </a>
-            {% endif %}
+                <a href = "/search">
+                    <button class="reportBtn">
+                        Explore
+                    </button>
+                </a>
+                <a href = "">
+                    <button class="reportBtn">
+                        Submit Failure
+                    </button>
+                </a>
+                {% if user.is_superuser%}
+                    <a href="/admin/">
+                        <button class="reportBtn">Admin</button>
+                    </a>
+                {% endif %}
 
-            <a href = "/">
-                <button class="loginBtn">
-                    Home
-                </button>
-            </a>
-
-            {% if user.is_authenticated %}
-            {% if user.is_staff %}
-            <a href="/curator/dashboard/">
-                <button class="loginBtn">Curator Dashboard</button>
-            </a>
-            {% endif %}
-            <form method="post" action="/logout/">
-                {% csrf_token %}
-                <button type="submit" class="loginBtn">Logout</button>
-            </form>
-            {% else %}
-            <a href = "/login">
-                <button class="loginBtn">
-                    Log In
-                </button>
-            </a>
-            {% endif %}
+                {% if user.is_authenticated %}
+                <form method="post" action="/logout/">
+                    {% csrf_token %}
+                    <button type="submit" class="reportBtn">Logout</button>
+                </form>
+                {% else %}
+                <a href = "/login">
+                    <button class="loginBtn">
+                        Log In
+                    </button>
+                </a>
+                {% endif %}
+                {% if user.is_staff %}
+                <a href="/curator/dashboard/">
+                    <button class="loginBtn">Dashboard</button>
+                </a>
+                {% endif %}
+            </div>
         </header>
 
         <section class="title">
@@ -57,22 +77,47 @@
             <p>{{ category.description }}</p>
         </section>
 
-        <div class="all">
-            <h2>All Exhibits</h2>
-            <div class="allGrid">
-                <!-- Loop through all data -->
-                {% for exhibit in exhibits %}
-                <a href="/exhibit/{{ exhibit.id }}/" style="text-decoration: none; color: inherit;">
-                <article class="failureCard">
-                    <h3>{{ exhibit.title }}</h3>
-                    <p>{{ exhibit.description|truncatewords:20 }}</p>
-                    <div class="views">{{ exhibit.failure_type|default:"AI Failure" }}</div>
-                </article>
+        <div class="mostViewed">
+            <h2>Most Viewed</h2>
+            <div class="mostViewedGrid">
+                {% for failure in top_three %}
+                <a class="mostViewedCard" href="{% url 'exhibit_detail' failure.id %}">
+                    <h3>{{ failure.title }}</h3>
+                    <p>{{ failure.description }}</p>
+                    <div class="views">👁️ 0 views</div>
+                    <!-- {{ exhibit.views }} -->
                 </a>
-                {% empty %}
-                <p>No exhibits in this category yet.</p>
                 {% endfor %}
-                <!-- Loop through end -->
+            </div>  
+        </div>
+
+        <div class="allDiv">
+            <h2>All</h2>
+            <div class="allGrid">
+                {% for exhibit in everything_else %}
+                <a class="failureCard" href="{% url 'exhibit_detail' exhibit.id %}">
+                    <h3>{{ exhibit.title }}</h3>
+                    <p>{{ exhibit.description }}</p>
+                    <div class="views">👁️ 0 views</div>
+                    <!-- {{ exhibit.views }} -->
+                </a>
+                {% endfor %}
+            </div> 
+        </div>
+
+        <div class="appFooter">
+            <t class="copyrightText">Copyright © 2026 Ai Museum All rights reserved.</t>
+            <div class="rightItemsFooter">
+                <a href="/privacy/">
+                    <button class="privacyBtn">Terms of Service</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="privacyBtn">Privacy Policy</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="privacyBtn">Accesability</button>
+                </a>
+            </div>
         </div>
     </main>
 </body>

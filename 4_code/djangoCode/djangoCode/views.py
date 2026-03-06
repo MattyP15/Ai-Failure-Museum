@@ -19,9 +19,21 @@ def homepage(request):
 
 def category(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    exhibits = category.exhibits.all() if hasattr(category, 'exhibits') else Exhibit.objects.filter(category=category)
-    return render(request, "category.html", {'category': category, 'exhibits': exhibits})
+    exhibits = Exhibit.objects.filter(category=category)
+    top_three = Exhibit.top_viewed(3)
+    everything_else = Exhibit.the_rest(3)
+    return render(request, "category.html", {
+        'category': category,
+        'exhibits': exhibits,
+        'top_three': top_three,
+        'everything_else': everything_else,
+    })
+
+
 
 def login(request):
     return render(request, "login.html")
 
+
+def search(request):
+    return render(request, "search.html")
