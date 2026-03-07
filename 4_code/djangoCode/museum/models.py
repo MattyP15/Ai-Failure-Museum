@@ -102,36 +102,36 @@ class Category(models.Model):
 ##exhibit model (extended)
 class Exhibit(models.Model):
 
-
     #basic info
     title = models.CharField(max_length=200)
-    category= models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True) 
-    #Domain as in flooding, earthquakes etc
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     failure_type = models.CharField(max_length=100, blank=True)
-    deployment_context = models.TextField(blank=True)  
+    deployment_context = models.TextField(blank=True)
     intended_use = models.TextField(blank=True)
+    artefact1 = models.FileField(upload_to='exhibits/artefacts/', blank=True, null=True)
 
-
-    #Ai system desciption 
-    system_type = models.CharField(max_length=100, blank=True)  
+    #AI system description
+    system_type = models.CharField(max_length=100, blank=True)
     inputs_assumptions = models.TextField(blank=True)
     outputs_to_users = models.TextField(blank=True)
+    artefact2 = models.FileField(upload_to='exhibits/artefacts/', blank=True, null=True)
 
     # failure description
-
     what_went_wrong = models.TextField(blank=True)
     how_detected = models.TextField(blank=True)
     who_affected = models.TextField(blank=True)
-
+    artefact3 = models.FileField(upload_to='exhibits/artefacts/', blank=True, null=True)
 
     #contributing factors
     data_issues = models.TextField(blank=True)
     design_choices = models.TextField(blank=True)
     org_governance_issues = models.TextField(blank=True)
+    artefact4 = models.FileField(upload_to='exhibits/artefacts/', blank=True, null=True)
 
     #lessons learned
     recommendations = models.TextField(blank=True)
     warnings = models.TextField(blank=True)
+    artefact5 = models.FileField(upload_to='exhibits/artefacts/', blank=True, null=True)
 
     #Short summary of the exhibit
     description = models.TextField()

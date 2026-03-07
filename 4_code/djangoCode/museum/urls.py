@@ -3,6 +3,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 from django.shortcuts import redirect
 
@@ -42,4 +44,4 @@ urlpatterns = [
     path("api/quizzes/", views.api_quizzes, name="api_quizzes"),
     path("api/quizzes/<int:quiz_id>/", views.api_quiz_detail, name="api_quiz_detail"),
     path("api/quizzes/<int:quiz_id>/submit/", views.api_quiz_submit, name="api_quiz_submit"),
-]
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
