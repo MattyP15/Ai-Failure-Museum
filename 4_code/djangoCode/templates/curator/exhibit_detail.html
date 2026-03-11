@@ -156,7 +156,8 @@
 {% if exhibit.data_issues %}
 <h2>Contributing Factors (Data Issues)</h2>
 <div class="section">
-    <p>{{ exhibit.data_issues }}</p>{% if exhibit.artefact1 %}
+    <p>{{ exhibit.data_issues }}</p>
+    {% if exhibit.artefact5 %}
     <div class="artefact-display">
         {% with exhibit.artefact5.name as fname %}
             {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
