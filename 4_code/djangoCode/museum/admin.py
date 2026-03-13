@@ -10,6 +10,7 @@ from .models import (
     QuizAttempt,
     Response,
     Exhibit,
+    Category,
 )
 
 admin.site.register(UserProfile)
@@ -21,3 +22,4 @@ admin.site.register(AnswerOption)
 admin.site.register(QuizAttempt)
 admin.site.register(Response)
 admin.site.register(Exhibit)
+admin.site.register(Category)

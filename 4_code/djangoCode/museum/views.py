@@ -390,7 +390,7 @@ def delete_exhibit(request, exhibit_id):
     return render(request, 'curator/dashboard.html', {'active_exhibits': Exhibit.objects.filter(is_active=True)})
 
 @login_required
-def toggle_archieve_exhibit(request, exhibit_id):
+def toggle_archive_exhibit(request, exhibit_id):
     if not is_curator(request.user):
         messages.error(request, "you do not have curator permissions")
         return redirect('/login/?next=/curator/dashboard ')
