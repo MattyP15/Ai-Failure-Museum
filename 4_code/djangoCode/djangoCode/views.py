@@ -19,10 +19,12 @@ def homepage(request):
 
 def category(request, slug):
     category = get_object_or_404(Category, slug=slug)
+    categories = Category.objects.all()
     exhibits = Exhibit.objects.filter(category=category)
     top_three = Exhibit.top_viewed(3)
     everything_else = Exhibit.the_rest(3)
     return render(request, "category.html", {
+        'categories': categories,
         'category': category,
         'exhibits': exhibits,
         'top_three': top_three,

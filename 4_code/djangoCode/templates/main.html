@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AI Failure Museum</title>
 
-    <link rel="stylesheet" type="text/css" href={% static "css/style.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/variables.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/pages/main.css" %}>
 
     <!-- Very awesome font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,42 +35,34 @@
             </div>
             
             <div class="rightItems">
-                <a href = "/about">
-                    <button class="reportBtn">
-                        About
-                    </button>
+                <a href = "/about" class="secondaryBtn">
+                    About
                 </a>
-                <a href = "/search">
-                    <button class="reportBtn">
-                        Explore
-                    </button>
+                <a href = "/search" class="secondaryBtn">
+                    Explore
                 </a>
-                <a href = "">
-                    <button class="reportBtn">
-                        Submit Failure
-                    </button>
+                <a href = "" class="secondaryBtn">
+                    Submit Failure
                 </a>
                 {% if user.is_superuser%}
-                    <a href="/admin/">
-                        <button class="reportBtn">Admin</button>
+                    <a href="/admin/" class="secondaryBtn">
+                        Admin
                     </a>
                 {% endif %}
 
                 {% if user.is_authenticated %}
                 <form method="post" action="/logout/">
                     {% csrf_token %}
-                    <button type="submit" class="reportBtn">Logout</button>
+                    <a type="submit" class="secondaryBtn">Logout</a>
                 </form>
                 {% else %}
-                <a href = "/login">
-                    <button class="loginBtn">
-                        Log In
-                    </button>
+                <a href = "/login" class="primaryBtn">
+                    Log In
                 </a>
                 {% endif %}
                 {% if user.is_staff %}
-                <a href="/curator/dashboard/">
-                    <button class="loginBtn">Dashboard</button>
+                <a href="/curator/dashboard/" class="primaryBtn">
+                    Dashboard
                 </a>
                 {% endif %}
             </div>
@@ -77,7 +73,7 @@
             <div class="categoryBarWrapper">
                 <div class="categoryBar">
                     {% for cat in categories %}
-                    <a href="/category/{{ cat.slug }}/" class="categoryLink">
+                    <a href="/category/{{ cat.slug }}/" class="">
                         <article class="categoryButton">
                             <t>{{ cat.name }} +</t>
                         </article>
@@ -88,21 +84,17 @@
 
             <div class="titleVideoContainer">
                 <div class="title">
-                    <h1>AI Failure Museum</h1>
+                    <h1><strong>AI Failure Museum</strong></h1>
 
                     <p>
                         AI systems are becoming more commonly used in high-stakes contexts, but they can and do fail in ways that are harmful to people, systems, and the enviroment. The AI Failure Museum is a collection of case studies documenting real world examples of AI failures, with the goal of educating the public about the risks of depending on AI systems to make important decisions.
                     </p>
                     <div class="titleButtons">
-                        <a href = "/search">
-                            <button class="loginBtn">
-                                Explore Database
-                            </button>
+                        <a href = "/search" class="exploreBtn">
+                            Explore Database
                         </a>
-                        <a href = "/about">
-                            <button class="reportBtn">
-                                About the Museum
-                            </button>
+                        <a href = "/about" class="aboutBtn">
+                            About the Museum
                         </a>
                     </div>
                 </div>
@@ -112,41 +104,115 @@
             </div>
         </div>
 
-        <div class="sortBar">
-            <label for="category-filter" class="sortBtn">
-                Filter
-            </label>
+        <div class="categoryViewport">
+            <button class="navBtn prev" id="prevBtn">
+                <p>←</p>
+            </button>
+            <button class="navBtn next" id="nextBtn">
+                <p>→</p>
+            </button>
+
+            <div class="categoryWrapper" id="carousel">
+                {% for cat in categories %}
+                <div class="categoryCard">
+                    <div class="cardImage">
+                        <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=800&q=80" alt="Space">
+                    </div>
+                    <div class="cardContent">
+                        <h2>{{ cat.name }}</h2>
+                        <p>{{ cat.description }}</p>
+                        <a href="/category/{{ cat.slug }}/" class="btn">Check it out</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="indicators">
+                {% for cat in categories %}
+                <div class="dot" data-index={{ cat }}></div>
+                {% endfor %}
+            </div>
         </div>
 
+        <script>
+        const carousel = document.getElementById('carousel');
+        const cards = document.querySelectorAll('.categoryCard');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
 
-        <section class="categoryGrid">
-            <!-- Loop through all data -->
-            {% for cat in categories %}
-            <a href="/category/{{ cat.slug }}/" class="categoryLink">
-                <article class="categoryCards" style="--accent-color: {{ cat.color }};">
-                    <div class="cardText">
-                        <h3>{{ cat.name }}</h3>
-                        <p>{{ cat.description }}</p>
-                    </div>
-                    <div class="icon">+</div>
-                </article>
-            </a>
-            {% endfor %}
-            <!-- Loop through end -->
-        </section>
+        /**
+         * Logic to find the center-most card and update UI
+         */
+        function handleScroll() {
+            let closestCard = null;
+            let minDistance = Infinity;
+            let activeIndex = 0;
+            
+            const containerCenter = carousel.getBoundingClientRect().left + (carousel.offsetWidth / 2);
 
+            cards.forEach((card, index) => {
+                const cardRect = card.getBoundingClientRect();
+                const cardCenter = cardRect.left + (cardRect.width / 2);
+                const distance = Math.abs(containerCenter - cardCenter);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestCard = card;
+                    activeIndex = index;
+                }
+            });
+
+            // Update Active Card Classes
+            cards.forEach(card => card.classList.toggle('active', card === closestCard));
+
+            // Update Dot Indicators
+            dots.forEach((dot, index) => dot.classList.toggle('active', index === activeIndex));
+        }
+
+        /**
+         * Navigation Functions
+         */
+        function scrollToCard(index) {
+            if (cards[index]) {
+                cards[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            const currentIndex = Array.from(cards).findIndex(card => card.classList.contains('active'));
+            if (currentIndex < cards.length - 1) scrollToCard(currentIndex + 1);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            const currentIndex = Array.from(cards).findIndex(card => card.classList.contains('active'));
+            if (currentIndex > 0) scrollToCard(currentIndex - 1);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => scrollToCard(index));
+        });
+
+        // Use requestAnimationFrame for smoother performance during scroll
+        carousel.addEventListener('scroll', () => {
+            window.requestAnimationFrame(handleScroll);
+        });
+
+        // Initialize state
+        handleScroll();
+        </script>
 
         <div class="appFooter">
-            <t class="copyrightText">Copyright © 2026 Ai Museum All rights reserved.</t>
+            <p class="footerText">Copyright © 2026 Ai Museum All rights reserved.</p>
             <div class="rightItemsFooter">
                 <a href="/privacy/">
-                    <button class="privacyBtn">Terms of Service</button>
+                    <button class="footerBtn">Terms of Service</button>
                 </a>
                 <a href="/privacy/">
-                    <button class="privacyBtn">Privacy Policy</button>
+                    <button class="footerBtn">Privacy Policy</button>
                 </a>
                 <a href="/privacy/">
-                    <button class="privacyBtn">Accesability</button>
+                    <button class="footerBtn">Accesability</button>
                 </a>
             </div>
         </div>

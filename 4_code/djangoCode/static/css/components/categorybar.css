@@ -1,0 +1,59 @@
+@media only screen and (min-width: 1024px) {
+    .categoryBarWrapper {
+        padding: 0.75rem 1rem;
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .categoryBar {
+        display: flex;
+        gap: 0.5rem;
+        background: var(--bg-color);
+        padding: 6px;
+        border-radius: 999px;
+        width: fit-content;
+        border: none;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .categoryButton{
+        text-decoration: none;
+        display: inline-block;
+        background: transparent;
+        border: none;
+        color: var(--main-txt);
+        padding: 6px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 16px;
+    }
+
+
+    .categoryButton:hover {
+        background: var(--accent-color);
+        box-shadow: var(--shadow-sm);
+        color: var(--accent2-color);
+    }
+
+    .activeCategoryButton{
+        text-decoration: none;
+        display: inline-block;
+        background: transparent;
+        border: none;
+        color: var(--accent4-color);
+        padding: 6px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 16px;
+    }
+
+
+    .activeCategoryButton:hover {
+        background: var(--accent-color);
+        box-shadow: var(--shadow-sm);
+        color: var(--accent2-color);
+    }
+}
