@@ -1,0 +1,10 @@
+.articleContent {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    padding: 0 20px;   
+    color: var(--main-txt); 
+    background-color: var(--surface-color);
+    width: 100%;
+    border-radius: 12px;
+    padding: 1.5rem;
+}

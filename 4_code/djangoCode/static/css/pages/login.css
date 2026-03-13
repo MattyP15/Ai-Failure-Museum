@@ -1,0 +1,31 @@
+.loginForm {
+    background: var(--surface-color);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    margin: 40px auto;
+    box-shadow: var(--shadow-lg);
+}
+
+.loginButton{
+    background: var(--accent-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--main-txt);
+    padding: 0.45rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.loginform{
+    background: var(--surface-color);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    margin: 40px auto;
+    box-shadow: var(--shadow-lg);
+}

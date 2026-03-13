@@ -48,65 +48,6 @@
         border: 1px solid #3c4043;
     }
 
-    .exploreBtn {
-        font-family: "Inter", sans-serif;
-        background-color: var(--accent3-color);
-        color: #ffffff;
-        border: none;
-        border-radius: 999px;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: none;
-        min-height: 42px;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        white-space: nowrap;
-        padding: 14px 28px;
-    }
-
-    .exploreBtn:hover {
-        background-color: color-mix(in srgb, var(--accent3-color) 85%, black);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .exploreBtn:active {
-        transform: translateY(0);
-    }
-
-    .aboutBtn {
-        font-family: "Inter", sans-serif;
-        background-color: var(--surface-color);
-        color: var(--main-txt);
-        border: none;
-        border-radius: 999px;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        min-height: 42px;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        white-space: nowrap;
-        padding: 14px 28px;
-    }
-
-    .aboutBtn:hover {
-        background-color: color-mix(in srgb, var(--surface-color) 85%, black);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .aboutBtn:active {
-        transform: translateY(0);
-    }
-
     .footer-note {
         margin-top: 1rem;
         font-size: 0.7rem;
