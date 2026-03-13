@@ -191,6 +191,10 @@ def create_quiz(request):
 def exhibit_detail(request, exhibit_id):
     try:
         exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+        if exhibit.is_archived and not is_curator(request.user):
+            messages.error(request, "This exhibit is archived and not available to the public.")
+            return redirect('/')
+        
         quizzes = exhibit.quizzes.filter(is_active=True)
         return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes})
     except Exception as e:
