@@ -1,204 +1,260 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}AI Failure Museum{% endblock %}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-{% block title %}{{ exhibit.title }}{% endblock %}
+    <link rel="stylesheet" type="text/css" href={% static "css/variables.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/pages/article.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/mainButtons.css" %}>
 
-{% block content %}
-<style>
-    body { font-family: Arial, sans-serif; background: #fafafa; padding: 20px; max-width: 900px; margin: 0 auto; }
-    h1 {
-        color: #333;
-        background: linear-gradient(90deg, #f0f0f0, white);
-        padding: 15px;
-        border-left: 6px solid #2196F3;
-        margin-bottom: 10px;
-    }
-    h2 {
-        color: #555;
-        border-bottom: 2px dotted #ccc;
-        padding-bottom: 5px;
-        margin-top: 25px;
-    }
-    .metadata {
-        background: #e3f2fd;
-        padding: 12px;
-        margin: 15px 0;
-        border-left: 4px solid #2196F3;
-    }
-    .metadata p {
-        margin: 5px 0;
-        color: #555;
-    }
-    .section {
-        background: white;
-        padding: 15px;
-        margin: 15px 0;
-        border: 2px dashed #ddd;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-    }
-    .quiz-box {
-        background: #fff9c4;
-        border: 2px solid #fbc02d;
-        padding: 15px;
-        margin: 20px 0;
-    }
-    .quiz-box h2 { color: #f57f17; border: none; margin-top: 0; }
-    .quiz-item {
-        background: white;
-        padding: 10px;
-        margin: 10px 0;
-        border-left: 4px solid #4CAF50;
-    }
-    a { color: #2196F3; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .back-link {
-        display: inline-block;
-        background: #e0e0e0;
-        padding: 8px 15px;
-        margin-top: 20px;
-        border-radius: 3px;
-    }
-</style>
+    <!-- Very awesome font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
-<h1>{{ exhibit.title }}</h1>
+<body>
+    <main class="app">
+        <header class="appHeader">
+            <div class="leftItems">
+                <div class="points">
+                    <span>⭐{{ user_points }} Points</span>
+                </div>
 
-<div class="metadata">
-    <p><strong>Category:</strong> {% if exhibit.category %}{{ exhibit.category.name }}{% else %}Uncategorized{% endif %}</p>
-    <p><strong>Failure Type:</strong> {{ exhibit.failure_type|default:"Not specified" }}</p>
-</div>
+                <form action="/search/" method="get" class="searchContainer">
+                    <div class="searchWrapper">
+                        <span class="searchIcon">🔍</span>
+                        <input type="search" name="q" placeholder="Search..." aria-label="Search">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="rightItems">
+                <a href = "/about" class="secondaryBtn">
+                    About
+                </a>
+                <a href = "/search" class="secondaryBtn">
+                    Explore
+                </a>
+                <a href = "" class="secondaryBtn">
+                    Submit Failure
+                </a>
+                {% if user.is_superuser%}
+                    <a href="/admin/" class="secondaryBtn">
+                        Admin
+                    </a>
+                {% endif %}
 
-{% if exhibit.description %}
-<div class="section">
-    <p><strong>Summary:</strong> {{ exhibit.description }}</p>
-</div>
-{% endif %}
+                {% if user.is_authenticated %}
+                <form method="post" action="/logout/">
+                    {% csrf_token %}
+                    <a type="submit" class="secondaryBtn">Logout</a>
+                </form>
+                {% else %}
+                <a href = "/login" class="primaryBtn">
+                    Log In
+                </a>
+                {% endif %}
+                {% if user.is_staff %}
+                <a href="/curator/dashboard/" class="primaryBtn">
+                    Dashboard
+                </a>
+                {% endif %}
+            </div>
+        </header>
 
-{% if exhibit.deployment_context %}
-<h2>Deployment Context</h2>
-<div class="section">
-    <p>{{ exhibit.deployment_context }}</p>
-    {% if exhibit.artefact1 %}
-    <div class="artefact-display">
-        {% with exhibit.artefact1.name as fname %}
-            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
-                <img src="{{ exhibit.artefact1.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
-            {% elif ".pdf" in fname %}
-                <iframe src="{{ exhibit.artefact1.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
-            {% else %}
-                <a href="{{ exhibit.artefact1.url }}" target="_blank">📎 Download Artefact</a>
+        <div class="titleContainer">
+            <div class="categoryBarWrapper">
+                <div class="categoryBar">
+                    {% for cat in categories %}
+                    {% if cat.slug == exhibit.category.slug %}
+                    <a href="/category/{{ cat.slug }}/" class="">
+                        <article class="activeCategoryButton">
+                            <t>{{ cat.name }} +</t>
+                        </article>
+                    </a>
+                    {% else %}
+                    <a href="/category/{{ cat.slug }}/" class="">
+                        <article class="categoryButton">
+                            <t>{{ cat.name }} +</t>
+                        </article>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <div class="title">
+                <a href = "/category/{{ exhibit.category.slug }}/"><button>← Back to {{ exhibit.category.name }}</button></a>
+                <h1><strong>{{ exhibit.title }}</strong></h1>
+                <p>{{ exhibit.description }}</p>
+            </div>
+        </div>
+
+        <div class="metadata">
+            <p><strong>Category:</strong> {% if exhibit.category %}{{ exhibit.category.name }}{% else %}Uncategorized{% endif %}</p>
+            <p><strong>Failure Type:</strong> {{ exhibit.failure_type|default:"Not specified" }}</p>
+        </div>
+
+
+        <div class="sect">
+        {% if exhibit.deployment_context %}
+        <h2>Deployment Context</h2>
+        <div class="section">
+            <p>{{ exhibit.deployment_context }}</p>
+            {% if exhibit.artefact1 %}
+            <div class="artefact-display">
+                {% with exhibit.artefact1.name as fname %}
+                    {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                        <img src="{{ exhibit.artefact1.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+                    {% elif ".pdf" in fname %}
+                        <iframe src="{{ exhibit.artefact1.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+                    {% else %}
+                        <a href="{{ exhibit.artefact1.url }}" target="_blank">📎 Download Artefact</a>
+                    {% endif %}
+                {% endwith %}
+            </div>
             {% endif %}
-        {% endwith %}
-    </div>
-    {% endif %}
-</div>
-{% endif %}
+        </div>
+        {% endif %}
+        </div>
 
-
-{% if exhibit.intended_use %}
-<h2>Intended Use</h2>
-<div class="section">
-    <p>{{ exhibit.intended_use }}</p>
-    {% if exhibit.artefact2 %}
-    <div class="artefact-display">
-        {% with exhibit.artefact2.name as fname %}
-            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
-                <img src="{{ exhibit.artefact2.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
-            {% elif ".pdf" in fname %}
-                <iframe src="{{ exhibit.artefact2.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
-            {% else %}
-                <a href="{{ exhibit.artefact2.url }}" target="_blank">📎 Download Artefact</a>
+        <div class="sect">
+        {% if exhibit.intended_use %}
+        <h2>Intended Use</h2>
+        <div class="section">
+            <p>{{ exhibit.intended_use }}</p>
+            {% if exhibit.artefact2 %}
+            <div class="artefact-display">
+                {% with exhibit.artefact2.name as fname %}
+                    {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                        <img src="{{ exhibit.artefact2.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+                    {% elif ".pdf" in fname %}
+                        <iframe src="{{ exhibit.artefact2.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+                    {% else %}
+                        <a href="{{ exhibit.artefact2.url }}" target="_blank">📎 Download Artefact</a>
+                    {% endif %}
+                {% endwith %}
+            </div>
             {% endif %}
-        {% endwith %}
-    </div>
-    {% endif %}
-</div>
-{% endif %}
+        </div>
+        {% endif %}
+        </div>
 
-{% if exhibit.system_type %}
-<h2>System Type</h2>
-<div class="section">
-    <p>{{ exhibit.system_type }}</p>
-    {% if exhibit.artefact3 %}
-    <div class="artefact-display">
-        {% with exhibit.artefact3.name as fname %}
-            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
-                <img src="{{ exhibit.artefact3.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
-            {% elif ".pdf" in fname %}
-                <iframe src="{{ exhibit.artefact3.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
-            {% else %}
-                <a href="{{ exhibit.artefact3.url }}" target="_blank">📎 Download Artefact</a>
+
+        <div class="sect">
+        {% if exhibit.system_type %}
+        <h2>System Type</h2>
+        <div class="section">
+            <p>{{ exhibit.system_type }}</p>
+            {% if exhibit.artefact3 %}
+            <div class="artefact-display">
+                {% with exhibit.artefact3.name as fname %}
+                    {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                        <img src="{{ exhibit.artefact3.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+                    {% elif ".pdf" in fname %}
+                        <iframe src="{{ exhibit.artefact3.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+                    {% else %}
+                        <a href="{{ exhibit.artefact3.url }}" target="_blank">📎 Download Artefact</a>
+                    {% endif %}
+                {% endwith %}
+            </div>
             {% endif %}
-        {% endwith %}
-    </div>
-    {% endif %}
-</div>
-{% endif %}
+        </div>
+        {% endif %}
+        </div>
 
-{% if exhibit.what_went_wrong %}
-<h2>What Went Wrong</h2>
-<div class="section">
-    <p>{{ exhibit.what_went_wrong }}</p>
-    {% if exhibit.artefact4 %}
-    <div class="artefact-display">
-        {% with exhibit.artefact4.name as fname %}
-            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
-                <img src="{{ exhibit.artefact4.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
-            {% elif ".pdf" in fname %}
-                <iframe src="{{ exhibit.artefact4.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
-            {% else %}
-                <a href="{{ exhibit.artefact4.url }}" target="_blank">📎 Download Artefact</a>
+
+        <div class="sect">
+        {% if exhibit.what_went_wrong %}
+        <h2>What Went Wrong</h2>
+        <div class="section">
+            <p>{{ exhibit.what_went_wrong }}</p>
+            {% if exhibit.artefact4 %}
+            <div class="artefact-display">
+                {% with exhibit.artefact4.name as fname %}
+                    {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                        <img src="{{ exhibit.artefact4.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+                    {% elif ".pdf" in fname %}
+                        <iframe src="{{ exhibit.artefact4.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+                    {% else %}
+                        <a href="{{ exhibit.artefact4.url }}" target="_blank">📎 Download Artefact</a>
+                    {% endif %}
+                {% endwith %}
+            </div>
             {% endif %}
-        {% endwith %}
-    </div>
-    {% endif %}
-</div>
-{% endif %}
+        </div>
+        {% endif %}
+        </div>
 
-{% if exhibit.data_issues %}
-<h2>Contributing Factors (Data Issues)</h2>
-<div class="section">
-    <p>{{ exhibit.data_issues }}</p>
-    {% if exhibit.artefact5 %}
-    <div class="artefact-display">
-        {% with exhibit.artefact5.name as fname %}
-            {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
-                <img src="{{ exhibit.artefact5.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
-            {% elif ".pdf" in fname %}
-                <iframe src="{{ exhibit.artefact5.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
-            {% else %}
-                <a href="{{ exhibit.artefact5.url }}" target="_blank">📎 Download Artefact</a>
+
+        <div class="sect">
+        {% if exhibit.data_issues %}
+        <h2>Contributing Factors (Data Issues)</h2>
+        <div class="section">
+            <p>{{ exhibit.data_issues }}</p>
+            {% if exhibit.artefact5 %}
+            <div class="artefact-display">
+                {% with exhibit.artefact5.name as fname %}
+                    {% if ".jpg" in fname or ".jpeg" in fname or ".png" in fname %}
+                        <img src="{{ exhibit.artefact5.url }}" alt="Artefact" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+                    {% elif ".pdf" in fname %}
+                        <iframe src="{{ exhibit.artefact5.url }}" width="100%" height="500px" style="border: 1px solid #ddd;"></iframe>
+                    {% else %}
+                        <a href="{{ exhibit.artefact5.url }}" target="_blank">📎 Download Artefact</a>
+                    {% endif %}
+                {% endwith %}
+            </div>
             {% endif %}
-        {% endwith %}
-    </div>
-    {% endif %}
-</div>
-{% endif %}
+        </div>
+        {% endif %}
+        </div>
 
-{% if exhibit.recommendations %}
-<h2>Recommendations</h2>
-<div class="section">
-    <p>{{ exhibit.recommendations }}</p>
-</div>
-{% endif %}
 
-{% if quizzes %}
-<div class="quiz-box">
-    <h2>Interactive Quizzes Available</h2>
-    {% for quiz in quizzes %}
-    <div class="quiz-item">
-        <strong>{{ quiz.title }}</strong>
-        {% if quiz.description %}<br><span style="color: #666; font-size: 0.9em;">{{ quiz.description }}</span>{% endif %}
-        <br>
-        <a href="{% url 'take_quiz' quiz.id %}" style="color: #4CAF50; font-weight: bold;">Take Quiz ({{ quiz.points_for_completion }} points)</a>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
+        <div class="sect">
+        {% if exhibit.recommendations %}
+        <h2>Recommendations</h2>
+        <div class="section">
+            <p>{{ exhibit.recommendations }}</p>
+        </div>
+        {% endif %}
+        </div>
 
-<hr style="margin: 30px 0; border: 1px dashed #ccc;">
+        {% if quizzes %}
+        <div class="quizBox">
+            <h2>Interactive Quizzes Available</h2>
+            {% for quiz in quizzes %}
+            <div class="quizItem">
+                <strong>{{ quiz.title }}</strong>
+                {% if quiz.description %}<br><span>{{ quiz.description }}</span>{% endif %}
+                <br>
+                <a href="{% url 'take_quiz' quiz.id %}" class="exploreBtn">Take Quiz ({{ quiz.points_for_completion }} points)</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-<a href="/" class="back-link">Back to Museum</a>
-{% if user.is_authenticated %}
-<a href="/curator/dashboard/" class="back-link">Curator Dashboard</a>
-{% endif %}
-
-{% endblock %}
+        <div class="appFooter">
+            <p class="footerText">Copyright © 2026 Ai Museum All rights reserved.</p>
+            <div class="rightItemsFooter">
+                <a href="/privacy/">
+                    <button class="footerBtn">Terms of Service</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Privacy Policy</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Accesability</button>
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

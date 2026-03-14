@@ -68,9 +68,6 @@
             </div>
         </header>
 
-
-
-
         <div class="titleContainer">
             <div class="categoryBarWrapper">
                 <div class="categoryBar">
@@ -95,23 +92,30 @@
 
             <div class="title">
                 <a href = "/"><button>← Back Home</button></a>
-                <h1>{{ category.name }}</h1>
+                <h1><strong>{{ category.name }}</strong></h1>
                 <p>{{ category.description }}</p>
             </div>
         </div>
 
-        <div class="mostViewed">
-            <h2>Most Viewed</h2>
-            <div class="mostViewedGrid">
-                {% for failure in top_three %}
-                <a class="mostViewedCard" href="{% url 'exhibit_detail' failure.id %}">
-                    <h3>{{ failure.title }}</h3>
-                    <p>{{ failure.description }}</p>
-                    <div class="views">👁️ 0 views</div>
-                    <!-- {{ exhibit.views }} -->
-                </a>
-                {% endfor %}
-            </div>  
+
+        <div class="mostViewedContainer">
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=800&q=80" alt="Space">
+            </div>
+            
+            <div class="mostViewed">
+                <h2>Most Viewed</h2>
+                <div class="mostViewedGrid">
+                    {% for failure in top_three %}
+                    <a class="mostViewedCard" href="{% url 'exhibit_detail' failure.id %}">
+                        <h3>{{ failure.title }}</h3>
+                        <p>{{ failure.description }}</p>
+                        <div class="views">👁️ 0 views</div>
+                        <!-- {{ exhibit.views }} -->
+                    </a>
+                    {% endfor %}
+                </div>  
+            </div>
         </div>
 
         <div class="allDiv">

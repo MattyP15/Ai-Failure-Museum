@@ -9,7 +9,7 @@ from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit
+from .models import Exhibit, Category
 from .forms import ExhibitForm, QuizForm
 from .rbac import is_curator
 
@@ -187,11 +187,14 @@ def create_quiz(request):
         form = QuizForm()
     
     return render(request, 'curator/create_quiz.html', {'form': form})
+
+
 def exhibit_detail(request, exhibit_id):
     try:
+        categories = Category.objects.all()
         exhibit = get_object_or_404(Exhibit, id=exhibit_id)
         quizzes = exhibit.quizzes.filter(is_active=True)
-        return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes})
+        return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes, 'categories': categories})
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
         return redirect('/')
