@@ -1,4 +1,5 @@
 import json
+from urllib import request
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
@@ -193,6 +194,10 @@ def exhibit_detail(request, exhibit_id):
     try:
         categories = Category.objects.all()
         exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+        if exhibit.is_archived and not is_curator(request.user):
+            messages.error(request, "This exhibit is archived and not available to the public.")
+            return redirect('/')
+        
         quizzes = exhibit.quizzes.filter(is_active=True)
         return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes, 'categories': categories})
     except Exception as e:
@@ -386,3 +391,21 @@ def delete_exhibit(request, exhibit_id):
         return redirect('curator_dashboard')
 
     return render(request, 'curator/dashboard.html', {'active_exhibits': Exhibit.objects.filter(is_active=True)})
+
+@login_required
+def toggle_archieve_exhibit(request, exhibit_id):
+    if not is_curator(request.user):
+        messages.error(request, "you do not have curator permissions")
+        return redirect('/login/?next=/curator/dashboard ')
+    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+
+    if request.method == 'POST':
+        return redirect('curator_dashboard')
+    exhibit_title = exhibit.title
+    exhibit.is_archived = not exhibit.is_archived
+    exhibit.save()
+
+    action = "archived" if exhibit.is_archived else "unarchived"
+    messages.success(request, f'exhibit "{exhibit_title}" {action} successfully')
+    return redirect('curator_dashboard')
+  

@@ -33,6 +33,7 @@ urlpatterns = [
     path("curator/analytics/", views.analytics_view, name="analytics_dashboard"),
     path("curator/create-quiz/", views.create_quiz, name="create_quiz"),
     path("curator/delete/<int:exhibit_id>/", views.delete_exhibit, name="delete_exhibit"),
+    path("curator/archive/<int:exhibit_id>/", views.toggle_archive_exhibit, name="toggle_archive_exhibit"),
     path("curator/", curator_redirect, name="curator_redirect"),
     
     ##public routes
