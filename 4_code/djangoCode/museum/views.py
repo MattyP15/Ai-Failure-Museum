@@ -301,7 +301,6 @@ def edit_exhibit(request, exhibit_id):
             if exhibit_form.is_valid():
                 exhibit = exhibit_form.save()
 
-                # Handle quiz creation/update
                 quiz_title = request.POST.get('quiz_title', '').strip()
                 if quiz_title:
                     if quiz:
@@ -317,35 +316,34 @@ def edit_exhibit(request, exhibit_id):
                             points_for_completion=10
                         )
 
-                    # Handle 3 multiple choice questions
-                    for i in range(1, 4):
-                        question_text = request.POST.get(f'question_{i}', '').strip()
-                        true_answer = request.POST.get(f'question_{i}_true', '').strip()
-                        false_answer = request.POST.get(f'question_{i}_false', '').strip()
+                    # Delete all existing questions and rebuild from scratch
+                    quiz.questions.all().delete()
 
-                        if question_text and true_answer and false_answer:
-                            # Create or update question
-                            question, created = Question.objects.update_or_create(
-                                quiz=quiz,
-                                order=i,
-                                defaults={'prompt': question_text, 'qtype': 'mc'}
-                            )
+                    question_count = int(request.POST.get('question_count', 0))
+                    for i in range(1, question_count + 1):
+                        prompt = request.POST.get(f'question_{i}_prompt', '').strip()
+                        if not prompt:
+                            continue
 
-                            # Delete old answer options
-                            question.options.all().delete()
+                        question = Question.objects.create(
+                            quiz=quiz,
+                            prompt=prompt,
+                            qtype=Question.MULTIPLE_CHOICE,
+                            order=i,
+                        )
 
-                            # Create new answer options
+                        option_count = int(request.POST.get(f'question_{i}_option_count', 0))
+                        correct = request.POST.get(f'question_{i}_correct')
+
+                        for j in range(1, option_count + 1):
+                            text = request.POST.get(f'question_{i}_option_{j}', '').strip()
+                            if not text:
+                                continue
                             AnswerOption.objects.create(
                                 question=question,
-                                text=true_answer,
-                                is_correct=True,
-                                order=1
-                            )
-                            AnswerOption.objects.create(
-                                question=question,
-                                text=false_answer,
-                                is_correct=False,
-                                order=2
+                                text=text,
+                                is_correct=(str(j) == correct),
+                                order=j,
                             )
 
                 messages.success(request, f'Exhibit "{exhibit.title}" updated successfully')
@@ -353,21 +351,17 @@ def edit_exhibit(request, exhibit_id):
         else:
             exhibit_form = ExhibitForm(instance=exhibit)
 
-        # Get existing questions if quiz exists
-        questions = list(quiz.questions.all()[:3]) if quiz else []
-        while len(questions) < 3:
-            questions.append(None)
+        questions = quiz.questions.all() if quiz else []
 
         return render(request, 'curator/edit_exhibit.html', {
             'form': exhibit_form,
             'exhibit': exhibit,
             'quiz': quiz,
-            'questions': questions
+            'questions': questions,
         })
     except Exception as e:
         messages.error(request, f'Error: {str(e)}')
         return redirect('curator_dashboard')
-
 
 @login_required
 def delete_exhibit(request, exhibit_id):

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Edit Exhibit{% endblock %}
 
@@ -141,7 +142,7 @@
     {{ form.file }}
 
     <div class="quiz-section">
-        <h2 style="margin-top: 0; background: none; border: none;">QUIZ (Optional - True/False Questions)</h2>
+        <h2 style="margin-top: 0; background: none; border: none;">QUIZ (Optional)</h2>
 
         <label>Quiz Title</label>
         <input type="text" name="quiz_title" value="{{ quiz.title|default:'' }}" placeholder="e.g., Test Your Knowledge" />
@@ -149,44 +150,40 @@
         <label>Quiz Description</label>
         <textarea name="quiz_description" rows="2" placeholder="Brief intro to the quiz">{{ quiz.description|default:'' }}</textarea>
 
-        <h3>Question 1</h3>
-        <div class="question-box">
-            <label>Question Text:</label>
-            <textarea name="question_1" rows="2" placeholder="Enter question...">{% if questions.0 %}{{ questions.0.prompt }}{% endif %}</textarea>
+        <div id="questions-container">
+            {% for question in questions %}
+            <div class="question-box" id="question-{{ forloop.counter }}">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3 style="margin:0;">Question {{ forloop.counter }}</h3>
+                    <button type="button" onclick="removeQuestion(this)" style="color:red;">✕ Remove</button>
+                </div>
+                <label>Question Text:</label>
+                <textarea class="question-prompt" name="question_{{ forloop.counter }}_prompt" rows="2">{{ question.prompt }}</textarea>
 
-            <label>Correct Answer (True):</label>
-            <input type="text" name="question_1_true" value="{% if questions.0 %}{% for opt in questions.0.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
-
-            <label>Incorrect Answer (False):</label>
-            <input type="text" name="question_1_false" value="{% if questions.0 %}{% for opt in questions.0.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
+                <div class="options-container">
+                    {% for opt in question.options.all %}
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
+                        <input type="text" name="question_{{ forloop.parentloop.counter }}_option_{{ forloop.counter }}"
+                            value="{{ opt.text }}" placeholder="Option text" style="flex:1;" />
+                        <label style="white-space:nowrap;">
+                            <input type="radio" name="question_{{ forloop.parentloop.counter }}_correct"
+                                value="{{ forloop.counter }}" {% if opt.is_correct %}checked{% endif %} /> Correct
+                        </label>
+                        <button type="button" onclick="removeOption(this)" style="color:red;">✕</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="question_{{ forloop.counter }}_option_count" value="{{ question.options.count }}" class="option-count" />
+                <button type="button" onclick="addOption(this)" style="margin-top:8px;">+ Add Option</button>
+            </div>
+            {% endfor %}
         </div>
 
-        <h3>Question 2</h3>
-        <div class="question-box">
-            <label>Question Text:</label>
-            <textarea name="question_2" rows="2" placeholder="Enter question...">{% if questions.1 %}{{ questions.1.prompt }}{% endif %}</textarea>
+        <input type="hidden" name="question_count" id="question_count" value="{{ questions|length|default:0 }}" />
+        <button type="button" onclick="addQuestion()" style="margin-top:12px;">+ Add Question</button>
 
-            <label>Correct Answer (True):</label>
-            <input type="text" name="question_2_true" value="{% if questions.1 %}{% for opt in questions.1.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
-
-            <label>Incorrect Answer (False):</label>
-            <input type="text" name="question_2_false" value="{% if questions.1 %}{% for opt in questions.1.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
-        </div>
-
-        <h3>Question 3</h3>
-        <div class="question-box">
-            <label>Question Text:</label>
-            <textarea name="question_3" rows="2" placeholder="Enter question...">{% if questions.2 %}{{ questions.2.prompt }}{% endif %}</textarea>
-
-            <label>Correct Answer (True):</label>
-            <input type="text" name="question_3_true" value="{% if questions.2 %}{% for opt in questions.2.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
-
-            <label>Incorrect Answer (False):</label>
-            <input type="text" name="question_3_false" value="{% if questions.2 %}{% for opt in questions.2.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
-        </div>
-
-        <p style="color: #666; font-size: 12px; margin-top: 10px;">
-            NOTE: Users will see 2 options and pick one. Fill all 3 fields per question for it to save.
+        <p style="color:#666; font-size:12px; margin-top:10px;">
+            Fill all fields per question for it to save. Mark exactly one option as correct per question.
         </p>
     </div>
 
@@ -202,4 +199,5 @@
     PROTOTYPE: Quiz questions are true/false multiple choice. Visitors pick between the two answers.
 </p>
 
+<script src="{% static 'js/quiz_editor.js' %}"></script>
 {% endblock %}
