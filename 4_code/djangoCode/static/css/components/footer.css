@@ -1,4 +1,9 @@
 @media only screen and (min-width: 1024px) {
+    .appFooter{
+        margin-top: 5vh;
+    }
+
+
     .rightItemsFooter{
         margin-left: auto;
         display: flex;
