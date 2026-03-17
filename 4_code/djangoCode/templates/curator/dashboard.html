@@ -101,8 +101,39 @@
     
         <div class="dashboardContent">
             <div class="filterDiv">
+                <p>Filter By: </p>
+                <form method="GET" action="/curator/dashboard/" class="filterForm">
+                    <select name="category" class="categoryFilter">
+                        <option value="">Categories(All)</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}">
+                            {{ cat.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
 
+                    <select name="status" class="statusFilter">
+                        <option value="">Statuses(All)</option>
+                        <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>Active Only</option>
+                        <option value="archived" {% if request.GET.status == 'archived' %}selected{% endif %}>Archived Only</option>
+                    </select>
+
+                    <a href="{% url 'curator_dashboard' %}" class="clearBtn">Clear</a>
+                </form>
             </div>
+
+            <script>
+                // Grab the form and all select elements within it
+                const filterForm = document.getElementById('filterForm');
+                const selects = filterForm.querySelectorAll('select');
+
+                // Add a listener to each dropdown
+                selects.forEach(select => {
+                    select.addEventListener('change', () => {
+                        filterForm.submit();
+                    });
+                });
+            </script>  
 
             <div class="listContainer">
                 <div class="listHeader">
@@ -157,6 +188,10 @@
                         <a href="{% url 'edit_exhibit' exhibit.id %}">
                             <button class="iconBtn"><h1>✎</h1><p>Edit</p></button>
                         </a>
+                        <form method="post" action="{% url 'toggle_archive_exhibit' exhibit.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="iconBtn"><h1>🗃</h1><p>Unarchive</p></button>
+                        </form>
                         <form method="post" action="{% url 'delete_exhibit' exhibit.id %}" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="delete-btn iconBtn" onclick="return confirm('Delete?')"><h1>🗑</h1><p>Delete</p></button>
@@ -168,17 +203,6 @@
                 </div>
                 {% endfor %}
             </div>
-            {% if archived_exhibits %}
-            <h2>Archived Exhibits ({{ archived_exhibits.count }})</h2>
-            {% for exhibit in archived_exhibits %}
-            <div class="exhibit-box">
-                <h3>{{ exhibit.title }} [ARCHIVED]</h3>
-                {% if exhibit.category %}
-                <p><strong>Category:</strong> {{ exhibit.category.name }}</p>
-                {% endif %}
-            </div>
-            {% endfor %}
-            {% endif %}
         </div>
     </div>
     <div class="appFooter">
