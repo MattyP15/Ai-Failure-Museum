@@ -126,6 +126,10 @@
                         <a href="{% url 'edit_exhibit' exhibit.id %}">
                             <button class="iconBtn"><h1>✎</h1><p>Edit</p></button>
                         </a>
+                        <form method="post" action="{% url 'toggle_archive_exhibit' exhibit.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="iconBtn"><h1>🗃</h1><p>Archive</p></button>
+                        </form>
                         <form method="post" action="{% url 'delete_exhibit' exhibit.id %}" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="delete-btn iconBtn" onclick="return confirm('Delete?')"><h1>🗑</h1><p>Delete</p></button>
@@ -137,6 +141,31 @@
                 </div>
                 {% empty %}
                 <p class="emptyMsg">No exhibits yet. Create one to get started!</p>
+                {% endfor %}
+
+                {% for exhibit in archived_exhibits %}
+                <div class="exhibitBox">
+                    <span class="exhibitTitle">*{{ exhibit.title|truncatewords:4 }}</span>
+        
+                    <span class="exhibitCategory">
+                        {% if exhibit.category %}{{ exhibit.category.name|truncatewords:2 }}{% else %}-{% endif %}
+                    </span>
+        
+                    <span class="exhibitSummary">{{ exhibit.description|truncatewords:10 }}</span>
+
+                    <div class="exhibitActions">
+                        <a href="{% url 'edit_exhibit' exhibit.id %}">
+                            <button class="iconBtn"><h1>✎</h1><p>Edit</p></button>
+                        </a>
+                        <form method="post" action="{% url 'delete_exhibit' exhibit.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn iconBtn" onclick="return confirm('Delete?')"><h1>🗑</h1><p>Delete</p></button>
+                        </form>
+                        <a href="/exhibit/{{ exhibit.id }}/">
+                            <button class="iconBtn"><h1>👁</h1><p>View</p></button>
+                        </a>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
             {% if archived_exhibits %}

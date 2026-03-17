@@ -67,7 +67,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr 2fr 1.5fr; 
     padding: 12px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #dadce0;
 }
 
 .listHeader span {
@@ -84,8 +84,12 @@
     grid-template-columns: 2fr 1fr 2fr 1.5fr;
     align-items: center;
     padding: 12px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #dadce0;
     transition: background 0.2s ease;
+}
+
+.exhibitBox:last-child {
+    border-bottom: none;
 }
 
 .exhibitBox:hover {
