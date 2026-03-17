@@ -20,13 +20,13 @@
 
 -- Linux / Mac --
 
-1. python3 -m venv .venv
-2. source .venv/bin/activate
-3. pip install -r requirements.txt
-4. cd 4_code/djangoCode
-5. python3 manage.py migrate
-5. python3 manage.py loaddata museum/fixtures/demo_data.json
-6. python3 manage.py runserver
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cd 4_code/djangoCode
+python3 manage.py migrate
+python3 manage.py loaddata museum/fixtures/demo_data.json
+python3 manage.py runserver
 
 
 Open browser at http://127.0.0.1:8000/
