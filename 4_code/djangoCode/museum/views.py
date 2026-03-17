@@ -399,8 +399,7 @@ def toggle_archive_exhibit(request, exhibit_id):
         return redirect('/login/?next=/curator/dashboard ')
     exhibit = get_object_or_404(Exhibit, id=exhibit_id)
 
-    if request.method == 'POST':
-        return redirect('curator_dashboard')
+    
     exhibit_title = exhibit.title
     exhibit.is_archived = not exhibit.is_archived
     exhibit.save()
