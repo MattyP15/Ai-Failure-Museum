@@ -51,10 +51,12 @@ def curator_dashboard(request):
 
     active_exhibits = Exhibit.objects.filter(is_archived=False)
     archived_exhibits = Exhibit.objects.filter(is_archived=True)
+    categories = Category.objects.all()
     total_quizzes = Quiz.objects.count()
     ##add more stats for curator dashboard :) 
 
     return render(request, 'curator/dashboard.html', {
+        'categories': categories,
         'active_exhibits': active_exhibits,
         'archived_exhibits': archived_exhibits,
         'total_quizzes': total_quizzes})
