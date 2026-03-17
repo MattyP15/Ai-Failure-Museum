@@ -395,7 +395,7 @@ def delete_exhibit(request, exhibit_id):
 @login_required
 def toggle_archive_exhibit(request, exhibit_id):
     if not is_curator(request.user):
-        messages.error(request, "you do not have curator permissions")
+        print(request, "you do not have curator permissions")
         return redirect('/login/?next=/curator/dashboard ')
     exhibit = get_object_or_404(Exhibit, id=exhibit_id)
 
@@ -406,6 +406,6 @@ def toggle_archive_exhibit(request, exhibit_id):
     exhibit.save()
 
     action = "archived" if exhibit.is_archived else "unarchived"
-    messages.success(request, f'exhibit "{exhibit_title}" {action} successfully')
+    print(request, f'exhibit "{exhibit_title}" {action} successfully')
     return redirect('curator_dashboard')
   
