@@ -54,7 +54,7 @@
                 {% if user.is_authenticated %}
                 <form method="post" action="/logout/">
                     {% csrf_token %}
-                    <a type="submit" class="secondaryBtn">Logout</a>
+                    <button type="submit" class="secondaryBtn">Logout</button>
                 </form>
                 {% else %}
                 <a href = "/login" class="primaryBtn">
@@ -102,7 +102,7 @@
         <div class="dashboardContent">
             <div class="filterDiv">
                 <p>Filter By: </p>
-                <form method="GET" action="/curator/dashboard/" class="filterForm">
+                <form method="GET" action="/curator/dashboard/" class="filterForm" id="filterForm">
                     <select name="category" class="categoryFilter">
                         <option value="">Categories(All)</option>
                         {% for cat in categories %}
