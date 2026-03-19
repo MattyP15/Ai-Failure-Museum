@@ -5,45 +5,60 @@
     min-height: 100vh;
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: white;
+    background-color: var(--bg-color);
 }
 .Login_Card{
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 8px;
+    border: 1px solid #dadce0;
+    background-color: var(--bg-color);
+    border-radius: 16px;
     padding: 48px 40px;
     width: 100%;
     max-width: 450px;
     box-sizing:border-box;
     text-align: center;
+    box-shadow: var(--shadow-sm);
 }
 .Login_h1{
-    font-size: 24px;
-    font-weight:400;
-    margin-bottom: 30px;
-    color: var(--main-txt, rgb(18, 0, 0));
+    font-family: 'inter';
+    font-size: 48px;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: var(--main-txt);
 }
+
+.Login_Card_Header p{
+    font-family: 'inter';
+    font-size: 18px;
+    color: var(--body-txt);
+}
+
 .Login_Field{
     position: relative;
     margin-top: 25px;
     text-align: left;
+    transition: all 0.2s ease;
 }
 .Login_Field input{
     width: 100%;
     padding: 13px 15px;
     border: 1px solid #dadce0;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 18px;
     box-sizing: border-box;
     transition: border 0.2s;
     color: var(--body-tx, #3c4043);
+    transition: all 0.2s ease;
+}
+.Login_Field input:hover{
+    border: 1px solid var(--accent2-color);
 }
 .Login_Field input:focus{
     outline: none;
-    border: 2px solid navy;
+    border: 1px solid var(--accent2-color);
 }
 .Login_f_label{
     display: block;
-    font-size: 14px;
+    font-size: 18px;
     color: black;
     margin-bottom: 8px;
     font-weight: 500;
@@ -54,25 +69,7 @@
     align-items: center;
     margin-top: 40px;
 }
-.Register_Link{
-    color: black;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 17px;
-}
-.Register_Link:hover{
-    text-decoration: underline;
-}
-.Submit_Btn{
-    background-color: #0554bc;
-    color: white;
-    border: none;
-    padding: 12px 32px;
-    border-radius: 100px;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-}
-.Submit_Btn:hover{
-    background-color: #166fe4;
+
+.Login_f_input{
+    font-family: 'inter';
 }

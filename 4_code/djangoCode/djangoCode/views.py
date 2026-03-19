@@ -1,6 +1,7 @@
 
 from django.shortcuts import render, get_object_or_404
 from museum.models import Category, Exhibit, UserProfile
+from .forms import UserLoginForm
 
 
 def homepage(request):
@@ -34,7 +35,11 @@ def category(request, slug):
 
 
 def login(request):
-    return render(request, "login.html")
+    if request.method == 'POST':
+        form = UserLoginForm(request, data=request.POST)
+    else:
+        form = UserLoginForm()
+    return render(request, 'login.html', {'form': form})
 
 
 def search(request):
