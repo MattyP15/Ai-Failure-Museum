@@ -1,44 +1,47 @@
 <!doctype html>
 {% load static %}
 <html>
-  <head><meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Login</title>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href={% static "css/pages/login.css" %}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
-<link rel="stylesheet" type="text/css" href={% static "css/style.css" %}>
-
-<!-- Very awesome font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></head>
-  <body class="youKnow">
-    <h1>Login</h1>
-    <header class="appHeader">
-      <a href = "/">
-        <button class="loginBtn">
-          Home
-        </button>
-      </a>
-
+<body class="Login_Page">
+  <div class="Login_Card">
+    <div class="Login_Card_Header">
+      <h1 class="Login_h1">Login</h1>
+    </div>
+   
     {% if form.errors %}
       <p style="color:red;">Invalid username or password.</p>
     {% endif %}
 
     <form method="post" action="">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Log in</button>
-    </form>
+      <div class="Login_Field">
+      {{ form.username }}
+      <label for="{{ form.username.id_for_label}}" class="Login_f_label">Username</label>
+      </div>
+      <div class="Login_Field">
+        {{ form.password}}
+        <label for="{{ form.password.id_for_label}}" class="Login_f_label">Password</label>
+      </div>
 
-    <a href = "/register/">
-      <button class = "loginBtn">
-        Register
-      </button>
-    </a>
-    
-    {% if next %}
-      <p>After login you will be sent to: <code>{{ next }}</code></p>
-    {% endif %}
-  </body>
+      {% if next %}
+         <p class="Login_Redirect"> When signed in you will be sent: <code> {{ next}} </code></p>
+      {% endif %}
+
+      <div class="Login_Actions">
+        <a href="/register/" class="Register_Link">Register</a>
+        <button type="submit" class="Submit_Btn">Sign in</button>
+      </div>
+    </form>
+  </div>
+</body>
 </html>
 
