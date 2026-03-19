@@ -10,8 +10,8 @@ from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit, Category
-from .forms import ExhibitForm, QuizForm
+from .models import Exhibit, Category, Comment
+from .forms import ExhibitForm, QuizForm, CommentForm
 from .rbac import is_curator
 
 
@@ -197,9 +197,28 @@ def exhibit_detail(request, exhibit_id):
         if exhibit.is_archived and not is_curator(request.user):
             messages.error(request, "This exhibit is archived and not available to the public.")
             return redirect('/')
-        
+
+        if request.method == 'POST' and request.user.is_authenticated:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.exhibit = exhibit
+                new_comment.user = request.user
+                new_comment.save()
+                return redirect('exhibit_detail', exhibit_id=exhibit_id)
+        else:
+            comment_form = CommentForm()
+
         quizzes = exhibit.quizzes.filter(is_active=True)
-        return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes, 'categories': categories})
+        comments = exhibit.comments.all()
+
+        return render(request, 'curator/exhibit_detail.html', {
+            'exhibit': exhibit,
+            'quizzes': quizzes,
+            'categories': categories,
+            'comments': comments,
+            'comment_form': comment_form,
+        })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
         return redirect('/')

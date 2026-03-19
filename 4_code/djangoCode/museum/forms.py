@@ -1,5 +1,5 @@
 from django import forms
-from .models import Exhibit, Quiz
+from .models import Exhibit, Quiz, Comment
 
 class ExhibitForm(forms.ModelForm):
     class Meta:
@@ -18,6 +18,18 @@ class ExhibitForm(forms.ModelForm):
             'data_issues': forms.Textarea(attrs={'rows': 3}),
             'recommendations': forms.Textarea(attrs={'rows': 3}),
         }
+
+
+    class Meta:
+        model = Comment
+        fields = ['body']
+        widgets = {
+            'body': forms.Textarea(attrs={
+                'rows': 3,
+                'placeholder': 'Share your thoughts on this exhibit...'
+            }),
+        }
+        labels = {'body': ''}
 
 
 class QuizForm(forms.ModelForm):

@@ -11,6 +11,7 @@ from .models import (
     Response,
     Exhibit,
     Category,
+    Comment,
 )
 
 admin.site.register(UserProfile)
@@ -23,3 +24,4 @@ admin.site.register(QuizAttempt)
 admin.site.register(Response)
 admin.site.register(Exhibit)
 admin.site.register(Category)
+admin.site.register(Comment)
