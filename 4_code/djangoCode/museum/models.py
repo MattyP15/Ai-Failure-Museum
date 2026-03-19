@@ -89,7 +89,9 @@ class Response(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True )
     description = models.TextField(blank=True)
-    slug = models.SlugField(unique=True)   
+    summary = models.TextField(blank=True)
+    slug = models.SlugField(unique=True)  
+    display_image = models.ImageField(upload_to='categories/', blank=True, null=True) 
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -104,7 +106,7 @@ class Exhibit(models.Model):
 
     #basic info
     title = models.CharField(max_length=200)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='exhibits')
     failure_type = models.CharField(max_length=100, blank=True)
     deployment_context = models.TextField(blank=True)
     intended_use = models.TextField(blank=True)
