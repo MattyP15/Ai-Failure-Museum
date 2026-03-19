@@ -90,8 +90,11 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True )
     description = models.TextField(blank=True)
     summary = models.TextField(blank=True)
-    slug = models.SlugField(unique=True)  
-    display_image = models.ImageField(upload_to='categories/', blank=True, null=True) 
+    slug = models.SlugField(unique=True)
+    display_image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    static_image = models.CharField(
+        max_length=200, blank=True,
+    )
 
     class Meta:
         verbose_name_plural = "Categories"
