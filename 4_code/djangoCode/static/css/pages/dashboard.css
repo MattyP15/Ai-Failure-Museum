@@ -1,5 +1,5 @@
 .pageContent{
-    background-color: var(--surface-color);
+    background-color: var(--bg-color);
 }
 
 .titleContainer{
@@ -24,14 +24,11 @@
 
 .dashboardContent {
     background-color: var(--surface-color);
-    
     border-radius: 16px;
-    
     padding: 8px 0; 
-    
     overflow: hidden;
-    
-    box-shadow: var(--shadow-md)
+    box-shadow: var(--shadow-md);
+    border: 1px solid #dadce0;
 }
 
 .curatorTitle {

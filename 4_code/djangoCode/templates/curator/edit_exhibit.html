@@ -1,205 +1,245 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}AI Failure Museum{% endblock %}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-{% block title %}Edit Exhibit{% endblock %}
+    <link rel="stylesheet" type="text/css" href={% static "css/variables.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/pages/editExhibit.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/mainButtons.css" %}>
 
-{% block content %}
-<style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; max-width: 900px; }
-    h1 { color: #333; border-bottom: 3px solid #FF9800; padding-bottom: 10px; }
-    h2 {
-        background: #fff3e0;
-        padding: 10px;
-        margin-top: 25px;
-        border-left: 5px solid #FF9800;
-        font-size: 1.1em;
-    }
-    h3 {
-        color: #666;
-        margin-top: 20px;
-        font-size: 1em;
-        text-decoration: underline;
-    }
-    label {
-        display: block;
-        font-weight: bold;
-        margin-top: 12px;
-        color: #555;
-    }
-    input[type="text"], select, textarea {
-        width: 100%;
-        padding: 8px;
-        border: 2px solid #ddd;
-        margin-top: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
-    input:focus, select:focus, textarea:focus {
-        border-color: #FF9800;
-        outline: none;
-        background: #fffef7;
-    }
-    textarea {
-        resize: vertical;
-        min-height: 60px;
-        font-family: Arial, sans-serif;
-    }
-    button {
-        background: #4CAF50;
-        color: white;
-        padding: 12px 30px;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 20px;
-        margin-right: 10px;
-    }
-    button:hover { background: #45a049; }
-    .cancel-btn { background: #999; }
-    .cancel-btn:hover { background: #777; }
-    .quiz-section {
-        background: #e8f5e9;
-        padding: 15px;
-        margin-top: 20px;
-        border: 2px dashed #4CAF50;
-    }
-    .question-box {
-        background: white;
-        padding: 12px;
-        margin: 10px 0;
-        border-left: 4px solid #2196F3;
-    }
-    .message {
-        padding: 10px;
-        margin: 10px 0;
-        border-left: 4px solid #4CAF50;
-        background: #dff0d8;
-    }
-    .message.error { border-color: #f44336; background: #f8d7da; }
-</style>
+    <!-- Very awesome font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
-<h1>EDIT EXHIBIT [PROTOTYPE]</h1>
 
-{% if messages %}
-    {% for message in messages %}
-    <div class="message {% if message.tags == 'error' %}error{% endif %}">
-        {{ message }}
-    </div>
-    {% endfor %}
-{% endif %}
+<body>
+    <main class="app">
+        <header class="appHeader">
+            <div class="leftItems">
+                <div class="points">
+                    <span>⭐{{ user_points }} Points</span>
+                </div>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+                <form action="/search/" method="get" class="searchContainer">
+                    <div class="searchWrapper">
+                        <span class="searchIcon">🔍</span>
+                        <input type="search" name="q" placeholder="Search..." aria-label="Search">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="rightItems">
+                <a href = "/about" class="secondaryBtn">
+                    About
+                </a>
+                <a href = "/search" class="secondaryBtn">
+                    Explore
+                </a>
+                <a href = "" class="secondaryBtn">
+                    Submit Failure
+                </a>
+                {% if user.is_superuser%}
+                    <a href="/admin/" class="secondaryBtn">
+                        Admin
+                    </a>
+                {% endif %}
 
-    <h2>Exhibit Info</h2>
-
-    <label>Title</label>
-    {{ form.title }}
-
-    <label>Category</label>
-    {{ form.category }}
-
-    <label>Failure Type</label>
-    {{ form.failure_type }}
-
-    <label>Description</label>
-    {{ form.description }}
-
-    <label>Deployment Context</label>
-    {{ form.deployment_context }}
-
-    <label>Artefact1</label>
-    {{form.artefact1}}
-
-    <label>Intended Use</label>
-    {{ form.intended_use }}
-
-    <label>Artefact2</label>
-    {{form.artefact2}}
-
-    <label>System Type</label>
-    {{ form.system_type }}
-
-    <label>Artefact3</label>
-    {{form.artefact3}}
-
-    <label>What Went Wrong</label>
-    {{ form.what_went_wrong }}
-
-    <label>Artefact4</label>
-    {{form.artefact4}}
-
-    <label>Data Issues</label>
-    {{ form.data_issues }}
-
-    <label>Artefact5</label>
-    {{form.artefact5}}
-
-    <label>Recommendations</label>
-    {{ form.recommendations }}
-
-    <label>File Upload</label>
-    {{ form.file }}
-
-    <div class="quiz-section">
-        <h2 style="margin-top: 0; background: none; border: none;">QUIZ (Optional - True/False Questions)</h2>
-
-        <label>Quiz Title</label>
-        <input type="text" name="quiz_title" value="{{ quiz.title|default:'' }}" placeholder="e.g., Test Your Knowledge" />
-
-        <label>Quiz Description</label>
-        <textarea name="quiz_description" rows="2" placeholder="Brief intro to the quiz">{{ quiz.description|default:'' }}</textarea>
-
-        <h3>Question 1</h3>
-        <div class="question-box">
-            <label>Question Text:</label>
-            <textarea name="question_1" rows="2" placeholder="Enter question...">{% if questions.0 %}{{ questions.0.prompt }}{% endif %}</textarea>
-
-            <label>Correct Answer (True):</label>
-            <input type="text" name="question_1_true" value="{% if questions.0 %}{% for opt in questions.0.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
-
-            <label>Incorrect Answer (False):</label>
-            <input type="text" name="question_1_false" value="{% if questions.0 %}{% for opt in questions.0.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
+                {% if user.is_authenticated %}
+                <form method="post" action="/logout/">
+                    {% csrf_token %}
+                    <button type="submit" class="secondaryBtn">Logout</button>
+                </form>
+                {% else %}
+                <a href = "/login" class="primaryBtn">
+                    Log In
+                </a>
+                {% endif %}
+                {% if user.is_staff %}
+                <a href="/curator/dashboard/" class="primaryBtn">
+                    Dashboard
+                </a>
+                {% endif %}
+            </div>
+        </header>
+        
+        <div class="headingContainer">
+        <div class="heading">
+            <h1><strong>Edit Exhibit: {{ exhibit.title }}</strong></h1>
+            <p>{{  exhibit.description}}</p>
+        </div>
         </div>
 
-        <h3>Question 2</h3>
-        <div class="question-box">
-            <label>Question Text:</label>
-            <textarea name="question_2" rows="2" placeholder="Enter question...">{% if questions.1 %}{{ questions.1.prompt }}{% endif %}</textarea>
+        <div class="container">
+        <div class="editBox">
+            <div class="content">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
 
-            <label>Correct Answer (True):</label>
-            <input type="text" name="question_2_true" value="{% if questions.1 %}{% for opt in questions.1.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
-            <label>Incorrect Answer (False):</label>
-            <input type="text" name="question_2_false" value="{% if questions.1 %}{% for opt in questions.1.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
+                <h2>Exhibit Info</h2>
+
+                <div class="form-group">
+                    <label>Title</label>
+                    {{ form.title }}
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    {{ form.category }}
+                </div>
+
+                <div class="form-group">
+                    <label>Failure Type</label>
+                    {{ form.failure_type }}
+                </div>
+
+                <div class="form-group">
+                    <label>System Type</label>
+                    {{ form.system_type }}
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Description</label>
+                    {{ form.description }}
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Deployment Context</label>
+                    {{ form.deployment_context }}
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Intended Use</label>
+                    {{ form.intended_use }}
+                </div>
+
+                <div class="form-group full-width">
+                    <label>What Went Wrong</label>
+                    {{ form.what_went_wrong }}
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Data Issues</label>
+                    {{ form.data_issues }}
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Recommendations</label>
+                    {{ form.recommendations }}
+                </div>
+
+                <div class="form-group">
+                    <label>Artefact 1</label>
+                    {{form.artefact1}}
+                </div>
+
+                <div class="form-group">
+                    <label>Artefact 2</label>
+                    {{form.artefact2}}
+                </div>
+
+                <div class="form-group">
+                    <label>Artefact 3</label>
+                    {{form.artefact3}}
+                </div>
+
+                <div class="form-group">
+                    <label>Artefact 4</label>
+                    {{form.artefact4}}
+                </div>
+
+                <div class="form-group">
+                    <label>Artefact 5</label>
+                    {{form.artefact5}}
+                </div>
+
+                <div class="quiz-section">
+                    <h2 style="margin-top: 0; background: none; border: none;">QUIZ (Optional - True/False Questions)</h2>
+
+                    <label>Quiz Title</label>
+                    <input type="text" name="quiz_title" value="{{ quiz.title|default:'' }}" placeholder="e.g., Test Your Knowledge" />
+
+                    <label>Quiz Description</label>
+                    <textarea name="quiz_description" rows="2" placeholder="Brief intro to the quiz">{{ quiz.description|default:'' }}</textarea>
+
+                    <h3>Question 1</h3>
+                    <div class="question-box">
+                        <label>Question Text:</label>
+                        <textarea name="question_1" rows="2" placeholder="Enter question...">{% if questions.0 %}{{ questions.0.prompt }}{% endif %}</textarea>
+
+                        <label>Correct Answer (True):</label>
+                        <input type="text" name="question_1_true" value="{% if questions.0 %}{% for opt in questions.0.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
+
+                        <label>Incorrect Answer (False):</label>
+                        <input type="text" name="question_1_false" value="{% if questions.0 %}{% for opt in questions.0.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
+                    </div>
+
+                    <h3>Question 2</h3>
+                    <div class="question-box">
+                        <label>Question Text:</label>
+                        <textarea name="question_2" rows="2" placeholder="Enter question...">{% if questions.1 %}{{ questions.1.prompt }}{% endif %}</textarea>
+
+                        <label>Correct Answer (True):</label>
+                        <input type="text" name="question_2_true" value="{% if questions.1 %}{% for opt in questions.1.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
+
+                        <label>Incorrect Answer (False):</label>
+                        <input type="text" name="question_2_false" value="{% if questions.1 %}{% for opt in questions.1.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
+                    </div>
+
+                    <h3>Question 3</h3>
+                    <div class="question-box">
+                        <label>Question Text:</label>
+                        <textarea name="question_3" rows="2" placeholder="Enter question...">{% if questions.2 %}{{ questions.2.prompt }}{% endif %}</textarea>
+
+                        <label>Correct Answer (True):</label>
+                        <input type="text" name="question_3_true" value="{% if questions.2 %}{% for opt in questions.2.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
+
+                        <label>Incorrect Answer (False):</label>
+                        <input type="text" name="question_3_false" value="{% if questions.2 %}{% for opt in questions.2.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
+                    </div>
+
+                    <p style="color: #666; font-size: 12px; margin-top: 10px;">
+                        NOTE: Users will see 2 options and pick one. Fill all 3 fields per question for it to save.
+                    </p>
+                </div>
+
+                <div class="buttonsDiv">
+                    <a href="/curator/dashboard/" class="aboutBtn">Cancel</a>
+                    <button type="submit" class="exploreBtn">Save Changes</button>
+                </div>
+            </form>
+            </div>
+        </div>
         </div>
 
-        <h3>Question 3</h3>
-        <div class="question-box">
-            <label>Question Text:</label>
-            <textarea name="question_3" rows="2" placeholder="Enter question...">{% if questions.2 %}{{ questions.2.prompt }}{% endif %}</textarea>
-
-            <label>Correct Answer (True):</label>
-            <input type="text" name="question_3_true" value="{% if questions.2 %}{% for opt in questions.2.options.all %}{% if opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The true/correct statement" />
-
-            <label>Incorrect Answer (False):</label>
-            <input type="text" name="question_3_false" value="{% if questions.2 %}{% for opt in questions.2.options.all %}{% if not opt.is_correct %}{{ opt.text }}{% endif %}{% endfor %}{% endif %}" placeholder="The false/incorrect statement" />
+        <div class="appFooter">
+            <p class="footerText">Copyright © 2026 Ai Museum All rights reserved.</p>
+            <div class="rightItemsFooter">
+                <a href="/privacy/">
+                    <button class="footerBtn">Terms of Service</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Privacy Policy</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Accesability</button>
+                </a>
+            </div>
         </div>
-
-        <p style="color: #666; font-size: 12px; margin-top: 10px;">
-            NOTE: Users will see 2 options and pick one. Fill all 3 fields per question for it to save.
-        </p>
-    </div>
-
-    <hr style="margin: 30px 0; border: 1px dashed #ccc;">
-
-    <button type="submit">SAVE CHANGES</button>
-    <a href="/curator/dashboard/">
-        <button type="button" class="cancel-btn">Cancel</button>
-    </a>
-</form>
-
-<p style="color: #999; font-size: 12px; margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 20px;">
-    PROTOTYPE: Quiz questions are true/false multiple choice. Visitors pick between the two answers.
-</p>
-
-{% endblock %}
+    </main>
+</body>
