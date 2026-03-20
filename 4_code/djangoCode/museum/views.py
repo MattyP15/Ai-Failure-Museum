@@ -10,7 +10,7 @@ from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit, Category, Comment
+from .models import Exhibit, Category, Comment, Bookmark
 from .forms import ExhibitForm, QuizForm, CommentForm
 from .rbac import is_curator
 
@@ -212,12 +212,17 @@ def exhibit_detail(request, exhibit_id):
         quizzes = exhibit.quizzes.filter(is_active=True)
         comments = exhibit.comments.all()
 
+        is_bookmarked = False
+        if request.user.is_authenticated:
+            is_bookmarked = Bookmark.objects.filter(user=request.user, exhibit=exhibit).exists()
+
         return render(request, 'curator/exhibit_detail.html', {
             'exhibit': exhibit,
             'quizzes': quizzes,
             'categories': categories,
             'comments': comments,
             'comment_form': comment_form,
+            'is_bookmarked': is_bookmarked,
         })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
@@ -426,4 +431,21 @@ def toggle_archive_exhibit(request, exhibit_id):
     action = "archived" if exhibit.is_archived else "unarchived"
     print(request, f'exhibit "{exhibit_title}" {action} successfully')
     return redirect('curator_dashboard')
+
+
+@login_required
+def toggle_bookmark(request, exhibit_id):
+    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+    bookmark, created = Bookmark.objects.get_or_create(user=request.user, exhibit=exhibit)
+    if not created:
+        bookmark.delete()
+    return redirect('exhibit_detail', exhibit_id=exhibit_id)
+
+
+@login_required
+def my_bookmarks(request):
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('exhibit', 'exhibit__category')
+    return render(request, 'museum/my_bookmarks.html', {
+        'bookmarks': bookmarks,
+    })
   

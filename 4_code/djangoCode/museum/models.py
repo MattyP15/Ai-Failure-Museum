@@ -181,6 +181,19 @@ class Comment(models.Model):
         return f"{self.user.username} on {self.exhibit.title}: {self.body[:40]}"
 
 
+class Bookmark(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookmarks')
+    exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='bookmarks')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'exhibit')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} bookmarked {self.exhibit.title}"
+
+
 class Quiz(models.Model):
     exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)  # ADD THIS LINE
 

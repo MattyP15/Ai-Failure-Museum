@@ -12,6 +12,7 @@ from .models import (
     Exhibit,
     Category,
     Comment,
+    Bookmark,
 )
 
 admin.site.register(UserProfile)
@@ -25,3 +26,4 @@ admin.site.register(Response)
 admin.site.register(Exhibit)
 admin.site.register(Category)
 admin.site.register(Comment)
+admin.site.register(Bookmark)
