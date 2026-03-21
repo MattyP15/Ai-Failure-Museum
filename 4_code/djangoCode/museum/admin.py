@@ -13,6 +13,7 @@ from .models import (
     Category,
     Comment,
     Bookmark,
+    UserSubmission,
 )
 
 admin.site.register(UserProfile)
@@ -27,3 +28,4 @@ admin.site.register(Exhibit)
 admin.site.register(Category)
 admin.site.register(Comment)
 admin.site.register(Bookmark)
+admin.site.register(UserSubmission)

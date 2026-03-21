@@ -194,6 +194,40 @@ class Bookmark(models.Model):
         return f"{self.user.username} bookmarked {self.exhibit.title}"
 
 
+class UserSubmission(models.Model):
+    PENDING = 'pending'
+    APPROVED = 'approved'
+    DENIED = 'denied'
+    STATUS_CHOICES = [
+        (PENDING, 'Pending Review'),
+        (APPROVED, 'Approved'),
+        (DENIED, 'Denied'),
+    ]
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='submissions')
+    title = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.TextField()
+    what_went_wrong = models.TextField()
+    who_affected = models.TextField(blank=True)
+    source_url = models.URLField(blank=True)
+    artefact = models.FileField(upload_to='submissions/', blank=True, null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=PENDING)
+    reviewed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+        null=True, blank=True, related_name='reviewed_submissions'
+    )
+    reviewer_note = models.TextField(blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    reviewed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-submitted_at']
+
+    def __str__(self):
+        return f"{self.title} ({self.get_status_display()})"
+
+
 class Quiz(models.Model):
     exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)  # ADD THIS LINE
 

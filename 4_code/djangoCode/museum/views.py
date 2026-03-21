@@ -10,8 +10,8 @@ from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit, Category, Comment, Bookmark
-from .forms import ExhibitForm, QuizForm, CommentForm
+from .models import Exhibit, Category, Comment, Bookmark, UserSubmission
+from .forms import ExhibitForm, QuizForm, CommentForm, UserSubmissionForm
 from .rbac import is_curator
 
 
@@ -447,5 +447,81 @@ def my_bookmarks(request):
     bookmarks = Bookmark.objects.filter(user=request.user).select_related('exhibit', 'exhibit__category')
     return render(request, 'museum/my_bookmarks.html', {
         'bookmarks': bookmarks,
+    })
+
+
+def community_gallery(request):
+    submissions = UserSubmission.objects.filter(status=UserSubmission.APPROVED).select_related('author', 'category')
+    return render(request, 'community/gallery.html', {
+        'submissions': submissions,
+    })
+
+
+def community_submission_detail(request, submission_id):
+    submission = get_object_or_404(UserSubmission, id=submission_id, status=UserSubmission.APPROVED)
+    return render(request, 'community/submission_detail.html', {
+        'submission': submission,
+    })
+
+
+@login_required
+def submit_exhibit(request):
+    if request.method == 'POST':
+        form = UserSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.author = request.user
+            submission.save()
+            messages.success(request, 'Your exhibit has been submitted for review.')
+            return redirect('community_gallery')
+    else:
+        form = UserSubmissionForm()
+    return render(request, 'community/submit.html', {
+        'form': form,
+    })
+
+
+@login_required
+def my_submissions(request):
+    submissions = UserSubmission.objects.filter(author=request.user)
+    return render(request, 'community/my_submissions.html', {
+        'submissions': submissions,
+    })
+
+
+@login_required
+def review_pool(request):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/')
+    pending = UserSubmission.objects.filter(status=UserSubmission.PENDING).select_related('author', 'category')
+    return render(request, 'curator/review_pool.html', {
+        'pending': pending,
+    })
+
+
+@login_required
+def review_submission(request, submission_id):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/')
+    submission = get_object_or_404(UserSubmission, id=submission_id)
+    if request.method == 'POST':
+        from django.utils import timezone
+        action = request.POST.get('action')
+        note = request.POST.get('reviewer_note', '')
+        submission.reviewed_by = request.user
+        submission.reviewer_note = note
+        submission.reviewed_at = timezone.now()
+        if action == 'approve':
+            submission.status = UserSubmission.APPROVED
+            messages.success(request, f'"{submission.title}" has been approved.')
+        elif action == 'deny':
+            submission.status = UserSubmission.DENIED
+            messages.success(request, f'"{submission.title}" has been denied.')
+        submission.save()
+        return redirect('review_pool')
+    return render(request, 'curator/review_submission.html', {
+        'submission': submission,
     })
   

@@ -40,6 +40,15 @@ urlpatterns = [
     path("exhibit/<int:exhibit_id>/", views.exhibit_detail, name="exhibit_detail"),
     path("exhibit/<int:exhibit_id>/bookmark/", views.toggle_bookmark, name="toggle_bookmark"),
     path("my-bookmarks/", views.my_bookmarks, name="my_bookmarks"),
+
+    path("community/", views.community_gallery, name="community_gallery"),
+    path("community/submit/", views.submit_exhibit, name="submit_exhibit"),
+    path("community/my-submissions/", views.my_submissions, name="my_submissions"),
+    path("community/<int:submission_id>/", views.community_submission_detail, name="community_submission_detail"),
+
+    path("curator/review/", views.review_pool, name="review_pool"),
+    path("curator/review/<int:submission_id>/", views.review_submission, name="review_submission"),
+
     path("quiz/<int:quiz_id>/", views.take_quiz, name="take_quiz"),
     path("quiz/<int:quiz_id>/submit/", views.submit_quiz, name="submit_quiz"),
 
