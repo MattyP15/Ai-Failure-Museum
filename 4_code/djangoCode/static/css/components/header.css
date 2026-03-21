@@ -1,0 +1,133 @@
+@media only screen and (min-width: 1024px) {
+    .appHeader {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-color);
+        border-radius: 0;
+        border-bottom: 1px solid #DADCE0;
+        height: 64px;
+    }
+
+    .rightItems {
+        margin-left: auto;
+        display: flex;
+        gap: 0.25rem;
+    }
+
+    .leftItems {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .points {
+        font-family: 'Inter', sans-serif;
+        border: none;
+        color: var(--main-txt);
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        font-size: 16px;
+    }
+
+    /* Search Bar */
+    .searchContainer {
+        width: 400px;
+        height: 32px;
+    }
+
+    .searchWrapper {
+        display: flex;
+        align-items: center;
+        background: var(--accent-color);
+        border: 1px solid var(--bg-color);
+        border-radius: 50px;
+        padding: 0px 20px;
+        transition: all 0.3s ease;
+        height: 110%;
+    }
+
+    .searchWrapper:hover, .searchWrapper:focus-within {
+        background: var(--accent-color);
+        border: 1px solid var(--accent2-color);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .searchWrapper input {
+        font-family: "Inter", sans-serif;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--main-txt);
+        font-size: 16px;
+        margin-left: 10px;
+        width: 100%;
+    }
+
+    .searchIcon {
+        font-size: 16px;
+    }
+
+    /* Primary Button */
+    .primaryBtn {
+        font-family: "Inter", sans-serif;
+        background-color: var(--accent3-color);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: none;
+        min-height: 42px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        white-space: nowrap;
+        padding: 14px 28px;
+    }
+
+    .primaryBtn:hover {
+        box-shadow: var(--shadow-md);
+        background-color: color-mix(in srgb, var(--accent3-color) 85%, black);
+    }
+
+    .primaryBtn:active {
+        transform: translateY(0);
+    }
+
+    /* Secondary Button */
+    .secondaryBtn {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--accent3-color);
+        border: none;
+        border-radius: 999px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-height: 42px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        white-space: nowrap;
+        padding: 14px 28px;
+    }
+
+    .secondaryBtn:hover {
+        background-color: color-mix(in srgb, var(--bg-color) 85%, black);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .secondaryBtn:active {
+        transform: translateY(0);
+    }
+}

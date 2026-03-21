@@ -1,0 +1,143 @@
+.articleContent {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    padding: 0 20px;   
+    color: var(--main-txt); 
+    background-color: var(--surface-color);
+    width: 100%;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.titleContainer{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+
+    .title {
+        margin: 0;
+        flex: 1;
+    }
+
+    .title h1 {
+        font-size: 60px;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.02em;
+        margin-top: 0;
+    }
+
+    .title p {
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--body-txt);
+        margin: 0;
+    }
+
+    .title button{
+        font-family: "Inter", sans-serif;
+        display: inline-flex;
+        align-items: center;
+        background: none;
+        border: none;
+        color: var(--accent3-color);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 8px 0;
+        transition: all 0.2s ease-in-out;
+        text-decoration: none;
+    }
+
+    .title button:hover {
+        color: color-mix(in srgb, var(--accent3-color) 85%, black);
+        text-decoration: underline;
+    }
+
+    .titleVideoContainer {
+        display: flex;
+        gap: 2rem;
+        align-items: stretch;
+    }
+
+    .titleVideo{
+        display: flex;
+        background-color: var(--accent3-color);
+        flex: 1;
+        justify-content: center;
+    }
+
+    .video{
+        border-radius: 16px;
+    }
+
+    .mostViewedContainer {
+        display: flex;
+        gap: 2rem;
+        align-items: stretch;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .metadata{
+        display: flex;
+        gap: 2rem;
+        align-items: stretch;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .metadata p{
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--body-txt);
+    }
+
+    .sect{
+        gap: 2rem;
+        align-items: stretch;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .sect h2{
+        font-size: 48px;
+        color: var(--main-txt);
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .sect p{
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--body-txt);
+    }
+
+
+    .quizBox{
+        gap: 2rem;
+        align-items: stretch;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .quizBox h2{
+        font-size: 48px;
+        color: var(--main-txt);
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .quizBox p{
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--body-txt);
+    }

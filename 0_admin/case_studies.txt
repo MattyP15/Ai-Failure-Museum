@@ -1,3 +1,17 @@
+## Domains: 
+Biodiversity
+Focuses on AI systems used for species detection, habitat mapping, conservation prioritisation, or ecological monitoring—where failures often stem from biased datasets, misclassification, or poor generalisation across ecosystems.
+2. Flooding
+Covers flood‑risk modelling, hydrological prediction, early‑warning systems, and mapping tools. Failures often involve outdated data, incorrect assumptions, or over‑confident visualisations.
+3. Urban Planning
+Includes land‑use classification, zoning support tools, transport modelling, and infrastructure risk assessments. Failures may arise from scale mismatches, missing socioeconomic context, or misinterpreted outputs.
+4. Wildfire Risk & Management
+AI used for fire‑risk prediction, smoke‑plume modelling, or satellite‑based detection. Failures can involve false positives/negatives, poor transfer to new regions, or miscommunication of uncertainty.
+5. Agricultural & Land‑Use Monitoring
+Systems for crop health detection, soil moisture estimation, yield prediction, or automated irrigation. Failures often relate to seasonal bias, sensor limitations, or models trained on non‑representative climates.
+
+
+
 1. Flood Risk Mapping with Outdated Data
 What happened: AI flood models in the UK used historical rainfall data that didn't account for climate change, leading to developments being approved in areas that flooded within 5 years.
 Artifacts:

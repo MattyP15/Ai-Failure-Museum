@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Exhibit{% endblock %}
+
+{% block content %}
+<style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; max-width: 900px; }
+    h1 { color: #333; border-bottom: 3px solid #FF9800; padding-bottom: 10px; }
+    h2 {
+        background: #fff3e0;
+        padding: 10px;
+        margin-top: 25px;
+        border-left: 5px solid #FF9800;
+        font-size: 1.1em;
+    }
+    h3 {
+        color: #666;
+        margin-top: 20px;
+        font-size: 1em;
+        text-decoration: underline;
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-top: 12px;
+        color: #555;
+    }
+    input[type="text"], select, textarea {
+        width: 100%;
+        padding: 8px;
+        border: 2px solid #ddd;
+        margin-top: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+    input:focus, select:focus, textarea:focus {
+        border-color: #FF9800;
+        outline: none;
+        background: #fffef7;
+    }
+    textarea {
+        resize: vertical;
+        min-height: 60px;
+        font-family: Arial, sans-serif;
+    }
+    button {
+        background: #4CAF50;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+    button:hover { background: #45a049; }
+    .cancel-btn { background: #999; }
+    .cancel-btn:hover { background: #777; }
+    .quiz-section {
+        background: #e8f5e9;
+        padding: 15px;
+        margin-top: 20px;
+        border: 2px dashed #4CAF50;
+    }
+    .question-box {
+        background: white;
+        padding: 12px;
+        margin: 10px 0;
+        border-left: 4px solid #2196F3;
+    }
+    .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-left: 4px solid #4CAF50;
+        background: #dff0d8;
+    }
+    .message.error { border-color: #f44336; background: #f8d7da; }
+</style>
+
+<h1>EDIT EXHIBIT [PROTOTYPE]</h1>
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="message {% if message.tags == 'error' %}error{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <h2>Exhibit Info</h2>
+
+    <label>Title</label>
+    {{ form.title }}
+
+    <label>Category</label>
+    {{ form.category }}
+
+    <label>Failure Type</label>
+    {{ form.failure_type }}
+
+    <label>Description</label>
+    {{ form.description }}
+
+    <label>Deployment Context</label>
+    {{ form.deployment_context }}
+
+    <label>Artefact1</label>
+    {{form.artefact1}}
+
+    <label>Intended Use</label>
+    {{ form.intended_use }}
+
+    <label>Artefact2</label>
+    {{form.artefact2}}
+
+    <label>System Type</label>
+    {{ form.system_type }}
+
+    <label>Artefact3</label>
+    {{form.artefact3}}
+
+    <label>What Went Wrong</label>
+    {{ form.what_went_wrong }}
+
+    <label>Artefact4</label>
+    {{form.artefact4}}
+
+    <label>Data Issues</label>
+    {{ form.data_issues }}
+
+    <label>Artefact5</label>
+    {{form.artefact5}}
+
+    <label>Recommendations</label>
+    {{ form.recommendations }}
+
+    <label>File Upload</label>
+    {{ form.file }}
+
+    <div class="quiz-section">
+        <h2 style="margin-top: 0; background: none; border: none;">QUIZ (Optional)</h2>
+
+        <label>Quiz Title</label>
+        <input type="text" name="quiz_title" value="{{ quiz.title|default:'' }}" placeholder="e.g., Test Your Knowledge" />
+
+        <label>Quiz Description</label>
+        <textarea name="quiz_description" rows="2" placeholder="Brief intro to the quiz">{{ quiz.description|default:'' }}</textarea>
+
+        <div id="questions-container">
+            {% for question in questions %}
+            <div class="question-box" id="question-{{ forloop.counter }}">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3 style="margin:0;">Question {{ forloop.counter }}</h3>
+                    <button type="button" onclick="removeQuestion(this)" style="color:red;">✕ Remove</button>
+                </div>
+                <label>Question Text:</label>
+                <textarea class="question-prompt" name="question_{{ forloop.counter }}_prompt" rows="2">{{ question.prompt }}</textarea>
+
+                <div class="options-container">
+                    {% for opt in question.options.all %}
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
+                        <input type="text" name="question_{{ forloop.parentloop.counter }}_option_{{ forloop.counter }}"
+                            value="{{ opt.text }}" placeholder="Option text" style="flex:1;" />
+                        <label style="white-space:nowrap;">
+                            <input type="radio" name="question_{{ forloop.parentloop.counter }}_correct"
+                                value="{{ forloop.counter }}" {% if opt.is_correct %}checked{% endif %} /> Correct
+                        </label>
+                        <button type="button" onclick="removeOption(this)" style="color:red;">✕</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="question_{{ forloop.counter }}_option_count" value="{{ question.options.count }}" class="option-count" />
+                <button type="button" onclick="addOption(this)" style="margin-top:8px;">+ Add Option</button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <input type="hidden" name="question_count" id="question_count" value="{{ questions|length|default:0 }}" />
+        <button type="button" onclick="addQuestion()" style="margin-top:12px;">+ Add Question</button>
+
+        <p style="color:#666; font-size:12px; margin-top:10px;">
+            Fill all fields per question for it to save. Mark exactly one option as correct per question.
+        </p>
+    </div>
+
+    <hr style="margin: 30px 0; border: 1px dashed #ccc;">
+
+    <button type="submit">SAVE CHANGES</button>
+    <a href="/curator/dashboard/">
+        <button type="button" class="cancel-btn">Cancel</button>
+    </a>
+</form>
+
+<p style="color: #999; font-size: 12px; margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 20px;">
+    PROTOTYPE: Quiz questions are true/false multiple choice. Visitors pick between the two answers.
+</p>
+
+<script src="{% static 'js/quiz_editor.js' %}"></script>
+{% endblock %}

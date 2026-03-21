@@ -1,0 +1,31 @@
+/* TEMP HTML TO BE REPLACED, from discord chat */
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Create Exhibit</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <p><label>Title:</label> {{ form.title }}</p>
+    <p><label>Category:</label> {{ form.category }}</p>
+    <p><label>AI Failure Type:</label> {{ form.failure_type }}</p>
+    <p><label>Description:</label> {{ form.description }}</p>
+    <p><label>Deployment Context:</label> {{ form.deployment_context }}</p>
+    <p><label>Artefact1: </label>{{form.artefact1}}</p>
+    <p><label>Intended Use:</label> {{ form.intended_use }}</p>
+    <p><label>Artefact2: </label>{{form.artefact2}}</p>
+    <p><label>System Type:</label> {{ form.system_type }}</p>
+    <p><label>Artefact3: </label>{{form.artefact3}}</p>
+    <p><label>What Went Wrong:</label> {{ form.what_went_wrong }}</p>
+    <p><label>Artefact4: </label>{{form.artefact4}}</p>
+    <p><label>Data Issues:</label> {{ form.data_issues }}</p>
+    <p><label>Artefact5: </label>{{form.artefact5}}</p>
+    <p><label>Recommendations:</label> {{ form.recommendations }}</p>
+    <p><label>File:</label> {{ form.file }}</p>
+    
+    <button type="submit">Create</button>
+    <a href="/curator/dashboard/">Cancel</a>
+</form>
+{% endblock %}

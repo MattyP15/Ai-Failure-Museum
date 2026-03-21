@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Create Quiz{% endblock %}
+
+{% block content %}
+<style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; max-width: 800px; }
+    h1 { color: #333; border-bottom: 3px solid #9C27B0; padding-bottom: 10px; }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-top: 15px;
+        color: #555;
+    }
+    input, select, textarea {
+        padding: 8px;
+        border: 2px solid #ddd;
+        margin-top: 4px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    input:focus, select:focus, textarea:focus {
+        border-color: #9C27B0;
+        outline: none;
+        background: #fffef7;
+    }
+    button {
+        background: #4CAF50;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+    button:hover { background: #45a049; }
+    .cancel-btn { background: #999; }
+    .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-left: 4px solid #4CAF50;
+        background: #dff0d8;
+    }
+    .message.error { border-color: #f44336; background: #f8d7da; }
+</style>
+
+<h1>CREATE QUIZ [STANDALONE - PROTOTYPE]</h1>
+
+<p style="color: #666; background: #fff3cd; padding: 10px; border-left: 4px solid #ffc107;">
+    NOTE: Quizzes are usually created when editing exhibits. This form is for creating standalone quizzes.
+</p>
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="message {% if message.tags == 'error' %}error{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Exhibit (Link to)</label>
+    {{ form.exhibit }}
+
+    <label>Quiz Title</label>
+    {{ form.title }}
+
+    <label>Description</label>
+    {{ form.description }}
+
+    <label>Active?</label>
+    {{ form.is_active }}
+
+    <label>Points for Completion</label>
+    {{ form.points_for_completion }}
+
+    <hr style="margin: 30px 0; border: 1px dashed #ccc;">
+
+    <button type="submit">CREATE QUIZ</button>
+    <a href="/curator/dashboard/">
+        <button type="button" class="cancel-btn">Cancel</button>
+    </a>
+</form>
+
+<p style="color: #999; font-size: 12px; margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 20px;">
+    After creating, you'll need to add questions separately. Usually easier to create quizzes via "Edit Exhibit".
+</p>
+
+{% endblock %}

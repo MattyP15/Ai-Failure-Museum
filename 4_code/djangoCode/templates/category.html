@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AI Failure Museum</title>
 
-    <link rel="stylesheet" href={% static "css/style.css" % }>
+    <link rel="stylesheet" type="text/css" href={% static "css/variables.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/pages/category.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
 
     <!-- Very awesome font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,44 +21,130 @@
 <body>
     <main class="app">
         <header class="appHeader">
-            <div class="points">
-                ⭐ <span>0 Points</span>
-            </div>
+            <div class="leftItems">
+                <div class="points">
+                    <span>⭐{{ user_points }} Points</span>
+                </div>
 
-            <a href = "/login">
-            <button class="loginBtn">
-                Log In
-            </button>
-            </a>
+                <form action="/search/" method="get" class="searchContainer">
+                    <div class="searchWrapper">
+                        <span class="searchIcon">🔍</span>
+                        <input type="search" name="q" placeholder="Search..." aria-label="Search">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="rightItems">
+                <a href = "/about" class="secondaryBtn">
+                    About
+                </a>
+                <a href = "/search" class="secondaryBtn">
+                    Explore
+                </a>
+                <a href = "" class="secondaryBtn">
+                    Submit Failure
+                </a>
+                {% if user.is_superuser%}
+                    <a href="/admin/" class="secondaryBtn">
+                        Admin
+                    </a>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <form method="post" action="/logout/">
+                    {% csrf_token %}
+                    <button type="submit" class="secondaryBtn">Logout</button>
+                </form>
+                {% else %}
+                <a href = "/login" class="primaryBtn">
+                    Log In
+                </a>
+                {% endif %}
+                {% if user.is_staff %}
+                <a href="/curator/dashboard/" class="primaryBtn">
+                    Dashboard
+                </a>
+                {% endif %}
+            </div>
         </header>
 
-        <section class="title">
-            <h1>PlaceHolderTitle</h1>
-            <p>PlaceHolderDescription</p>
-        </section>
+        <div class="titleContainer">
+            <div class="categoryBarWrapper">
+                <div class="categoryBar">
+                    {% for cat in categories %}
+                    {% if cat.slug == category.slug %}
+                    <a href="/category/{{ cat.slug }}/" class="">
+                        <article class="activeCategoryButton">
+                            <t>{{ cat.name }} +</t>
+                        </article>
+                    </a>
+                    {% else %}
+                    <a href="/category/{{ cat.slug }}/" class="">
+                        <article class="categoryButton">
+                            <t>{{ cat.name }} +</t>
+                        </article>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
 
-        <div class="mostViewed">
-            <h2>Most Viewed</h2>
-            <div class="mostViewedGrid">
-                <!-- Loop through all data -->
-                <article class="failureCard">
-                    <h3>PlaceHolderTitle</h3>
-                    <p>PlaceHolderDescription</p>
-                    <div class="views">👁️ 0 views</div>
-                </article>
-                <!-- Loop through end -->
+
+            <div class="title">
+                <a href = "/"><button>← Back Home</button></a>
+                <h1><strong>{{ category.name }}</strong></h1>
+                <p>{{ category.description }}</p>
+            </div>
         </div>
 
-        <div class="all">
+
+        <div class="mostViewedContainer">
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=800&q=80" alt="Space">
+            </div>
+            
+            <div class="mostViewed">
+                <h2>Most Viewed</h2>
+                <div class="mostViewedGrid">
+                    {% for failure in top_three %}
+                    <a class="mostViewedCard" href="{% url 'exhibit_detail' failure.id %}">
+                        <h3>{{ failure.title }}</h3>
+                        <p>{{ failure.description }}</p>
+                        <div class="views">👁️ 0 views</div>
+                        <!-- {{ exhibit.views }} -->
+                    </a>
+                    {% endfor %}
+                </div>  
+            </div>
+        </div>
+
+        <div class="allDiv">
             <h2>All</h2>
             <div class="allGrid">
-                <!-- Loop through all data -->
-                <article class="failureCard">
-                    <h3>PlaceHolderTitle</h3>
-                    <p>PlaceHolderDescription</p>
+                {% for exhibit in everything_else %}
+                <a class="failureCard" href="{% url 'exhibit_detail' exhibit.id %}">
+                    <h3>{{ exhibit.title }}</h3>
+                    <p>{{ exhibit.description }}</p>
                     <div class="views">👁️ 0 views</div>
-                </article>
-                <!-- Loop through end -->
+                    <!-- {{ exhibit.views }} -->
+                </a>
+                {% endfor %}
+            </div> 
+        </div>
+
+        <div class="appFooter">
+            <p class="footerText">Copyright © 2026 Ai Museum All rights reserved.</p>
+            <div class="rightItemsFooter">
+                <a href="/privacy/">
+                    <button class="footerBtn">Terms of Service</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Privacy Policy</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Accesability</button>
+                </a>
+            </div>
         </div>
     </main>
 </body>

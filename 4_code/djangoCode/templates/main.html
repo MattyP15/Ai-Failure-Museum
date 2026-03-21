@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AI Failure Museum</title>
 
-    <link rel="stylesheet" type="text/css" href={% static "css/style.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/variables.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/pages/main.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/mainButtons.css" %}>
+    
 
     <!-- Very awesome font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,46 +23,201 @@
 <body>
     <main class="app">
         <header class="appHeader">
-            <div class="points">
-                ⭐ <span>0 Points</span>
-            </div>
+            <div class="leftItems">
+                <div class="points">
+                    <span>⭐{{ user_points }} Points</span>
+                </div>
 
-            <a href = "/login">
-            <button class="loginBtn">
-                Log In
-            </button>
-            </a>
+                <form action="/search/" method="get" class="searchContainer">
+                    <div class="searchWrapper">
+                        <span class="searchIcon">🔍</span>
+                        <input type="search" name="q" placeholder="Search..." aria-label="Search">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="rightItems">
+                <a href = "/about" class="secondaryBtn">
+                    About
+                </a>
+                <a href = "/search" class="secondaryBtn">
+                    Explore
+                </a>
+                <a href = "" class="secondaryBtn">
+                    Submit Failure
+                </a>
+                {% if user.is_superuser%}
+                    <a href="/admin/" class="secondaryBtn">
+                        Admin
+                    </a>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <form method="post" action="/logout/">
+                    {% csrf_token %}
+                    <button type="submit" class="secondaryBtn">Logout</button>
+                </form>
+                {% else %}
+                <a href = "/login" class="primaryBtn">
+                    Log In
+                </a>
+                {% endif %}
+                {% if user.is_staff %}
+                <a href="/curator/dashboard/" class="primaryBtn">
+                    Dashboard
+                </a>
+                {% endif %}
+            </div>
         </header>
 
 
-        <section class="title">
-            <h1>AI Failure Museum</h1>
+        <div class="titleContainer">
+            <div class="categoryBarWrapper">
+                <div class="categoryBar">
+                    {% for cat in categories %}
+                    <a href="/category/{{ cat.slug }}/" class="">
+                        <article class="categoryButton">
+                            <t>{{ cat.name }} +</t>
+                        </article>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
 
-            <p>
-                Im not writing whatever she put here so just imagine some cool description about the AI Failure Museum that makes you want to explore more.
-            </p>
-        </section>
+            <div class="titleVideoContainer">
+                <div class="title">
+                    <h1><strong>AI Failure Museum</strong></h1>
 
-        <div class="sortBar">
-            <label for="category-filter" class="sortBtn">
-                ☰
-            </label>
+                    <p>
+                        AI systems are becoming more commonly used in high-stakes contexts, but they can and do fail in ways that are harmful to people, systems, and the enviroment. The AI Failure Museum is a collection of case studies documenting real world examples of AI failures, with the goal of educating the public about the risks of depending on AI systems to make important decisions.
+                    </p>
+                    <div class="titleButtons">
+                        <a href = "/search" class="exploreBtn">
+                            Explore Database
+                        </a>
+                        <a href = "/about" class="aboutBtn">
+                            About the Museum
+                        </a>
+                    </div>
+                </div>
+                <div class="titleVideo">
+                    <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=800&q=80" alt="Space">
+                </div>
+            </div>
         </div>
 
+        <div class="categoryViewport">
+            <button class="navBtn prev" id="prevBtn">
+                <p>←</p>
+            </button>
+            <button class="navBtn next" id="nextBtn">
+                <p>→</p>
+            </button>
 
-        <section class="categoryGrid">
-            <!-- Loop through all data -->
-            <a href="/category" class="categoryLink">
-                <article class="categoryCards" style="--accent-color: {{ cat.color }};">
-                    <div class="cardText">
-                        <h3>PlaceHolderTitle</h3>
-                        <p>PlaceHolderDescription</p>
+            <div class="categoryWrapper" id="carousel">
+                {% for cat in categories %}
+                <div class="categoryCard">
+                    <div class="cardImage">
+                        <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=800&q=80" alt="Space">
                     </div>
-                    <div class="icon">🎉</div>
-                </article>
-            </a>
-            <!-- Loop through end -->
-        </section>
+                    <div class="cardContent">
+                        <h2>{{ cat.name }}</h2>
+                        <p>{{ cat.description }}</p>
+                        <a href="/category/{{ cat.slug }}/" class="exploreBtn">Check it out</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="indicators">
+                {% for cat in categories %}
+                <div class="dot" data-index={{ cat }}></div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <script>
+        const carousel = document.getElementById('carousel');
+        const cards = document.querySelectorAll('.categoryCard');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        /**
+         * Logic to find the center-most card and update UI
+         */
+        function handleScroll() {
+            let closestCard = null;
+            let minDistance = Infinity;
+            let activeIndex = 0;
+            
+            const containerCenter = carousel.getBoundingClientRect().left + (carousel.offsetWidth / 2);
+
+            cards.forEach((card, index) => {
+                const cardRect = card.getBoundingClientRect();
+                const cardCenter = cardRect.left + (cardRect.width / 2);
+                const distance = Math.abs(containerCenter - cardCenter);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestCard = card;
+                    activeIndex = index;
+                }
+            });
+
+            // Update Active Card Classes
+            cards.forEach(card => card.classList.toggle('active', card === closestCard));
+
+            // Update Dot Indicators
+            dots.forEach((dot, index) => dot.classList.toggle('active', index === activeIndex));
+        }
+
+        /**
+         * Navigation Functions
+         */
+        function scrollToCard(index) {
+            if (cards[index]) {
+                cards[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            const currentIndex = Array.from(cards).findIndex(card => card.classList.contains('active'));
+            if (currentIndex < cards.length - 1) scrollToCard(currentIndex + 1);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            const currentIndex = Array.from(cards).findIndex(card => card.classList.contains('active'));
+            if (currentIndex > 0) scrollToCard(currentIndex - 1);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => scrollToCard(index));
+        });
+
+        // Use requestAnimationFrame for smoother performance during scroll
+        carousel.addEventListener('scroll', () => {
+            window.requestAnimationFrame(handleScroll);
+        });
+
+        // Initialize state
+        handleScroll();
+        </script>
+
+        <div class="appFooter">
+            <p class="footerText">Copyright © 2026 Ai Museum All rights reserved.</p>
+            <div class="rightItemsFooter">
+                <a href="/privacy/">
+                    <button class="footerBtn">Terms of Service</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Privacy Policy</button>
+                </a>
+                <a href="/privacy/">
+                    <button class="footerBtn">Accesability</button>
+                </a>
+            </div>
+        </div>
     </main>
 </body>
 </html>

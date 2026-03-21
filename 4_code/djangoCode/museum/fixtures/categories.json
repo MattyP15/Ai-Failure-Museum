@@ -1,0 +1,90 @@
+[
+    {
+        "model": "museum.category",
+        "pk": 1,
+        "fields": {
+            "name": "Environmental & Geographic Failures",
+            "slug": "environmental-geographic-failures",
+            "description": "AI failures in environmental monitoring, climate modelling, geographic information systems, biodiversity tracking, and natural disaster prediction \u2014 where flawed data, poor generalisation, or misaligned assumptions led to real-world ecological or geographic harm.",
+            "summary": "",
+            "static_image": "images/categories/environmental-geographic-failures.png"
+        }
+    },
+    {
+        "model": "museum.category",
+        "pk": 2,
+        "fields": {
+            "name": "Healthcare & Medical Harm",
+            "slug": "healthcare-medical-harm",
+            "description": "Cases where AI systems used in diagnostics, treatment recommendations, drug discovery, or health administration caused harm \u2014 through misdiagnosis, biased triage, faulty predictions, or dangerous automation of clinical decisions.",
+            "summary": "",
+            "static_image": "images/categories/healthcare-medical-harm.png"
+        }
+    },
+    {
+        "model": "museum.category",
+        "pk": 3,
+        "fields": {
+            "name": "Law, Policing & Justice Bias",
+            "slug": "law-policing-justice-bias",
+            "description": "AI failures in predictive policing, sentencing algorithms, facial recognition for law enforcement, legal document analysis, or bail and parole decisions \u2014 where algorithmic bias reinforced systemic injustice.",
+            "summary": "",
+            "static_image": "images/categories/law-policing-justice-bias.png"
+        }
+    },
+    {
+        "model": "museum.category",
+        "pk": 4,
+        "fields": {
+            "name": "Economic & Financial Failures",
+            "slug": "economic-financial-failures",
+            "description": "AI systems in trading, credit scoring, fraud detection, insurance underwriting, or economic forecasting that failed \u2014 causing financial loss, discriminatory lending, or market instability.",
+            "summary": "",
+            "static_image": "images/categories/economic-financial-failures.png"
+        }
+    },
+    {
+        "model": "museum.category",
+        "pk": 5,
+        "fields": {
+            "name": "Safety-Critical Systems & Autonomy",
+            "slug": "safety-critical-systems-autonomy",
+            "description": "Failures in autonomous vehicles, drones, robotics, industrial automation, and other safety-critical AI where system errors posed direct physical danger to people.",
+            "summary": "",
+            "static_image": "images/categories/safety-critical-systems-autonomy.png"
+        }
+    },
+    {
+        "model": "museum.category",
+        "pk": 6,
+        "fields": {
+            "name": "Misinformation, Hallucinations & Truth",
+            "slug": "misinformation-hallucinations-truth",
+            "description": "AI-generated misinformation, deepfakes, large language model hallucinations, and failures in content moderation or fact-checking \u2014 where AI actively undermined truth.",
+            "summary": "",
+            "static_image": "images/categories/misinformation-hallucinations-truth.png"
+        }
+    },
+    {
+        "model": "museum.category",
+        "pk": 7,
+        "fields": {
+            "name": "Bias, Discrimination & Social Harm",
+            "slug": "bias-discrimination-social-harm",
+            "description": "AI systems that discriminated based on race, gender, age, disability, or socioeconomic status \u2014 in hiring, content recommendation, ad targeting, education, or social services.",
+            "summary": "",
+            "static_image": "images/categories/bias-discrimination-social-harm.png"
+        }
+    },
+    {
+        "model": "museum.category",
+        "pk": 8,
+        "fields": {
+            "name": "Privacy, Data & Surveillance Failures",
+            "slug": "privacy-data-surveillance-failures",
+            "description": "Cases where AI enabled mass surveillance, leaked personal data, violated consent, or was deployed for tracking and profiling without adequate safeguards.",
+            "summary": "",
+            "static_image": "images/categories/privacy-data-surveillance-failures.png"
+        }
+    }
+]

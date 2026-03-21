@@ -1,0 +1,198 @@
+
+@media only screen and (min-width: 1024px) {
+    .titleContainer{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+
+    .title {
+        max-width: 720px;
+        margin: 2rem 0 2rem;
+        flex: 1;
+    }
+
+    .title h1 {
+        font-size: 60px;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.02em;
+        margin-top: 0;
+    }
+
+    .title p {
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--body-txt);
+        max-width: 560px;
+        margin: 0;
+        padding-bottom: 1rem;
+    }
+
+    .titleVideoContainer {
+        display: flex;
+        gap: 2rem;
+        align-items: stretch;
+    }
+
+    .titleVideo{
+        display: flex;
+        background-color: var(--accent3-color);
+        flex: 1;
+        justify-content: center;
+    }
+
+    .video{
+        border-radius: 16px;
+        border: 1px solid #3c4043;
+    }
+
+    .footer-note {
+        margin-top: 1rem;
+        font-size: 0.7rem;
+        opacity: 0.6;
+        text-align: center;
+    }
+
+    .categoryLink {
+        text-decoration: none;
+    }
+
+    .titleButtons{
+        display: flex;
+        gap: 1rem;
+    }
+
+    .categoryViewport {
+        position: relative;
+        width: 100%;
+        margin: 1rem 1rem;
+    }
+    .categoryWrapper {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 24px;
+            
+        scrollbar-width: none;
+    }
+
+    .categoryWrapper::before,
+    .categoryWrapper::after {
+        content: '';
+        flex: 0 0 calc(50vw - 200px);
+    }
+
+    .categoryCard {
+        flex: 0 0 auto;
+        display: flex;
+        height: 500px;
+        width: 340px;
+        background: white;
+        border-radius: 32px;
+        overflow: hidden;
+        scroll-snap-align: center;
+        box-shadow: var(--shadow-sm);
+        cursor: pointer;
+            
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .categoryCard.active {
+        width: 850px;
+        box-shadow: var(--shadow-md);
+    }
+
+    .cardImage {
+        min-width: 340px;
+        height: 100%;
+        background-color: var(--accent3-color);
+    }
+
+    .cardImage img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .cardContent {
+        min-width: 510px;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+            
+        opacity: 0;
+        transform: translateX(30px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .categoryCard.active .cardContent {
+        opacity: 1;
+        transform: translateX(0);
+        transition-delay: 0.2s;
+    }
+
+    .cardContent h2 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: var(--main-txt);
+    }
+
+    .cardContent p {
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--body-txt);
+        max-width: 560px;
+        margin: 0;
+        padding-bottom: 1rem;
+    }
+
+    .navBtn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: white;
+        border: 1px solid #dadce0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: all 0.2s;
+    }
+
+    .navBtn:hover { background: #f1f3f4; border-color: #bdc1c6; }
+    .prev { left: 40px; }
+    .next { right: 40px; }
+
+    .indicators {
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 12px;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        background: #dadce0;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .dot.active {
+        background: #202124;
+        border-radius: 5px;
+    }
+        
+    .nav-btn p { fill: #5f6368; width: 24px; height: 24px; }
+}
