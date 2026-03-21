@@ -1,8 +1,0 @@
-.venv/
-.venv-1/
-.env
-db.sqlite3
-__pycache__/
-*.pyc
-media/
-.command
