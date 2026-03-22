@@ -10,7 +10,8 @@ from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit, Category, Comment, Bookmark, UserSubmission
+from .models import Exhibit, Category, Comment, Bookmark, UserSubmission, ExhibitView
+from django.db.models import F
 from .forms import ExhibitForm, QuizForm, CommentForm, UserSubmissionForm
 from .rbac import is_curator
 
@@ -199,6 +200,13 @@ def exhibit_detail(request, exhibit_id):
         if exhibit.is_archived and not is_curator(request.user):
             messages.error(request, "This exhibit is archived and not available to the public.")
             return redirect('/')
+        if not request.session.session_key:
+            request.session.create()
+
+        if not already_viewed:
+            ExhibitsView.objects.create(exhibit=exhibit, session_key=request.session.session_key, user=request.user if request.user.is_authenticated else None)
+            Exhibit.object.filter(id=exhibit_id).update(vierw_count=F('view_count')+1)
+            exhibit.refresh_from_db()
 
         if request.method == 'POST' and request.user.is_authenticated:
             comment_form = CommentForm(request.POST)
