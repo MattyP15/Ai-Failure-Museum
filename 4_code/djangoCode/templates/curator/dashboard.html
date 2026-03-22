@@ -14,7 +14,7 @@
         <div class="curatorTitle">
             <div class="centredCuratorTitle">
                 <a href="/"><button>← Back home</button></a>
-                <h1><strong>Curator Dashboard</strong></h1>
+                <h1><strong>Dashboard</strong></h1>
                 <p>Welcome, {{ user.username|default:"_username_" }}</p>
             </div>
         </div>
@@ -96,6 +96,10 @@
                     <a href="{% url 'edit_exhibit' exhibit.id %}">
                         <button class="iconBtn"><h1>✎</h1><p>Edit</p></button>
                     </a>
+                    <form method="post" action="{% url 'toggle_bookmark' exhibit.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="iconBtn"><h1>★</h1><p>Bookmark</p></button>
+                    </form>
                     <form method="post" action="{% url 'toggle_archive_exhibit' exhibit.id %}">
                         {% csrf_token %}
                         <button type="submit" class="iconBtn"><h1>🗃</h1><p>Archive</p></button>
@@ -127,6 +131,10 @@
                     <a href="{% url 'edit_exhibit' exhibit.id %}">
                         <button class="iconBtn"><h1>✎</h1><p>Edit</p></button>
                     </a>
+                    <form method="post" action="{% url 'toggle_bookmark' exhibit.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="iconBtn"><h1>★</h1><p>Bookmark</p></button>
+                    </form>
                     <form method="post" action="{% url 'toggle_archive_exhibit' exhibit.id %}">
                         {% csrf_token %}
                         <button type="submit" class="iconBtn"><h1>🗃</h1><p>Unarchive</p></button>
@@ -144,5 +152,47 @@
         </div>
     </div>
     {% endif %}
+
+
+    <div class="dashboardContent">
+        <div class="listContainer">
+            <div class="listHeader">
+                <span><strong>My Bookmarked Exhibits</strong></span>
+                <span><strong>Category</strong></span>
+                <span><strong>Summary</strong></span>
+                <span class="actionsHeader"><strong>Actions</strong></span>
+            </div>
+
+            {% if user.is_authenticated %}
+                {% for exhibit in bookmarked_exhibits %}
+                <div class="exhibitBox">
+                    <span class="exhibitTitle">{{ exhibit.title|truncatewords:4 }}</span>
+
+                    <span class="exhibitCategory">
+                        {% if exhibit.category %}{{ exhibit.category.name|truncatewords:2 }}{% else %}-{% endif %}
+                    </span>
+
+                    <span class="exhibitSummary">{{ exhibit.description|truncatewords:10 }}</span>
+
+                    <div class="exhibitActions">
+                        <form method="post" action="{% url 'toggle_bookmark' exhibit.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="iconBtn"><h1>☆</h1><p>Unbookmark</p></button>
+                        </form>
+                        <a href="{% url 'exhibit_detail' exhibit.id %}">
+                            <button class="iconBtn"><h1>👁</h1><p>View</p></button>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="emptyMsg">You have no bookmarked exhibits yet.</p>
+                {% endfor %}
+            {% else %}
+            <p class="emptyMsg">Login to view your bookmarked exhibits.</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
+
+

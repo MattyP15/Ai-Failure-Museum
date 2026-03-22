@@ -40,6 +40,17 @@
 <div class="metadata">
     <p><strong>Category:</strong> {% if exhibit.category %}{{ exhibit.category.name }}{% else %}Uncategorized{% endif %}</p>
     <p><strong>Failure Type:</strong> {{ exhibit.failure_type|default:"Not specified" }}</p>
+
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'toggle_bookmark' exhibit.id %}">
+        {% csrf_token %}
+        <button type="submit" class="exploreBtn {% if is_bookmarked %}isActive{% endif %}">
+            {% if is_bookmarked %}★Bookmarked{% else %}☆Bookmark{% endif %}
+        </button>
+    </form>
+    {% else %}
+    <a href="/login/?next=/exhibit/{{ exhibit.id }}/"><button class="bookmarkBtn">Log in to bookmark</button></a>
+    {% endif %}
 </div>
 
 <div class="sect">
@@ -187,3 +198,4 @@
 </div>
 {% endif %}
 {% endblock %}
+
