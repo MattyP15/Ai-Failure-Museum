@@ -1,0 +1,127 @@
+.container {
+    background-color: var(--bg-color);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.editBox {
+    background-color: var(--bg-color);
+    width: 100%;
+    padding: 48px;
+    border-radius: 12px;
+    border: 1px solid #DADCE0;
+    box-shadow: var(--shadow-sm);
+}
+
+.headingContainer{
+    justify-content: space-between;
+    align-items: center;
+    margin: 3rem 0 2rem;
+    width: 100%;
+    padding: 0px 10vw;
+}
+
+.heading{
+    justify-content: center;
+    flex-direction: column;
+}
+
+.heading h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 60px;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+}
+
+.heading p {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--body-txt);
+    margin: 0;
+    padding-bottom: 1rem;
+}
+
+h2 {
+    font-size: 48px;
+    font-weight: 600;
+    margin: 40px 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--surface-color);
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 24px;
+    color: var(--accent3-color);
+}
+
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+    row-gap: 10px;
+}
+
+form h2, .quiz-section, .message, button[type="submit"], .aboutBtn {
+    grid-column: span 2;
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    margin-top: 16px;
+    color: var(--main-txt);
+}
+
+input[type="text"], input[type="file"], select, textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #DADCE0;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    background-color: var(--bg-color);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+input:focus, textarea:focus, input:hover, textarea:hover, select:hover {
+    border-color: var(--accent3-color);
+    box-shadow: var(--shadow-sm);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.quiz-section {
+    background-color: var(--bg-color);
+    margin-top: 40px;
+}
+
+.question-box {
+    background-color: var(--surface-color);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #DADCE0;
+}
+
+.buttonsDiv{
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-top: 30px;
+    box-sizing: border-box;
+}
