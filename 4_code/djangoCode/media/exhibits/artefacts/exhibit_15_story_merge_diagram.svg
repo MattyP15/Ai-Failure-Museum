@@ -1,0 +1,56 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="800" height="400" fill="#f8f9fa" rx="8"/>
+  <text x="400" y="30" fill="#1a1a2e" font-size="16" text-anchor="middle" font-weight="bold">How a False Summary Spread in 6 Hours</text>
+
+  <!-- Horizontal timeline line -->
+  <line x1="60" y1="200" x2="740" y2="200" stroke="#ccc" stroke-width="3"/>
+
+  <!-- Node 1 -->
+  <circle cx="100" cy="200" r="12" fill="#2980b9"/>
+  <text x="100" y="170" fill="#2980b9" font-size="10" text-anchor="middle" font-weight="bold">06:12</text>
+  <text x="100" y="235" fill="#1a1a2e" font-size="10" text-anchor="middle" font-weight="bold">2 real stories</text>
+  <text x="100" y="248" fill="#95a5a6" font-size="9" text-anchor="middle">published</text>
+  <text x="100" y="265" fill="#95a5a6" font-size="8" text-anchor="middle">400 km apart</text>
+
+  <!-- Node 2 -->
+  <circle cx="230" cy="200" r="12" fill="#8e44ad"/>
+  <text x="230" y="170" fill="#8e44ad" font-size="10" text-anchor="middle" font-weight="bold">06:15</text>
+  <text x="230" y="235" fill="#1a1a2e" font-size="10" text-anchor="middle" font-weight="bold">AI merges them</text>
+  <text x="230" y="248" fill="#95a5a6" font-size="9" text-anchor="middle">shared keywords</text>
+  <text x="230" y="265" fill="#95a5a6" font-size="8" text-anchor="middle">no verification</text>
+
+  <!-- Node 3 -->
+  <circle cx="360" cy="200" r="14" fill="#e74c3c"/>
+  <text x="360" y="168" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">06:17</text>
+  <text x="360" y="235" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">False summary</text>
+  <text x="360" y="250" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">goes live</text>
+  <text x="360" y="267" fill="#e74c3c" font-size="9" text-anchor="middle">340,000 readers</text>
+
+  <!-- Node 4 -->
+  <circle cx="490" cy="200" r="12" fill="#f39c12"/>
+  <text x="490" y="170" fill="#f39c12" font-size="10" text-anchor="middle" font-weight="bold">07:30</text>
+  <text x="490" y="235" fill="#1a1a2e" font-size="10" text-anchor="middle" font-weight="bold">Stock dips 2.3%</text>
+  <text x="490" y="248" fill="#95a5a6" font-size="9" text-anchor="middle">on false narrative</text>
+
+  <!-- Node 5 -->
+  <circle cx="620" cy="200" r="12" fill="#27ae60"/>
+  <text x="620" y="170" fill="#27ae60" font-size="10" text-anchor="middle" font-weight="bold">09:45</text>
+  <text x="620" y="235" fill="#1a1a2e" font-size="10" text-anchor="middle" font-weight="bold">1 user notices</text>
+  <text x="620" y="248" fill="#95a5a6" font-size="9" text-anchor="middle">flags the error</text>
+
+  <!-- Node 6 -->
+  <circle cx="720" cy="200" r="12" fill="#27ae60"/>
+  <text x="720" y="170" fill="#27ae60" font-size="10" text-anchor="middle" font-weight="bold">12:30</text>
+  <text x="720" y="235" fill="#1a1a2e" font-size="10" text-anchor="middle" font-weight="bold">Correction</text>
+  <text x="720" y="248" fill="#95a5a6" font-size="9" text-anchor="middle">published</text>
+
+  <!-- Speed vs correction comparison -->
+  <rect x="150" y="310" width="250" height="35" fill="#e74c3c" opacity="0.1" rx="6"/>
+  <text x="275" y="332" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">5 minutes to create the lie</text>
+
+  <rect x="420" y="310" width="250" height="35" fill="#27ae60" opacity="0.1" rx="6"/>
+  <text x="545" y="332" fill="#27ae60" font-size="11" text-anchor="middle" font-weight="bold">6 hours to correct it</text>
+
+  <!-- Bottom line -->
+  <text x="400" y="375" fill="#95a5a6" font-size="10" text-anchor="middle">No explosion. No hospital affected. No contamination. 400 km between the two real events.</text>
+</svg>

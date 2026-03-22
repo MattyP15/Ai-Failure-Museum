@@ -1,0 +1,40 @@
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="800" height="420" fill="#f8f9fa" rx="8"/>
+  <text x="400" y="28" fill="#1a1a2e" font-size="16" text-anchor="middle" font-weight="bold">Self-Driving Shuttle — Map vs. Camera Conflict at Intersection</text>
+  <!-- Left: HD Map -->
+  <rect x="20" y="55" width="360" height="190" fill="white" rx="6" stroke="#2980b9" stroke-width="2"/>
+  <text x="200" y="78" fill="#2980b9" font-size="13" text-anchor="middle" font-weight="bold">HD Map Data (Pre-Built)</text>
+  <rect x="40" y="90" width="320" height="100" fill="#e8eaf6" rx="4"/>
+  <!-- Road with old stop line -->
+  <rect x="60" y="100" width="280" height="70" fill="#78909c"/>
+  <!-- Old stop line -->
+  <line x1="180" y1="100" x2="180" y2="170" stroke="white" stroke-width="4"/>
+  <text x="180" y="185" fill="#2980b9" font-size="9" text-anchor="middle">Stop line position (map)</text>
+  <text x="200" y="210" fill="#2980b9" font-size="10" text-anchor="middle">Last updated: January 2022</text>
+  <text x="200" y="228" fill="#95a5a6" font-size="9" text-anchor="middle">Map says stop HERE ↑</text>
+  <!-- Right: Camera View -->
+  <rect x="420" y="55" width="360" height="190" fill="white" rx="6" stroke="#27ae60" stroke-width="2"/>
+  <text x="600" y="78" fill="#27ae60" font-size="13" text-anchor="middle" font-weight="bold">Camera View (Real-Time)</text>
+  <rect x="440" y="90" width="320" height="100" fill="#e8f5e9" rx="4"/>
+  <rect x="460" y="100" width="280" height="70" fill="#78909c"/>
+  <!-- New stop line - moved 1.5m forward -->
+  <line x1="530" y1="100" x2="530" y2="170" stroke="white" stroke-width="4"/>
+  <!-- cycle box -->
+  <rect x="530" y="105" width="50" height="60" fill="none" stroke="#27ae60" stroke-width="2" stroke-dasharray="4"/>
+  <text x="555" y="138" fill="#27ae60" font-size="8" text-anchor="middle">Cycle</text>
+  <text x="555" y="148" fill="#27ae60" font-size="8" text-anchor="middle">box</text>
+  <text x="530" y="185" fill="#27ae60" font-size="9" text-anchor="middle">New stop line (1.5m forward)</text>
+  <text x="600" y="210" fill="#27ae60" font-size="10" text-anchor="middle">Repainted: March 2022</text>
+  <text x="600" y="228" fill="#95a5a6" font-size="9" text-anchor="middle">Camera says stop HERE ↑</text>
+  <!-- Conflict zone -->
+  <rect x="150" y="260" width="500" height="70" fill="#e74c3c" opacity="0.1" rx="8" stroke="#e74c3c" stroke-width="2"/>
+  <text x="400" y="282" fill="#e74c3c" font-size="14" text-anchor="middle" font-weight="bold">⚠ CONFLICT: Two inputs disagree</text>
+  <text x="400" y="300" fill="#1a1a2e" font-size="11" text-anchor="middle">Map says stop 1.5m back  |  Camera sees new line 1.5m forward</text>
+  <text x="400" y="318" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">Shuttle cannot resolve → SAFETY HOLD: 22 minutes, doors locked</text>
+  <!-- Bottom timeline -->
+  <rect x="50" y="350" width="700" height="55" fill="white" rx="6" stroke="#ddd"/>
+  <text x="400" y="370" fill="#1a1a2e" font-size="11" text-anchor="middle" font-weight="bold">Impact Over 3 Days</text>
+  <text x="100" y="390" fill="#1a1a2e" font-size="10">8 freezes at same junction</text>
+  <text x="340" y="390" fill="#1a1a2e" font-size="10">Tailbacks during peak hours</text>
+  <text x="580" y="390" fill="#e74c3c" font-size="10" font-weight="bold">Service suspended 2 weeks</text>
+</svg>

@@ -1,0 +1,44 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="800" height="500" fill="#f8f9fa" rx="8"/>
+  <text x="400" y="30" fill="#1a1a2e" font-size="16" text-anchor="middle" font-weight="bold">The Predictive Policing Feedback Loop</text>
+  <text x="400" y="50" fill="#95a5a6" font-size="11" text-anchor="middle">How a self-reinforcing cycle created 2+ years of over-policing</text>
+  <!-- Central circle -->
+  <circle cx="400" cy="275" r="180" fill="none" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10 5" opacity="0.3"/>
+  <!-- Node 1: Biased historical data (top) -->
+  <rect x="290" y="75" width="220" height="55" fill="white" rx="8" stroke="#e74c3c" stroke-width="2"/>
+  <text x="400" y="97" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">1. Biased Historical Data</text>
+  <text x="400" y="115" fill="#1a1a2e" font-size="9" text-anchor="middle">10 years of arrests reflecting existing</text>
+  <text x="400" y="127" fill="#1a1a2e" font-size="9" text-anchor="middle">policing priorities, not actual crime rates</text>
+  <!-- Arrow 1→2 -->
+  <path d="M 510 110 Q 580 130 590 185" fill="none" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Node 2: AI generates heatmap (right) -->
+  <rect x="540" y="185" width="220" height="55" fill="white" rx="8" stroke="#e74c3c" stroke-width="2"/>
+  <text x="650" y="207" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">2. AI Generates Heatmap</text>
+  <text x="650" y="225" fill="#1a1a2e" font-size="9" text-anchor="middle">Same 6 neighbourhoods flagged "high risk"</text>
+  <text x="650" y="237" fill="#1a1a2e" font-size="9" text-anchor="middle">every day for 2+ years</text>
+  <!-- Arrow 2→3 -->
+  <path d="M 650 240 Q 650 310 590 350" fill="none" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Node 3: More officers deployed (bottom right) -->
+  <rect x="440" y="340" width="220" height="55" fill="white" rx="8" stroke="#e74c3c" stroke-width="2"/>
+  <text x="550" y="362" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">3. More Officers Deployed</text>
+  <text x="550" y="380" fill="#1a1a2e" font-size="9" text-anchor="middle">Patrol commanders follow the map</text>
+  <text x="550" y="392" fill="#1a1a2e" font-size="9" text-anchor="middle">Resources concentrated in flagged areas</text>
+  <!-- Arrow 3→4 -->
+  <path d="M 440 375 Q 370 395 310 375" fill="none" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Node 4: More arrests (bottom left) -->
+  <rect x="140" y="340" width="220" height="55" fill="white" rx="8" stroke="#e74c3c" stroke-width="2"/>
+  <text x="250" y="362" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">4. More Arrests Made</text>
+  <text x="250" y="380" fill="#1a1a2e" font-size="9" text-anchor="middle">Minor offences (jaywalking, loitering)</text>
+  <text x="250" y="392" fill="#1a1a2e" font-size="9" text-anchor="middle">that go unpoliced in other areas</text>
+  <!-- Arrow 4→1 (back to top) -->
+  <path d="M 200 340 Q 160 260 290 120" fill="none" stroke="#e74c3c" stroke-width="3" marker-end="url(#arrowR)"/>
+  <text x="170" y="230" fill="#e74c3c" font-size="11" font-weight="bold" transform="rotate(-70 170 230)">Fed back as "evidence"</text>
+  <!-- Center label -->
+  <circle cx="400" cy="275" r="50" fill="#e74c3c" opacity="0.1"/>
+  <text x="400" y="270" fill="#e74c3c" font-size="12" text-anchor="middle" font-weight="bold">SELF-</text>
+  <text x="400" y="288" fill="#e74c3c" font-size="12" text-anchor="middle" font-weight="bold">REINFORCING</text>
+  <!-- Bottom stats -->
+  <rect x="150" y="430" width="500" height="50" fill="white" rx="6" stroke="#ddd"/>
+  <text x="400" y="450" fill="#1a1a2e" font-size="10" text-anchor="middle">Same 6 neighbourhoods — all low-income, majority-Black — flagged every day for 2+ years</text>
+  <text x="400" y="468" fill="#95a5a6" font-size="9" text-anchor="middle">Detected by: external university researchers, not the police department</text>
+</svg>

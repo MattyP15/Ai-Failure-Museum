@@ -1,0 +1,50 @@
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="800" height="420" fill="#f8f9fa" rx="8"/>
+  <text x="400" y="28" fill="#1a1a2e" font-size="16" text-anchor="middle" font-weight="bold">MegaCorp Stock Price — The 90-Second Flash Crash</text>
+  <!-- axes -->
+  <line x1="80" y1="60" x2="80" y2="340" stroke="#1a1a2e" stroke-width="2"/>
+  <line x1="80" y1="340" x2="750" y2="340" stroke="#1a1a2e" stroke-width="2"/>
+  <!-- y labels (stock price) -->
+  <text x="70" y="344" fill="#1a1a2e" font-size="10" text-anchor="end">$80</text>
+  <text x="70" y="274" fill="#1a1a2e" font-size="10" text-anchor="end">$85</text>
+  <text x="70" y="204" fill="#1a1a2e" font-size="10" text-anchor="end">$90</text>
+  <text x="70" y="134" fill="#1a1a2e" font-size="10" text-anchor="end">$95</text>
+  <text x="70" y="64" fill="#1a1a2e" font-size="10" text-anchor="end">$100</text>
+  <line x1="80" y1="270" x2="750" y2="270" stroke="#eee"/><line x1="80" y1="200" x2="750" y2="200" stroke="#eee"/>
+  <line x1="80" y1="130" x2="750" y2="130" stroke="#eee"/><line x1="80" y1="60" x2="750" y2="60" stroke="#eee"/>
+  <!-- time labels -->
+  <text x="120" y="358" fill="#1a1a2e" font-size="9" text-anchor="middle">09:30</text>
+  <text x="250" y="358" fill="#1a1a2e" font-size="9" text-anchor="middle">09:31</text>
+  <text x="350" y="358" fill="#e74c3c" font-size="9" text-anchor="middle" font-weight="bold">09:31:24</text>
+  <text x="420" y="358" fill="#e74c3c" font-size="9" text-anchor="middle" font-weight="bold">09:32:54</text>
+  <text x="550" y="358" fill="#1a1a2e" font-size="9" text-anchor="middle">09:35</text>
+  <text x="680" y="358" fill="#1a1a2e" font-size="9" text-anchor="middle">09:43</text>
+  <!-- price line: stable around $97, crash to $89, recovery -->
+  <!-- $97 = y ~82, $89 = y ~194, $80 = y ~340 -->
+  <!-- y = 340 - ((price-80)/20)*280 -->
+  <polyline points="80,82 120,82 180,84 250,82 300,80 340,82 350,82 355,100 360,130 370,160 380,190 390,194 400,196 410,194 420,190 440,170 460,150 480,130 500,110 520,95 550,88 600,84 650,82 700,80 750,82"
+    fill="none" stroke="#2980b9" stroke-width="2.5"/>
+  <!-- crash zone -->
+  <rect x="345" y="50" width="80" height="295" fill="#e74c3c" opacity="0.08"/>
+  <!-- annotation: satirical article -->
+  <line x1="350" y1="82" x2="350" y2="55" stroke="#e74c3c" stroke-width="1"/>
+  <rect x="180" y="45" width="190" height="35" fill="white" rx="4" stroke="#e74c3c"/>
+  <text x="275" y="60" fill="#e74c3c" font-size="9" text-anchor="middle" font-weight="bold">Satirical article published</text>
+  <text x="275" y="73" fill="#e74c3c" font-size="8" text-anchor="middle">"BREAKING: MegaCorp Bankruptcy..."</text>
+  <!-- annotation: bot trades -->
+  <line x1="355" y1="100" x2="355" y2="372" stroke="#e74c3c" stroke-width="1" stroke-dasharray="3"/>
+  <text x="360" y="390" fill="#e74c3c" font-size="8">Bot executes short (400ms)</text>
+  <!-- lowest point -->
+  <circle cx="400" cy="196" r="5" fill="#e74c3c"/>
+  <line x1="400" y1="196" x2="470" y2="230" stroke="#e74c3c" stroke-width="1"/>
+  <rect x="470" y="218" width="150" height="45" fill="white" rx="4" stroke="#e74c3c"/>
+  <text x="545" y="233" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">-8.2% in 90 seconds</text>
+  <text x="545" y="248" fill="#e74c3c" font-size="9" text-anchor="middle">~$340M value destroyed</text>
+  <text x="545" y="260" fill="#95a5a6" font-size="8" text-anchor="middle">Retail stop-losses triggered</text>
+  <!-- recovery annotation -->
+  <line x1="680" y1="82" x2="680" y2="60" stroke="#27ae60" stroke-width="1"/>
+  <text x="680" y="55" fill="#27ae60" font-size="9" text-anchor="middle">Recovery (12 min)</text>
+  <!-- bottom label -->
+  <rect x="200" y="395" width="400" height="20" fill="#e74c3c" opacity="0.08" rx="3"/>
+  <text x="400" y="409" fill="#e74c3c" font-size="10" text-anchor="middle">Bot couldn't tell satire from news — 400ms to crash, 12 min to recover</text>
+</svg>
