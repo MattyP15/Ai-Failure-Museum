@@ -1,16 +1,19 @@
 <!doctype html>
+{% load static %}
 <html>
-  <head><title>Register</title></head>
-  <body>
-    <h1>Register</h1>
-    <header class="appHeader">
-      <a href="/">
-        <button class="loginBtn">Home</button>
-      </a>
-      <a href="/login/">
-        <button class="loginBtn">Back to Login</button>
-      </a>
-    </header>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="{% static 'css/pages/register.css' %}">
+</head>
+
+<body>
+  <div class="registeration_containerr">
+    <div class="registeration_card">
+      <h1>Register</h1>
+      <header class="appHeader">
+        <a href="/"> <button class="loginBtn">Home</button></a>
+        <a href="/login/"><button class="loginBtn">Back to Login</button></a>
+      </header>
 
     {% if form.errors %}
       <p style="color:red;">Please correct the errors below.</p>
@@ -18,10 +21,14 @@
 
     <form method="post" action="">
       {% csrf_token %}
-      {{ form.as_p }}
+      <div class="form_body">
+        {{ form.as_p }}
+      </div>
       <button type="submit">Register</button>
     </form>
 
     <p>Already have an account? <a href="/login/">Log in</a></p>
-  </body>
+  </div>
+ </div>
+</body>
 </html>
