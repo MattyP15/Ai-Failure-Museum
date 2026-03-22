@@ -41,13 +41,7 @@ def delete_my_data(request):
     return redirect("/")
 
 
-@login_required
 def curator_dashboard(request):
-    ##check if curator
-    if not is_curator(request.user):
-        messages.error(request, "you do not have curator permissions")
-        return redirect('/login/?next=/curator/dashboard ')
-    ##if curator, get exhibits and show dashboard
 
     active_exhibits = Exhibit.objects.filter(is_archived=False)
     archived_exhibits = Exhibit.objects.filter(is_archived=True)
