@@ -218,6 +218,8 @@ def exhibit_detail(request, exhibit_id):
         if request.user.is_authenticated:
             is_bookmarked = Bookmark.objects.filter(user=request.user, exhibit=exhibit).exists()
 
+        user_is_curator = is_curator(request.user)
+
         return render(request, 'curator/exhibit_detail.html', {
             'exhibit': exhibit,
             'quizzes': quizzes,
@@ -226,10 +228,27 @@ def exhibit_detail(request, exhibit_id):
             'comments': comments,
             'comment_form': comment_form,
             'is_bookmarked': is_bookmarked,
+            'is_curator': user_is_curator,
         })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
         return redirect('/')
+
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    exhibit_id = comment.exhibit.id
+
+    if request.method == 'POST':
+        if comment.user == request.user or is_curator(request.user):
+            comment.delete()
+            messages.success(request, 'Comment deleted.')
+        else:
+            messages.error(request, 'You do not have permission to delete this comment.')
+
+    return redirect('exhibit_detail', exhibit_id=exhibit_id)
+
 
 def take_quiz(request, quiz_id):
     try:

@@ -142,6 +142,110 @@
         color: var(--body-txt);
     }
 
+    .commentsSection {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .commentsSection h2 {
+        font-size: 48px;
+        color: var(--main-txt);
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
+    .commentForm {
+        margin-bottom: 2rem;
+    }
+
+    .commentForm p {
+        margin: 0 0 0.5rem;
+    }
+
+    .commentForm textarea {
+        width: 100%;
+        min-height: 80px;
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        padding: 12px;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        resize: vertical;
+    }
+
+    .commentForm textarea:focus {
+        outline: none;
+        border-color: var(--accent3-color);
+    }
+
+    .commentLoginPrompt {
+        font-size: 16px;
+        color: var(--body-txt);
+        margin-bottom: 2rem;
+    }
+
+    .commentLoginPrompt a {
+        color: var(--accent3-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .commentCard {
+        background: var(--surface-color);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .commentHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .commentAuthor {
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--main-txt);
+    }
+
+    .commentDate {
+        font-size: 13px;
+        color: var(--body-txt);
+    }
+
+    .commentBody {
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--body-txt);
+        margin: 0 0 0.75rem;
+    }
+
+    .deleteCommentBtn {
+        font-family: 'Inter', sans-serif;
+        background: none;
+        border: 1px solid #dadce0;
+        border-radius: 6px;
+        color: var(--body-txt);
+        font-size: 13px;
+        padding: 4px 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .deleteCommentBtn:hover {
+        border-color: #c62828;
+        color: #c62828;
+        background: #fef2f2;
+    }
+
+    .noComments {
+        font-size: 16px;
+        color: var(--body-txt);
+    }
+
     .timeline {
         position: relative;
         max-width: 900px;

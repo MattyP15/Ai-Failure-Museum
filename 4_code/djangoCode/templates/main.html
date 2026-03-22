@@ -89,7 +89,7 @@
                     <h1><strong>AI Failure Museum</strong></h1>
 
                     <p>
-                        AI systems are becoming more commonly used in high-stakes contexts, but they can and do fail in ways that are harmful to people, systems, and the enviroment. The AI Failure Museum is a collection of case studies documenting real world examples of AI failures, with the goal of educating the public about the risks of depending on AI systems to make important decisions.
+                        Real stories of AI gone wrong. Learn from the failures shaping our future.
                     </p>
                     <div class="titleButtons">
                         <a href = "/search" class="exploreBtn">
@@ -100,9 +100,20 @@
                         </a>
                     </div>
                 </div>
-                <div class="titleVideo">
-                    <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=800&q=80" alt="Space">
+                {% if random_exhibit %}
+                <a href="{% url 'exhibit_detail' random_exhibit.id %}" class="featuredExhibit">
+                    <span class="featuredLabel">Featured Exhibit</span>
+                    <h2>{{ random_exhibit.title }}</h2>
+                    <p>{{ random_exhibit.description }}</p>
+                    <span class="featuredLink">Read case study →</span>
+                </a>
+                {% else %}
+                <div class="featuredExhibit">
+                    <span class="featuredLabel">Featured Exhibit</span>
+                    <h2>Coming Soon</h2>
+                    <p>Exhibits are being added to the museum.</p>
                 </div>
+                {% endif %}
             </div>
         </div>
 

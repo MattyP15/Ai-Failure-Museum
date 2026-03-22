@@ -1,0 +1,144 @@
+[
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Curators",
+      "permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$ogKXwNBTRe4yq1vTozzBE2$wIoq9EdIGgaZ4VV8unxv7Rs5KIY74pMNJfG1wWBqxEc=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "Admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-02-17T00:00:00Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$Cy8yHN1BMZxjsOLcjELZaJ$KUoPMaMyeSKM/nfuu+tJPl5CEG6fQsU/1aUBEVco2QQ=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "curator_demo",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-02-17T00:00:00Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$tFRzQXwPEJN3R3TQzE6hnr$VhXCO3YZ4aWFy3OzEgXqMBVkC7PVd7jz6oFRrBMhqA0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "visitor",
+      "first_name": "",
+      "last_name": "",
+      "email": "visitor@museum.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-02-17T00:00:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$yafI3iulPUkQJwScdAsNBq$Qh7sozhZH+ul1HDJ17BfFNB340JkDukT1tvG6B/rMbg=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "VisitorUser",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-02-19T00:25:34Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.badge",
+    "pk": 1,
+    "fields": {
+      "code": "first_steps",
+      "name": "First Steps",
+      "description": "Earned your first point",
+      "points_threshold": 1
+    }
+  },
+  {
+    "model": "museum.badge",
+    "pk": 2,
+    "fields": {
+      "code": "quiz_master",
+      "name": "Quiz Master",
+      "description": "Completed multiple quizzes",
+      "points_threshold": 15
+    }
+  },
+  {
+    "model": "museum.badge",
+    "pk": 3,
+    "fields": {
+      "code": "failure_expert",
+      "name": "Failure Expert",
+      "description": "Deep understanding of AI failures",
+      "points_threshold": 50
+    }
+  }
+]

@@ -255,6 +255,38 @@
         </div>
         {% endif %}
 
+        <div class="commentsSection">
+            <h2>Comments</h2>
+
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'exhibit_detail' exhibit.id %}" class="commentForm">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" class="exploreBtn">Post Comment</button>
+            </form>
+            {% else %}
+            <p class="commentLoginPrompt"><a href="/login/">Log in</a> to leave a comment.</p>
+            {% endif %}
+
+            {% for comment in comments %}
+            <div class="commentCard">
+                <div class="commentHeader">
+                    <span class="commentAuthor">{{ comment.user.username }}</span>
+                    <span class="commentDate">{{ comment.created_at|date:"M d, Y" }}</span>
+                </div>
+                <p class="commentBody">{{ comment.body }}</p>
+                {% if comment.user == user or is_curator %}
+                <form method="post" action="{% url 'delete_comment' comment.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="deleteCommentBtn">Delete</button>
+                </form>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="noComments">No comments yet.</p>
+            {% endfor %}
+        </div>
+
         <div class="appFooter">
             <p class="footerText">Copyright © 2026 Ai Museum All rights reserved.</p>
             <div class="rightItemsFooter">

@@ -39,6 +39,7 @@ urlpatterns = [
     ##public routes
     path("exhibit/<int:exhibit_id>/", views.exhibit_detail, name="exhibit_detail"),
     path("exhibit/<int:exhibit_id>/bookmark/", views.toggle_bookmark, name="toggle_bookmark"),
+    path("comment/<int:comment_id>/delete/", views.delete_comment, name="delete_comment"),
     path("my-bookmarks/", views.my_bookmarks, name="my_bookmarks"),
 
     path("community/", views.community_gallery, name="community_gallery"),

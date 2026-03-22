@@ -1,0 +1,417 @@
+[
+  {
+    "model": "museum.quiz",
+    "pk": 1,
+    "fields": {
+      "exhibit": 1,
+      "title": "UK Flood Risk Quiz",
+      "description": "Test your understanding of why the flood model failed",
+      "is_active": true,
+      "points_for_completion": 3
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 1,
+    "fields": {
+      "quiz": 1,
+      "prompt": "Did the UK flood models account for climate change?",
+      "qtype": "mc",
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 1,
+    "fields": {
+      "question": 1,
+      "text": "No, they used outdated historical data",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 2,
+    "fields": {
+      "question": 1,
+      "text": "Yes, they included future climate scenarios",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 2,
+    "fields": {
+      "quiz": 1,
+      "prompt": "How long did it take for the approved developments to flood?",
+      "qtype": "mc",
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 3,
+    "fields": {
+      "question": 2,
+      "text": "Within 5 years",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 4,
+    "fields": {
+      "question": 2,
+      "text": "Within 50 years",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 3,
+    "fields": {
+      "quiz": 1,
+      "prompt": "Should flood models be regularly updated with recent data?",
+      "qtype": "mc",
+      "order": 3
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 5,
+    "fields": {
+      "question": 3,
+      "text": "Yes, especially to reflect climate change",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 6,
+    "fields": {
+      "question": 3,
+      "text": "No, historical data is always sufficient",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.quiz",
+    "pk": 2,
+    "fields": {
+      "exhibit": 4,
+      "title": "Wildlife Detection Quiz",
+      "description": "Understanding geographic transfer failures",
+      "is_active": true,
+      "points_for_completion": 3
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 4,
+    "fields": {
+      "quiz": 2,
+      "prompt": "Can AI trained in one region work perfectly in another?",
+      "qtype": "mc",
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 7,
+    "fields": {
+      "question": 4,
+      "text": "No, it needs retraining for new environments",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 8,
+    "fields": {
+      "question": 4,
+      "text": "Yes, AI works the same everywhere",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 5,
+    "fields": {
+      "quiz": 2,
+      "prompt": "Where was the wildlife AI originally trained?",
+      "qtype": "mc",
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 9,
+    "fields": {
+      "question": 5,
+      "text": "North America",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 10,
+    "fields": {
+      "question": 5,
+      "text": "Africa",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 6,
+    "fields": {
+      "quiz": 2,
+      "prompt": "Should models be tested extensively before deployment in new regions?",
+      "qtype": "mc",
+      "order": 3
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 11,
+    "fields": {
+      "question": 6,
+      "text": "Yes, to catch regional differences",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 12,
+    "fields": {
+      "question": 6,
+      "text": "No, testing is unnecessary",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.quiz",
+    "pk": 3,
+    "fields": {
+      "exhibit": 10,
+      "title": "COMPAS & Criminal Justice Quiz",
+      "description": "Test your understanding of algorithmic bias in the justice system",
+      "is_active": true,
+      "points_for_completion": 3
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 7,
+    "fields": {
+      "quiz": 3,
+      "prompt": "What did ProPublica's investigation reveal about COMPAS?",
+      "qtype": "mc",
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 13,
+    "fields": {
+      "question": 7,
+      "text": "It was twice as likely to falsely flag Black defendants as high-risk",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 14,
+    "fields": {
+      "question": 7,
+      "text": "It treated all defendants equally regardless of race",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 8,
+    "fields": {
+      "quiz": 3,
+      "prompt": "Why did the algorithm produce biased results?",
+      "qtype": "mc",
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 15,
+    "fields": {
+      "question": 8,
+      "text": "Training data reflected existing racial disparities in arrests",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 16,
+    "fields": {
+      "question": 8,
+      "text": "The developers intentionally introduced bias",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.quiz",
+    "pk": 4,
+    "fields": {
+      "exhibit": 13,
+      "title": "AI Hallucinations Quiz",
+      "description": "Understanding the risks of LLM-generated content",
+      "is_active": true,
+      "points_for_completion": 3
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 9,
+    "fields": {
+      "quiz": 4,
+      "prompt": "How many fabricated cases did the lawyer submit to court?",
+      "qtype": "mc",
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 17,
+    "fields": {
+      "question": 9,
+      "text": "Six",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 18,
+    "fields": {
+      "question": 9,
+      "text": "One",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 10,
+    "fields": {
+      "quiz": 4,
+      "prompt": "What is the best way to use AI-generated legal research?",
+      "qtype": "mc",
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 19,
+    "fields": {
+      "question": 10,
+      "text": "Always verify claims against primary sources",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 20,
+    "fields": {
+      "question": 10,
+      "text": "Trust AI output if it sounds confident",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.quiz",
+    "pk": 5,
+    "fields": {
+      "exhibit": 12,
+      "title": "Autonomous Vehicle Safety Quiz",
+      "description": "Lessons from the Uber self-driving car incident",
+      "is_active": true,
+      "points_for_completion": 3
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 11,
+    "fields": {
+      "quiz": 5,
+      "prompt": "What did the Uber self-driving system do when it detected the pedestrian?",
+      "qtype": "mc",
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 21,
+    "fields": {
+      "question": 11,
+      "text": "It kept reclassifying her as different objects and never resolved what she was",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 22,
+    "fields": {
+      "question": 11,
+      "text": "It immediately identified her and braked",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 12,
+    "fields": {
+      "quiz": 5,
+      "prompt": "Why was the emergency braking system not activated?",
+      "qtype": "mc",
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 23,
+    "fields": {
+      "question": 12,
+      "text": "It had been deliberately disabled during testing",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 24,
+    "fields": {
+      "question": 12,
+      "text": "It malfunctioned due to a hardware fault",
+      "is_correct": false,
+      "order": 2
+    }
+  }
+]

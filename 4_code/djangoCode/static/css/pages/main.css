@@ -36,11 +36,49 @@
         align-items: stretch;
     }
 
-    .titleVideo{
+    .featuredExhibit {
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         background-color: var(--accent3-color);
         flex: 1;
-        justify-content: center;
+        padding: 2.5rem;
+        text-decoration: none;
+        color: #ffffff;
+        border-radius: 0;
+        transition: background-color 0.2s ease;
+    }
+
+    .featuredExhibit:hover {
+        background-color: color-mix(in srgb, var(--accent3-color) 85%, black);
+    }
+
+    .featuredLabel {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.8;
+        margin-bottom: 0.75rem;
+    }
+
+    .featuredExhibit h2 {
+        font-size: 28px;
+        font-weight: 600;
+        margin: 0 0 0.75rem;
+        line-height: 1.2;
+    }
+
+    .featuredExhibit p {
+        font-size: 15px;
+        line-height: 1.5;
+        opacity: 0.9;
+        margin: 0 0 1.5rem;
+    }
+
+    .featuredLink {
+        font-size: 15px;
+        font-weight: 500;
     }
 
     .video{
