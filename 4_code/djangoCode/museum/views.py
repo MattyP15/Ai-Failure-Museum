@@ -44,6 +44,7 @@ def delete_my_data(request):
 def curator_dashboard(request):
 
     active_exhibits = Exhibit.objects.filter(is_archived=False)
+    user_submissions = UserSubmission.objects.filter(status='pending')
     archived_exhibits = Exhibit.objects.filter(is_archived=True)
     categories = Category.objects.all()
     total_quizzes = Quiz.objects.count()
@@ -59,7 +60,8 @@ def curator_dashboard(request):
         'active_exhibits': active_exhibits,
         'archived_exhibits': archived_exhibits,
         'total_quizzes': total_quizzes,
-        'bookmarked_exhibits': bookmarked_exhibits})
+        'bookmarked_exhibits': bookmarked_exhibits,
+        'user_submissions' : user_submissions})
 
 
 

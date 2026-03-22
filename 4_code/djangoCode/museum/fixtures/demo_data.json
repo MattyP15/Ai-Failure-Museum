@@ -1,4 +1,16 @@
-[
+[ 
+  {
+    "model": "museum.usersubmission",
+    "pk": 1,
+    "fields": {
+      "submitted_at": "2026-03-22T20:30:00Z",
+      "title": "Community Found Glitch",
+      "description": "User discovered this weird edge case.",
+      "category": 1,
+      "author": 1,
+      "status": "pending"
+    }
+  },
   {
     "model": "museum.category",
     "pk": 1,

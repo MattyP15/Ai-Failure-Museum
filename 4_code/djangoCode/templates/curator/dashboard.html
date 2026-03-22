@@ -192,6 +192,36 @@
             {% endif %}
         </div>
     </div>
+
+
+    {% if user.is_authenticated %}
+    <div class="dashboardContent">
+        <div class="listContainer">
+            <div class="listHeader">
+                <span><strong>Upload Requests</strong></span>
+                <span><strong>Category</strong></span>
+                <span><strong>Summary</strong></span>
+                <span class="actionsHeader"><strong>Actions</strong></span>
+            </div>
+            {% for sub in user_submissions %}
+                <div class="exhibitBox">
+                    <span class="exhibitTitle">{{ sub.title|truncatewords:4 }}</span>
+
+                    <span class="exhibitCategory">
+                        {% if exhibit.category %}{{ sub.category.name|truncatewords:2 }}{% else %}-{% endif %}
+                    </span>
+
+                    <span class="exhibitSummary">{{ sub.description|truncatewords:10 }}</span>
+
+                    <div class="exhibitActions">
+                    </div>
+                </div>
+                {% empty %}
+                <p class="emptyMsg">No submissions yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
