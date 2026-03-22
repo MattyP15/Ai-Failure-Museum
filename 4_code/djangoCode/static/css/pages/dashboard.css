@@ -1,5 +1,5 @@
 .pageContent{
-    background-color: var(--surface-color);
+    background-color: var(--bg-color);
 }
 
 .titleContainer{
@@ -24,14 +24,15 @@
 
 .dashboardContent {
     background-color: var(--surface-color);
-    
     border-radius: 16px;
-    
     padding: 8px 0; 
-    
     overflow: hidden;
-    
-    box-shadow: var(--shadow-md)
+    box-shadow: var(--shadow-md);
+    border: 1px solid #dadce0;
+}
+
+.dashboardContent:not(:last-of-type) {
+    margin-bottom: 48px;
 }
 
 .curatorTitle {
@@ -85,15 +86,11 @@
     align-items: center;
     padding: 12px 24px;
     border-bottom: 1px solid #dadce0;
-    transition: background 0.2s ease;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .exhibitBox:last-child {
     border-bottom: none;
-}
-
-.exhibitBox:hover {
-    background-color: rgba(255, 255, 255, 0.03);
 }
 
 .exhibitTitle {
@@ -118,7 +115,7 @@
     padding: 4px 10px;
     border-radius: 4px;
     cursor: pointer;
-    transition: transform 0.1s ease, filter 0.2s;
+    transition: all 0.2s ease;
     border-radius: 999px;
 }
 
@@ -135,8 +132,8 @@
 }
 
 .iconBtn:hover {
-    box-shadow: var(--shadow-md);
-    filter: brightness(1.3);
+    background-color: color-mix(in srgb, var(--surface-color) 85%, black);
+    box-shadow: var(--shadow-sm);
 }
 
 

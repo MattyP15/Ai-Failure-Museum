@@ -5,7 +5,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
-  <link rel="stylesheet" type="text/css" href={% static "css/pages/login.css" %}>
+  <link rel="stylesheet" type="text/css" href={% static "css/variables.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/pages/login.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/mainButtons.css" %}>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +19,8 @@
 <body class="Login_Page">
   <div class="Login_Card">
     <div class="Login_Card_Header">
-      <h1 class="Login_h1">Login</h1>
+      <h1 class="Login_h1"><strong>Login</strong></h1>
+      <p>Login to contribute new cases, earn point and see account statistics</p>
     </div>
    
     {% if form.errors %}
@@ -25,11 +31,9 @@
       {% csrf_token %}
       <div class="Login_Field">
       {{ form.username }}
-      <label for="{{ form.username.id_for_label}}" class="Login_f_label">Username</label>
       </div>
       <div class="Login_Field">
         {{ form.password}}
-        <label for="{{ form.password.id_for_label}}" class="Login_f_label">Password</label>
       </div>
 
       {% if next %}
@@ -37,8 +41,8 @@
       {% endif %}
 
       <div class="Login_Actions">
-        <a href="/register/" class="Register_Link">Register</a>
-        <button type="submit" class="Submit_Btn">Sign in</button>
+        <a href="/register/" class="aboutBtn">Register</a>
+        <button type="submit" class="exploreBtn">Sign in</button>
       </div>
     </form>
   </div>

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Submit Exhibit - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/submit.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/components/mainButtons.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="headingContainer">
+        <div class="heading">
+            <a href="/"><button>&larr; Back home</button></a>
+            <h1><strong>Submit Exhibit</strong></h1>
+            <p>Submit user request</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="editBox">
+            <div class="content">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <h2>Exhibit Info</h2>
+
+                    <div class="form-group">
+                        <label for="title">Title*</label>
+                        <input id="title" name="title" type="text" placeholder="Exhibit title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category">
+                            <option value="">Select category</option>
+                            {% if categories %}
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description*</label>
+                        <textarea id="description" name="description" rows="4" placeholder="Describe the exhibit" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="what_went_wrong">What Went Wrong</label>
+                        <textarea id="what_went_wrong" name="what_went_wrong" rows="4" placeholder="What failed and why"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="who_affected">Who Was Affected</label>
+                        <textarea id="who_affected" name="who_affected" rows="3" placeholder="People or groups impacted"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="source_url">Source URL</label>
+                        <input id="source_url" name="source_url" type="url" placeholder="https://example.com/source">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="artefact">Artefact</label>
+                        <input id="artefact" name="artefact" type="file">
+                    </div>
+
+                    <div class="buttonsDiv">
+                        <a href="/curator/dashboard/" class="aboutBtn">Cancel</a>
+                        <button type="submit" class="exploreBtn">Submit Exhibit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
