@@ -10,8 +10,8 @@ from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge, TimelineEvent
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit, Category
-from .forms import ExhibitForm, QuizForm
+from .models import Exhibit, Category, Comment, Bookmark, UserSubmission
+from .forms import ExhibitForm, QuizForm, CommentForm, UserSubmissionForm
 from .rbac import is_curator
 
 
@@ -198,14 +198,34 @@ def exhibit_detail(request, exhibit_id):
         if exhibit.is_archived and not is_curator(request.user):
             messages.error(request, "This exhibit is archived and not available to the public.")
             return redirect('/')
-        
+
+        if request.method == 'POST' and request.user.is_authenticated:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.exhibit = exhibit
+                new_comment.user = request.user
+                new_comment.save()
+                return redirect('exhibit_detail', exhibit_id=exhibit_id)
+        else:
+            comment_form = CommentForm()
+
         quizzes = exhibit.quizzes.filter(is_active=True)
         timeline_events = exhibit.timeline_events.all()
+        comments = exhibit.comments.all()
+
+        is_bookmarked = False
+        if request.user.is_authenticated:
+            is_bookmarked = Bookmark.objects.filter(user=request.user, exhibit=exhibit).exists()
+
         return render(request, 'curator/exhibit_detail.html', {
             'exhibit': exhibit,
             'quizzes': quizzes,
             'categories': categories,
             'timeline_events': timeline_events,
+            'comments': comments,
+            'comment_form': comment_form,
+            'is_bookmarked': is_bookmarked,
         })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
@@ -413,4 +433,97 @@ def toggle_archive_exhibit(request, exhibit_id):
     action = "archived" if exhibit.is_archived else "unarchived"
     print(request, f'exhibit "{exhibit_title}" {action} successfully')
     return redirect('curator_dashboard')
+
+
+@login_required
+def toggle_bookmark(request, exhibit_id):
+    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+    bookmark, created = Bookmark.objects.get_or_create(user=request.user, exhibit=exhibit)
+    if not created:
+        bookmark.delete()
+    return redirect('exhibit_detail', exhibit_id=exhibit_id)
+
+
+@login_required
+def my_bookmarks(request):
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('exhibit', 'exhibit__category')
+    return render(request, 'museum/my_bookmarks.html', {
+        'bookmarks': bookmarks,
+    })
+
+
+def community_gallery(request):
+    submissions = UserSubmission.objects.filter(status=UserSubmission.APPROVED).select_related('author', 'category')
+    return render(request, 'community/gallery.html', {
+        'submissions': submissions,
+    })
+
+
+def community_submission_detail(request, submission_id):
+    submission = get_object_or_404(UserSubmission, id=submission_id, status=UserSubmission.APPROVED)
+    return render(request, 'community/submission_detail.html', {
+        'submission': submission,
+    })
+
+
+@login_required
+def submit_exhibit(request):
+    if request.method == 'POST':
+        form = UserSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.author = request.user
+            submission.save()
+            messages.success(request, 'Your exhibit has been submitted for review.')
+            return redirect('community_gallery')
+    else:
+        form = UserSubmissionForm()
+    return render(request, 'community/submit.html', {
+        'form': form,
+    })
+
+
+@login_required
+def my_submissions(request):
+    submissions = UserSubmission.objects.filter(author=request.user)
+    return render(request, 'community/my_submissions.html', {
+        'submissions': submissions,
+    })
+
+
+@login_required
+def review_pool(request):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/')
+    pending = UserSubmission.objects.filter(status=UserSubmission.PENDING).select_related('author', 'category')
+    return render(request, 'curator/review_pool.html', {
+        'pending': pending,
+    })
+
+
+@login_required
+def review_submission(request, submission_id):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/')
+    submission = get_object_or_404(UserSubmission, id=submission_id)
+    if request.method == 'POST':
+        from django.utils import timezone
+        action = request.POST.get('action')
+        note = request.POST.get('reviewer_note', '')
+        submission.reviewed_by = request.user
+        submission.reviewer_note = note
+        submission.reviewed_at = timezone.now()
+        if action == 'approve':
+            submission.status = UserSubmission.APPROVED
+            messages.success(request, f'"{submission.title}" has been approved.')
+        elif action == 'deny':
+            submission.status = UserSubmission.DENIED
+            messages.success(request, f'"{submission.title}" has been denied.')
+        submission.save()
+        return redirect('review_pool')
+    return render(request, 'curator/review_submission.html', {
+        'submission': submission,
+    })
   

@@ -29,3 +29,9 @@ uploads/
 
 # Render specific
 render.yaml
+
+# OS files
+.DS_Store
+
+# Virtual environment
+.venv/
