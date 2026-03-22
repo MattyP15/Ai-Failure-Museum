@@ -39,7 +39,7 @@
             <a class="mostViewedCard" href="{% url 'exhibit_detail' failure.id %}">
                 <h3>{{ failure.title }}</h3>
                 <p>{{ failure.description }}</p>
-                <div class="views">👁️ 0 views</div>
+                <div class="views">👁️ {{ failure.view_count }} views</div>
             </a>
             {% endfor %}
         </div>  

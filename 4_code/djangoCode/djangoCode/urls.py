@@ -26,6 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.homepage),
     path("category/<slug:slug>/", views.category, name="category_detail"),
+    path("submit/", views.submit_page, name="submit_page"),
     path("login/", auth_views.LoginView.as_view(template_name='registration/login.html', authentication_form=UserLoginForm), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path('', include('museum.urls')),
