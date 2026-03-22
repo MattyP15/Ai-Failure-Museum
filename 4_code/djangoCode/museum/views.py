@@ -10,7 +10,8 @@ from .gamification import award_points
 from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit, Category, Comment, Bookmark, UserSubmission
+from .models import Exhibit, Category, Comment, Bookmark, UserSubmission, ExhibitView
+from django.db.models import F
 from .forms import ExhibitForm, QuizForm, CommentForm, UserSubmissionForm
 from .rbac import is_curator
 
@@ -199,6 +200,17 @@ def exhibit_detail(request, exhibit_id):
         if exhibit.is_archived and not is_curator(request.user):
             messages.error(request, "This exhibit is archived and not available to the public.")
             return redirect('/')
+        if not request.session.session_key:
+            request.session.create()
+
+        session_key = request.session.session_key
+        already_viewed = ExhibitView.objects.filter(exhibit=exhibit, session_key=session_key).exists()
+
+
+        if not already_viewed:
+            ExhibitView.objects.create(exhibit=exhibit, session_key=request.session.session_key, user=request.user if request.user.is_authenticated else None)
+            Exhibit.objects.filter(id=exhibit_id).update(view_count=F('view_count')+1)
+            exhibit.refresh_from_db()
 
         if request.method == 'POST' and request.user.is_authenticated:
             comment_form = CommentForm(request.POST)
@@ -217,6 +229,7 @@ def exhibit_detail(request, exhibit_id):
         is_bookmarked = False
         if request.user.is_authenticated:
             is_bookmarked = Bookmark.objects.filter(user=request.user, exhibit=exhibit).exists()
+            unique_views = ExhibitView.objects.filter(exhibit=exhibit).values('session_key').distinct().count()
 
         return render(request, 'curator/exhibit_detail.html', {
             'exhibit': exhibit,
@@ -225,6 +238,7 @@ def exhibit_detail(request, exhibit_id):
             'comments': comments,
             'comment_form': comment_form,
             'is_bookmarked': is_bookmarked,
+            'unique_views': unique_views,
         })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
