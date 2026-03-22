@@ -187,11 +187,11 @@ def exhibit_detail(request, exhibit_id):
             request.session.create()
         
         session_key = request.session.session_key
-        already_viewed = Exhibit.objects.filter(exhibit=exhibit, session_key=session_key).exists()
+        already_viewed = ExhibitView.objects.filter(exhibit=exhibit, session_key=session_key).exists()
 
         if not already_viewed:
             ExhibitView.objects.create( exhibit=exhibit, session_key=session_key, user=request.user if request.user.is_authenticated else None,)
-            Exhibit.object.filter(id=exhibit_id).update(view_count=F('view_count')+ 1)
+            Exhibit.objects.filter(id=exhibit_id).update(view_count=F('view_count')+ 1)
             exhibit.refresh_from_db()
 
         if request.method == 'POST' and request.user.is_authenticated:
@@ -212,7 +212,8 @@ def exhibit_detail(request, exhibit_id):
         is_bookmarked = False
         if request.user.is_authenticated:
             is_bookmarked = Bookmark.objects.filter(user=request.user, exhibit=exhibit).exists()
-            unique_views = ExhibitView.objects.filter(exhibit=exhibit).values('session_key').distinct().count()
+            
+        unique_views = ExhibitView.objects.filter(exhibit=exhibit).values('session_key').distinct().count()
 
         return render(request, 'curator/exhibit_detail.html', {
             'exhibit': exhibit,
