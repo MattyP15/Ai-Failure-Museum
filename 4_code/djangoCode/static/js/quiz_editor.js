@@ -1,57 +1,58 @@
-let questionCount = parseInt(document.getElementById('question_count')?.value) || 0;
+// ─── QUIZ EDITOR ────────────────────────────────────────────────────────────
 
-function renumber() {
-    const boxes = document.querySelectorAll('.question-box');
-    questionCount = boxes.length;
-    document.getElementById('question_count').value = questionCount;
+function renumber(quizNum) {
+    const boxes = document.querySelectorAll(`#questions-container-${quizNum} .question-box`);
+    const countInput = document.getElementById(`question_count_${quizNum}`);
+    if (!countInput) return;
+    countInput.value = boxes.length;
 
     boxes.forEach((box, qi) => {
         const qNum = qi + 1;
-        box.id = `question-${qNum}`;
+        box.id = `quiz${quizNum}-question-${qNum}`;
         box.querySelector('h3').textContent = `Question ${qNum}`;
-        box.querySelector('.question-prompt').name = `question_${qNum}_prompt`;
-        box.querySelector('.option-count').name = `question_${qNum}_option_count`;
+        box.querySelector('.question-prompt').name = `quiz_${quizNum}_question_${qNum}_prompt`;
+        box.querySelector('.option-count').name = `quiz_${quizNum}_question_${qNum}_option_count`;
 
         const options = box.querySelectorAll('.options-container > div');
         box.querySelector('.option-count').value = options.length;
 
         options.forEach((opt, oi) => {
             const oNum = oi + 1;
-            opt.querySelector('input[type="text"]').name = `question_${qNum}_option_${oNum}`;
+            opt.querySelector('input[type="text"]').name = `quiz_${quizNum}_question_${qNum}_option_${oNum}`;
             const radio = opt.querySelector('input[type="radio"]');
-            radio.name = `question_${qNum}_correct`;
+            radio.name = `quiz_${quizNum}_question_${qNum}_correct`;
             radio.value = oNum;
         });
     });
 }
 
-function addQuestion() {
-    const container = document.getElementById('questions-container');
+function addQuestion(quizNum) {
+    const container = document.getElementById(`questions-container-${quizNum}`);
     const div = document.createElement('div');
     div.className = 'question-box';
     div.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <h3 style="margin:0;"></h3>
-            <button type="button" onclick="removeQuestion(this)" style="color:red;">✕ Remove</button>
+            <button type="button" onclick="removeQuestion(this, ${quizNum})" style="color:red;">✕ Remove</button>
         </div>
         <label>Question Text:</label>
-        <textarea class="question-prompt" name="prompt_placeholder" rows="2" placeholder="Enter question..."></textarea>
+        <textarea class="question-prompt" name="placeholder" rows="2" placeholder="Enter question..."></textarea>
         <div class="options-container"></div>
-        <input type="hidden" name="option_count_placeholder" value="0" class="option-count" />
-        <button type="button" onclick="addOption(this)" style="margin-top:8px;">+ Add Option</button>
+        <input type="hidden" name="placeholder" value="0" class="option-count" />
+        <button type="button" onclick="addOption(this, ${quizNum})" style="margin-top:8px;">+ Add Option</button>
     `;
     container.appendChild(div);
-    renumber();
-    addOption(div.querySelector('button[onclick="addOption(this)"]'));
-    addOption(div.querySelector('button[onclick="addOption(this)"]'));
+    renumber(quizNum);
+    addOption(div.querySelector(`button[onclick="addOption(this, ${quizNum})"]`), quizNum);
+    addOption(div.querySelector(`button[onclick="addOption(this, ${quizNum})"]`), quizNum);
 }
 
-function removeQuestion(btn) {
+function removeQuestion(btn, quizNum) {
     btn.closest('.question-box').remove();
-    renumber();
+    renumber(quizNum);
 }
 
-function addOption(btn) {
+function addOption(btn, quizNum) {
     const box = btn.closest('.question-box');
     const optionsContainer = box.querySelector('.options-container');
     const div = document.createElement('div');
@@ -61,23 +62,24 @@ function addOption(btn) {
         <label style="white-space:nowrap;">
             <input type="radio" name="placeholder_correct" value="0" /> Correct
         </label>
-        <button type="button" onclick="removeOption(this)" style="color:red;">✕</button>
+        <button type="button" onclick="removeOption(this, ${quizNum})" style="color:red;">✕</button>
     `;
     optionsContainer.appendChild(div);
-    renumber();
+    renumber(quizNum);
 }
 
-function removeOption(btn) {
+function removeOption(btn, quizNum) {
     btn.closest('div').remove();
-    renumber();
+    renumber(quizNum);
 }
 
-let eventCount = parseInt(document.getElementById('event_count')?.value) || 0;
+// ─── TIMELINE EDITOR ────────────────────────────────────────────────────────
 
 function renumberEvents() {
     const boxes = document.querySelectorAll('.event-box');
-    eventCount = boxes.length;
-    document.getElementById('event_count').value = eventCount;
+    const countInput = document.getElementById('event_count');
+    if (!countInput) return;
+    countInput.value = boxes.length;
 
     boxes.forEach((box, i) => {
         const num = i + 1;

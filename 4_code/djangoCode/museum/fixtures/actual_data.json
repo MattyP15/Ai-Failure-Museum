@@ -1,0 +1,628 @@
+[ 
+  {
+    "model": "museum.usersubmission",
+    "pk": 1,
+    "fields": {
+      "submitted_at": "2026-03-22T20:30:00Z",
+      "title": "Community Found Glitch",
+      "description": "User discovered this weird edge case.",
+      "category": 1,
+      "author": 1,
+      "status": "pending"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 1,
+    "fields": {
+      "name": "Environmental & Geographic Failures",
+      "slug": "environmental-geographic-failures",
+      "description": "AI failures in environmental monitoring, climate modelling, geographic information systems, biodiversity tracking, and natural disaster prediction \u2014 where flawed data, poor generalisation, or misaligned assumptions led to real-world ecological or geographic harm.",
+      "summary": "",
+      "static_image": "images/categories/environmental-geographic-failures.png"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 2,
+    "fields": {
+      "name": "Healthcare & Medical Harm",
+      "slug": "healthcare-medical-harm",
+      "description": "Cases where AI systems used in diagnostics, treatment recommendations, drug discovery, or health administration caused harm \u2014 through misdiagnosis, biased triage, faulty predictions, or dangerous automation of clinical decisions.",
+      "summary": "",
+      "static_image": "images/categories/healthcare-medical-harm.png"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 3,
+    "fields": {
+      "name": "Law, Policing & Justice Bias",
+      "slug": "law-policing-justice-bias",
+      "description": "AI failures in predictive policing, sentencing algorithms, facial recognition for law enforcement, legal document analysis, or bail and parole decisions \u2014 where algorithmic bias reinforced systemic injustice.",
+      "summary": "",
+      "static_image": "images/categories/law-policing-justice-bias.png"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 4,
+    "fields": {
+      "name": "Economic & Financial Failures",
+      "slug": "economic-financial-failures",
+      "description": "AI systems in trading, credit scoring, fraud detection, insurance underwriting, or economic forecasting that failed \u2014 causing financial loss, discriminatory lending, or market instability.",
+      "summary": "",
+      "static_image": "images/categories/economic-financial-failures.png"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 5,
+    "fields": {
+      "name": "Safety-Critical Systems & Autonomy",
+      "slug": "safety-critical-systems-autonomy",
+      "description": "Failures in autonomous vehicles, drones, robotics, industrial automation, and other safety-critical AI where system errors posed direct physical danger to people.",
+      "summary": "",
+      "static_image": "images/categories/safety-critical-systems-autonomy.png"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 6,
+    "fields": {
+      "name": "Misinformation, Hallucinations & Truth",
+      "slug": "misinformation-hallucinations-truth",
+      "description": "AI-generated misinformation, deepfakes, large language model hallucinations, and failures in content moderation or fact-checking \u2014 where AI actively undermined truth.",
+      "summary": "",
+      "static_image": "images/categories/misinformation-hallucinations-truth.png"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 7,
+    "fields": {
+      "name": "Bias, Discrimination & Social Harm",
+      "slug": "bias-discrimination-social-harm",
+      "description": "AI systems that discriminated based on race, gender, age, disability, or socioeconomic status \u2014 in hiring, content recommendation, ad targeting, education, or social services.",
+      "summary": "",
+      "static_image": "images/categories/bias-discrimination-social-harm.png"
+    }
+  },
+  {
+    "model": "museum.category",
+    "pk": 8,
+    "fields": {
+      "name": "Privacy, Data & Surveillance Failures",
+      "slug": "privacy-data-surveillance-failures",
+      "description": "Cases where AI enabled mass surveillance, leaked personal data, violated consent, or was deployed for tracking and profiling without adequate safeguards.",
+      "summary": "",
+      "static_image": "images/categories/privacy-data-surveillance-failures.png"
+    }
+  },
+  {
+    "model": "museum.exhibit",
+    "pk": 1,
+    "fields": {
+      "title": "UK Flood Risk Mapping with Outdated Data",
+      "category": 1,
+      "failure_type": "Outdated Training Data",
+      "deployment_context": "UK flood risk assessment models used for development approvals",
+      "intended_use": "Predict flood risk for new property developments",
+      "system_type": "Flood risk prediction model",
+      "inputs_assumptions": "",
+      "outputs_to_users": "",
+      "what_went_wrong": "AI flood models used historical rainfall data that didn't account for climate change, leading to developments being approved in areas that flooded within 5 years",
+      "how_detected": "",
+      "who_affected": "",
+      "data_issues": "Historical rainfall data did not reflect changing climate patterns. Training period excluded recent extreme weather events",
+      "design_choices": "",
+      "org_governance_issues": "",
+      "recommendations": "Regularly update training data to reflect climate change. Include extreme weather scenarios. Validate models against recent events before deployment",
+      "warnings": "",
+      "description": "Flood prediction models in the UK failed because they used outdated rainfall data, leading to homes being built in flood zones",
+      "is_archived": false,
+      "file": "",
+      "uploaded_at": "2026-02-17T00:00:00Z"
+    }
+  },
+  {
+    "model": "museum.exhibit",
+    "pk": 2,
+    "fields": {
+      "title": "Amazon Deforestation Detection Missing Selective Logging",
+      "category": 1,
+      "failure_type": "Incomplete Detection",
+      "deployment_context": "Satellite monitoring of Amazon rainforest deforestation",
+      "intended_use": "Detect and measure deforestation rates using satellite imagery",
+      "system_type": "Computer vision model for satellite analysis",
+      "inputs_assumptions": "",
+      "outputs_to_users": "",
+      "what_went_wrong": "AI trained to detect clear-cutting missed selective logging (where only valuable trees are removed), underreporting deforestation by up to 40% in some regions",
+      "how_detected": "",
+      "who_affected": "",
+      "data_issues": "Training data focused on obvious clear-cutting patterns. Lacked examples of subtle selective logging",
+      "design_choices": "",
+      "org_governance_issues": "",
+      "recommendations": "Train on diverse deforestation types. Validate against ground-truth surveys. Include subtle degradation patterns in training data",
+      "warnings": "",
+      "description": "Satellite AI missed selective logging in the Amazon, underreporting deforestation by up to 40%",
+      "is_archived": false,
+      "file": "",
+      "uploaded_at": "2026-02-17T00:00:00Z"
+    }
+  },
+  {
+    "model": "museum.exhibit",
+    "pk": 3,
+    "fields": {
+      "title": "Google Flood Forecasting Failures in India (2023)",
+      "category": 1,
+      "failure_type": "Geographic Transfer Failure",
+      "deployment_context": "Google's AI flood alert system deployed across India",
+      "intended_use": "Provide early warnings for flooding events",
+      "system_type": "Hydrological prediction model",
+      "inputs_assumptions": "",
+      "outputs_to_users": "",
+      "what_went_wrong": "AI issued false warnings and missed actual floods in some areas because the model was trained primarily on data from rivers with different characteristics",
+      "how_detected": "",
+      "who_affected": "",
+      "data_issues": "Training data from rivers with different flow patterns, geology, and rainfall characteristics than deployment regions",
+      "design_choices": "",
+      "org_governance_issues": "",
+      "recommendations": "Validate models across diverse geographic regions before deployment. Include local hydrological data. Test in pilot regions first",
+      "warnings": "",
+      "description": "Google's flood alerts in India failed due to training on rivers with different characteristics",
+      "is_archived": false,
+      "file": "",
+      "uploaded_at": "2026-02-17T00:00:00Z"
+    }
+  },
+  {
+    "model": "museum.exhibit",
+    "pk": 4,
+    "fields": {
+      "title": "Wildlife Camera Trap AI Misidentifying Species",
+      "category": 1,
+      "failure_type": "Domain Shift",
+      "deployment_context": "Conservation camera traps deployed in Africa using North American-trained AI",
+      "intended_use": "Automatically identify and count wildlife species from camera trap images",
+      "system_type": "Computer vision classifier",
+      "inputs_assumptions": "",
+      "outputs_to_users": "",
+      "what_went_wrong": "Conservation AI trained on North American wildlife was deployed in Africa, misidentifying species or missing animals entirely because of different lighting, vegetation, and animal appearances",
+      "how_detected": "",
+      "who_affected": "",
+      "data_issues": "Training data entirely from different continent with different species, lighting conditions, and vegetation",
+      "design_choices": "",
+      "org_governance_issues": "",
+      "recommendations": "Never deploy models across geographic regions without retraining. Collect local training data. Test extensively before relying on automated counts",
+      "warnings": "",
+      "description": "Wildlife AI trained in North America failed when deployed in Africa due to different species and environments",
+      "is_archived": false,
+      "file": "",
+      "uploaded_at": "2026-02-17T00:00:00Z"
+    }
+  },
+  {
+    "model": "museum.exhibit",
+    "pk": 5,
+    "fields": {
+      "title": "Air Quality Prediction Failing During Wildfires",
+      "category": 1,
+      "failure_type": "Extreme Event Blindness",
+      "deployment_context": "California air quality forecasting apps during wildfire season",
+      "intended_use": "Predict air quality levels to help people plan outdoor activities",
+      "system_type": "Air quality prediction model",
+      "inputs_assumptions": "",
+      "outputs_to_users": "",
+      "what_went_wrong": "AI gave 'moderate' readings during wildfire season because the model wasn't trained on extreme smoke events, leading people to go outside during dangerous conditions",
+      "how_detected": "",
+      "who_affected": "",
+      "data_issues": "Training data lacked extreme wildfire smoke events. Model had never seen PM2.5 levels above certain threshold",
+      "design_choices": "",
+      "org_governance_issues": "",
+      "recommendations": "Include extreme events in training data. Set hard limits for safety-critical applications. Add manual override for unprecedented conditions",
+      "warnings": "",
+      "description": "Air quality models failed during California wildfires, showing 'moderate' readings during hazardous smoke conditions",
+      "is_archived": false,
+      "file": "",
+      "uploaded_at": "2026-02-17T00:00:00Z"
+    }
+  },
+  {
+    "model": "museum.exhibit",
+    "pk": 6,
+    "fields": {
+      "title": "Crop Yield Prediction Bias Against Small Farms",
+      "category": 7,
+      "failure_type": "Dataset Bias",
+      "deployment_context": "Agricultural AI deployed to predict yields for food security planning in developing countries",
+      "intended_use": "Predict crop yields to inform food security and aid distribution",
+      "system_type": "Crop yield prediction model",
+      "inputs_assumptions": "",
+      "outputs_to_users": "",
+      "what_went_wrong": "AI trained on data from large industrial farms in the US performed poorly when applied to smallholder farms in developing countries, over-predicting yields and leading to inadequate food security planning",
+      "how_detected": "",
+      "who_affected": "",
+      "data_issues": "Training data only from large industrial farms with irrigation, mechanization, and soil testing. Did not represent smallholder practices",
+      "design_choices": "",
+      "org_governance_issues": "",
+      "recommendations": "Ensure training data represents target population. Test on diverse farm sizes and practices. Validate predictions with local agricultural experts",
+      "warnings": "",
+      "description": "Agricultural AI trained on large US farms failed for smallholder farms, leading to inadequate food security planning",
+      "is_archived": false,
+      "file": "",
+      "uploaded_at": "2026-02-17T00:00:00Z"
+    }
+  },
+  {
+    "model": "museum.exhibit",
+    "pk": 7,
+    "fields": {
+      "title": "Urban Heat Island Model Ignoring Informal Settlements",
+      "category": 1,
+      "failure_type": "Missing Population Data",
+      "deployment_context": "City heat exposure prediction for urban planning",
+      "intended_use": "Identify areas at risk of dangerous heat exposure",
+      "system_type": "Urban heat island prediction model",
+      "inputs_assumptions": "",
+      "outputs_to_users": "",
+      "what_went_wrong": "AI model used official land-use data that didn't include informal settlements/slums, missing the most vulnerable populations and showing them as 'low risk'",
+      "how_detected": "",
+      "who_affected": "",
+      "data_issues": "Official land registry data excluded informal settlements. Model didn't see densely populated areas",
+      "design_choices": "",
+      "org_governance_issues": "",
+      "recommendations": "Validate official data against satellite imagery and surveys. Include informal settlements in urban models. Work with local communities to verify coverage",
+      "warnings": "",
+      "description": "Heat exposure AI missed slums and informal settlements, failing to identify the most vulnerable populations",
+      "is_archived": false,
+      "file": "",
+      "uploaded_at": "2026-02-17T00:00:00Z"
+    }
+  },
+  {
+    "model": "museum.quiz",
+    "pk": 1,
+    "fields": {
+      "exhibit": 1,
+      "title": "UK Flood Risk Quiz",
+      "description": "Test your understanding of why the flood model failed",
+      "is_active": true,
+      "points_for_completion": 3
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 1,
+    "fields": {
+      "quiz": 1,
+      "prompt": "Did the UK flood models account for climate change?",
+      "qtype": "mc",
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 1,
+    "fields": {
+      "question": 1,
+      "text": "No, they used outdated historical data",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 2,
+    "fields": {
+      "question": 1,
+      "text": "Yes, they included future climate scenarios",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 2,
+    "fields": {
+      "quiz": 1,
+      "prompt": "How long did it take for the approved developments to flood?",
+      "qtype": "mc",
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 3,
+    "fields": {
+      "question": 2,
+      "text": "Within 5 years",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 4,
+    "fields": {
+      "question": 2,
+      "text": "Within 50 years",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 3,
+    "fields": {
+      "quiz": 1,
+      "prompt": "Should flood models be regularly updated with recent data?",
+      "qtype": "mc",
+      "order": 3
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 5,
+    "fields": {
+      "question": 3,
+      "text": "Yes, especially to reflect climate change",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 6,
+    "fields": {
+      "question": 3,
+      "text": "No, historical data is always sufficient",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.quiz",
+    "pk": 2,
+    "fields": {
+      "exhibit": 4,
+      "title": "Wildlife Detection Quiz",
+      "description": "Understanding geographic transfer failures",
+      "is_active": true,
+      "points_for_completion": 3
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 4,
+    "fields": {
+      "quiz": 2,
+      "prompt": "Can AI trained in one region work perfectly in another?",
+      "qtype": "mc",
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 7,
+    "fields": {
+      "question": 4,
+      "text": "No, it needs retraining for new environments",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 8,
+    "fields": {
+      "question": 4,
+      "text": "Yes, AI works the same everywhere",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 5,
+    "fields": {
+      "quiz": 2,
+      "prompt": "Where was the wildlife AI originally trained?",
+      "qtype": "mc",
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 9,
+    "fields": {
+      "question": 5,
+      "text": "North America",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 10,
+    "fields": {
+      "question": 5,
+      "text": "Africa",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "museum.question",
+    "pk": 6,
+    "fields": {
+      "quiz": 2,
+      "prompt": "Should models be tested extensively before deployment in new regions?",
+      "qtype": "mc",
+      "order": 3
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 11,
+    "fields": {
+      "question": 6,
+      "text": "Yes, to catch regional differences",
+      "is_correct": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "museum.answeroption",
+    "pk": 12,
+    "fields": {
+      "question": 6,
+      "text": "No, testing is unnecessary",
+      "is_correct": false,
+      "order": 2
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Curators",
+      "permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$ogKXwNBTRe4yq1vTozzBE2$wIoq9EdIGgaZ4VV8unxv7Rs5KIY74pMNJfG1wWBqxEc=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "Admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-02-17T00:00:00Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$Cy8yHN1BMZxjsOLcjELZaJ$KUoPMaMyeSKM/nfuu+tJPl5CEG6fQsU/1aUBEVco2QQ=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "curator_demo",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-02-17T00:00:00Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$tFRzQXwPEJN3R3TQzE6hnr$VhXCO3YZ4aWFy3OzEgXqMBVkC7PVd7jz6oFRrBMhqA0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "visitor",
+      "first_name": "",
+      "last_name": "",
+      "email": "visitor@museum.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-02-17T00:00:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$yafI3iulPUkQJwScdAsNBq$Qh7sozhZH+ul1HDJ17BfFNB340JkDukT1tvG6B/rMbg=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "VisitorUser",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-02-19T00:25:34Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.userprofile",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "points": 0
+    }
+  },
+  {
+    "model": "museum.badge",
+    "pk": 1,
+    "fields": {
+      "code": "first_steps",
+      "name": "First Steps",
+      "description": "Earned your first point",
+      "points_threshold": 1
+    }
+  },
+  {
+    "model": "museum.badge",
+    "pk": 2,
+    "fields": {
+      "code": "quiz_master",
+      "name": "Quiz Master",
+      "description": "Completed multiple quizzes",
+      "points_threshold": 15
+    }
+  },
+  {
+    "model": "museum.badge",
+    "pk": 3,
+    "fields": {
+      "code": "failure_expert",
+      "name": "Failure Expert",
+      "description": "Deep understanding of AI failures",
+      "points_threshold": 50
+    }
+  }
+]

@@ -14,6 +14,7 @@ from .models import (
     Comment,
     Bookmark,
     UserSubmission,
+    ExhibitView,
 )
 
 admin.site.register(UserProfile)
@@ -29,3 +30,4 @@ admin.site.register(Category)
 admin.site.register(Comment)
 admin.site.register(Bookmark)
 admin.site.register(UserSubmission)
+admin.site.register(ExhibitView)
