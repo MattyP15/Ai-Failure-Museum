@@ -1,0 +1,17 @@
+.registeration_containerr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 40px 30px;
+}
+.register_card{
+    display: flex;
+    flex-direction: row;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgb(4, 79, 192);
+    overflow: hidden;
+    width: 100%;
+    max-width: 700px;
+}
+

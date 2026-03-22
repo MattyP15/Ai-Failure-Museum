@@ -7,11 +7,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from .gamification import award_points
-from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
+from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge, TimelineEvent
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
-from .models import Exhibit, Category
-from .forms import ExhibitForm, QuizForm
+from .models import Exhibit, Category, Comment, Bookmark, UserSubmission
+from .forms import ExhibitForm, QuizForm, CommentForm, UserSubmissionForm
 from .rbac import is_curator
 
 
@@ -185,7 +185,6 @@ def create_quiz(request):
     
     return render(request, 'curator/create_quiz.html', {'form': form})
 
-
 def exhibit_detail(request, exhibit_id):
     try:
         categories = Category.objects.all()
@@ -193,13 +192,38 @@ def exhibit_detail(request, exhibit_id):
         if exhibit.is_archived and not is_curator(request.user):
             messages.error(request, "This exhibit is archived and not available to the public.")
             return redirect('/')
-        
+
+        if request.method == 'POST' and request.user.is_authenticated:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.exhibit = exhibit
+                new_comment.user = request.user
+                new_comment.save()
+                return redirect('exhibit_detail', exhibit_id=exhibit_id)
+        else:
+            comment_form = CommentForm()
+
         quizzes = exhibit.quizzes.filter(is_active=True)
-        return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes, 'categories': categories})
+        timeline_events = exhibit.timeline_events.all()
+        comments = exhibit.comments.all()
+
+        is_bookmarked = False
+        if request.user.is_authenticated:
+            is_bookmarked = Bookmark.objects.filter(user=request.user, exhibit=exhibit).exists()
+
+        return render(request, 'curator/exhibit_detail.html', {
+            'exhibit': exhibit,
+            'quizzes': quizzes,
+            'categories': categories,
+            'timeline_events': timeline_events,
+            'comments': comments,
+            'comment_form': comment_form,
+            'is_bookmarked': is_bookmarked,
+        })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
         return redirect('/')
-
 
 def take_quiz(request, quiz_id):
     try:
@@ -305,7 +329,6 @@ def edit_exhibit(request, exhibit_id):
             if exhibit_form.is_valid():
                 exhibit = exhibit_form.save()
 
-                # Handle quiz creation/update
                 quiz_title = request.POST.get('quiz_title', '').strip()
                 if quiz_title:
                     if quiz:
@@ -321,57 +344,58 @@ def edit_exhibit(request, exhibit_id):
                             points_for_completion=10
                         )
 
-                    # Handle 3 multiple choice questions
-                    for i in range(1, 4):
-                        question_text = request.POST.get(f'question_{i}', '').strip()
-                        true_answer = request.POST.get(f'question_{i}_true', '').strip()
-                        false_answer = request.POST.get(f'question_{i}_false', '').strip()
-
-                        if question_text and true_answer and false_answer:
-                            # Create or update question
-                            question, created = Question.objects.update_or_create(
-                                quiz=quiz,
-                                order=i,
-                                defaults={'prompt': question_text, 'qtype': 'mc'}
-                            )
-
-                            # Delete old answer options
-                            question.options.all().delete()
-
-                            # Create new answer options
+                    quiz.questions.all().delete()
+                    question_count = int(request.POST.get('question_count', 0))
+                    for i in range(1, question_count + 1):
+                        prompt = request.POST.get(f'question_{i}_prompt', '').strip()
+                        if not prompt:
+                            continue
+                        question = Question.objects.create(
+                            quiz=quiz, prompt=prompt,
+                            qtype=Question.MULTIPLE_CHOICE, order=i,
+                        )
+                        option_count = int(request.POST.get(f'question_{i}_option_count', 0))
+                        correct = request.POST.get(f'question_{i}_correct')
+                        for j in range(1, option_count + 1):
+                            text = request.POST.get(f'question_{i}_option_{j}', '').strip()
+                            if not text:
+                                continue
                             AnswerOption.objects.create(
-                                question=question,
-                                text=true_answer,
-                                is_correct=True,
-                                order=1
+                                question=question, text=text,
+                                is_correct=(str(j) == correct), order=j,
                             )
-                            AnswerOption.objects.create(
-                                question=question,
-                                text=false_answer,
-                                is_correct=False,
-                                order=2
-                            )
+
+                exhibit.timeline_events.all().delete()
+                event_count = int(request.POST.get('event_count', 0))
+                for i in range(1, event_count + 1):
+                    year = request.POST.get(f'event_{i}_year', '').strip()
+                    description = request.POST.get(f'event_{i}_description', '').strip()
+                    if year and description:
+                        TimelineEvent.objects.create(
+                            exhibit=exhibit,
+                            year=year,
+                            description=description,
+                            order=i,
+                        )
 
                 messages.success(request, f'Exhibit "{exhibit.title}" updated successfully')
                 return redirect('curator_dashboard')
         else:
             exhibit_form = ExhibitForm(instance=exhibit)
 
-        # Get existing questions if quiz exists
-        questions = list(quiz.questions.all()[:3]) if quiz else []
-        while len(questions) < 3:
-            questions.append(None)
+        questions = quiz.questions.all() if quiz else []
+        timeline_events = exhibit.timeline_events.all()
 
         return render(request, 'curator/edit_exhibit.html', {
             'form': exhibit_form,
             'exhibit': exhibit,
             'quiz': quiz,
-            'questions': questions
+            'questions': questions,
+            'timeline_events': timeline_events,
         })
     except Exception as e:
         messages.error(request, f'Error: {str(e)}')
         return redirect('curator_dashboard')
-
 
 @login_required
 def delete_exhibit(request, exhibit_id):
@@ -403,4 +427,97 @@ def toggle_archive_exhibit(request, exhibit_id):
     action = "archived" if exhibit.is_archived else "unarchived"
     print(request, f'exhibit "{exhibit_title}" {action} successfully')
     return redirect('curator_dashboard')
+
+
+@login_required
+def toggle_bookmark(request, exhibit_id):
+    exhibit = get_object_or_404(Exhibit, id=exhibit_id)
+    bookmark, created = Bookmark.objects.get_or_create(user=request.user, exhibit=exhibit)
+    if not created:
+        bookmark.delete()
+    return redirect('exhibit_detail', exhibit_id=exhibit_id)
+
+
+@login_required
+def my_bookmarks(request):
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('exhibit', 'exhibit__category')
+    return render(request, 'museum/my_bookmarks.html', {
+        'bookmarks': bookmarks,
+    })
+
+
+def community_gallery(request):
+    submissions = UserSubmission.objects.filter(status=UserSubmission.APPROVED).select_related('author', 'category')
+    return render(request, 'community/gallery.html', {
+        'submissions': submissions,
+    })
+
+
+def community_submission_detail(request, submission_id):
+    submission = get_object_or_404(UserSubmission, id=submission_id, status=UserSubmission.APPROVED)
+    return render(request, 'community/submission_detail.html', {
+        'submission': submission,
+    })
+
+
+@login_required
+def submit_exhibit(request):
+    if request.method == 'POST':
+        form = UserSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.author = request.user
+            submission.save()
+            messages.success(request, 'Your exhibit has been submitted for review.')
+            return redirect('community_gallery')
+    else:
+        form = UserSubmissionForm()
+    return render(request, 'community/submit.html', {
+        'form': form,
+    })
+
+
+@login_required
+def my_submissions(request):
+    submissions = UserSubmission.objects.filter(author=request.user)
+    return render(request, 'community/my_submissions.html', {
+        'submissions': submissions,
+    })
+
+
+@login_required
+def review_pool(request):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/')
+    pending = UserSubmission.objects.filter(status=UserSubmission.PENDING).select_related('author', 'category')
+    return render(request, 'curator/review_pool.html', {
+        'pending': pending,
+    })
+
+
+@login_required
+def review_submission(request, submission_id):
+    if not is_curator(request.user):
+        messages.error(request, "You do not have curator permissions")
+        return redirect('/')
+    submission = get_object_or_404(UserSubmission, id=submission_id)
+    if request.method == 'POST':
+        from django.utils import timezone
+        action = request.POST.get('action')
+        note = request.POST.get('reviewer_note', '')
+        submission.reviewed_by = request.user
+        submission.reviewer_note = note
+        submission.reviewed_at = timezone.now()
+        if action == 'approve':
+            submission.status = UserSubmission.APPROVED
+            messages.success(request, f'"{submission.title}" has been approved.')
+        elif action == 'deny':
+            submission.status = UserSubmission.DENIED
+            messages.success(request, f'"{submission.title}" has been denied.')
+        submission.save()
+        return redirect('review_pool')
+    return render(request, 'curator/review_submission.html', {
+        'submission': submission,
+    })
   

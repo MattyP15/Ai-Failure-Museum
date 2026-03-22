@@ -146,7 +146,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', SECRET_KEY )## get password from .en
 if not SECRET_KEY:
     raise ValueError("The SECRET_KEY environment variable is not set")
 
-DEBUG = os.getenv('DEBUG', 'FALSE') == 'True' 
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"  ## redirects ALL users, fix later

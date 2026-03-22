@@ -90,8 +90,11 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True )
     description = models.TextField(blank=True)
     summary = models.TextField(blank=True)
-    slug = models.SlugField(unique=True)  
-    display_image = models.ImageField(upload_to='categories/', blank=True, null=True) 
+    slug = models.SlugField(unique=True)
+    display_image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    static_image = models.CharField(
+        max_length=200, blank=True,
+    )
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -164,8 +167,68 @@ class Exhibit(models.Model):
         return Exhibit.objects.filter(is_archived=False).exclude(id__in=top_ids).order_by('title')
 
 
+class Comment(models.Model):
+    exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} on {self.exhibit.title}: {self.body[:40]}"
+
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookmarks')
+    exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='bookmarks')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'exhibit')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} bookmarked {self.exhibit.title}"
+
+
+class UserSubmission(models.Model):
+    PENDING = 'pending'
+    APPROVED = 'approved'
+    DENIED = 'denied'
+    STATUS_CHOICES = [
+        (PENDING, 'Pending Review'),
+        (APPROVED, 'Approved'),
+        (DENIED, 'Denied'),
+    ]
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='submissions')
+    title = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.TextField()
+    what_went_wrong = models.TextField()
+    who_affected = models.TextField(blank=True)
+    source_url = models.URLField(blank=True)
+    artefact = models.FileField(upload_to='submissions/', blank=True, null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=PENDING)
+    reviewed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+        null=True, blank=True, related_name='reviewed_submissions'
+    )
+    reviewer_note = models.TextField(blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    reviewed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-submitted_at']
+
+    def __str__(self):
+        return f"{self.title} ({self.get_status_display()})"
+
+
 class Quiz(models.Model):
-    #link exhibit to quiz:
     exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)  # ADD THIS LINE
 
     title = models.CharField(max_length=200)
@@ -175,3 +238,12 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
+
+class TimelineEvent(models.Model):
+    exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='timeline_events')
+    year = models.CharField(max_length=20)
+    description = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'year']
