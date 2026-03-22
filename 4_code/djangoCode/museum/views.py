@@ -203,9 +203,13 @@ def exhibit_detail(request, exhibit_id):
         if not request.session.session_key:
             request.session.create()
 
+        session_key = request.session.session_key
+        already_viewed = ExhibitView.objects.filter(exhibit=exhibit, session_key=session_key).exists()
+
+
         if not already_viewed:
-            ExhibitsView.objects.create(exhibit=exhibit, session_key=request.session.session_key, user=request.user if request.user.is_authenticated else None)
-            Exhibit.object.filter(id=exhibit_id).update(vierw_count=F('view_count')+1)
+            ExhibitView.objects.create(exhibit=exhibit, session_key=request.session.session_key, user=request.user if request.user.is_authenticated else None)
+            Exhibit.objects.filter(id=exhibit_id).update(view_count=F('view_count')+1)
             exhibit.refresh_from_db()
 
         if request.method == 'POST' and request.user.is_authenticated:
@@ -225,6 +229,7 @@ def exhibit_detail(request, exhibit_id):
         is_bookmarked = False
         if request.user.is_authenticated:
             is_bookmarked = Bookmark.objects.filter(user=request.user, exhibit=exhibit).exists()
+            unique_views = ExhibitView.objects.filter(exhibit=exhibit).values('session_key').distinct().count()
 
         return render(request, 'curator/exhibit_detail.html', {
             'exhibit': exhibit,
@@ -233,6 +238,7 @@ def exhibit_detail(request, exhibit_id):
             'comments': comments,
             'comment_form': comment_form,
             'is_bookmarked': is_bookmarked,
+            'unique_views': unique_views,
         })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')

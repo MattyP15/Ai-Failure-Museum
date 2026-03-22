@@ -240,13 +240,13 @@ class Quiz(models.Model):
         return self.title
 
 class ExhibitView(models.Model): 
-    exhibits = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='views')
-    sessiuon_key = models.CharField(max_length=40)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete+models.SET_NULL, null=True, blank=True)
+    exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='views')
+    session_key = models.CharField(max_length=40)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     viewed_at = models.DateTimeField(auto_now_add=True)
 
     class Meta: 
-        orderirng = ['~viewed_at']
+        ordering = ['-viewed_at']
 
-        def __str__ (self): 
-            return f"View on {self.exhibits.title} @ {self.viewed_at}"
+    def __str__(self): 
+        return f"View on {self.exhibits.title} @ {self.viewed_at}"

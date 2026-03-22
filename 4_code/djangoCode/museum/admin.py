@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+
 from .models import (
     UserProfile,
     Badge,
@@ -14,6 +15,7 @@ from .models import (
     Comment,
     Bookmark,
     UserSubmission,
+    ExhibitView,
 )
 
 admin.site.register(UserProfile)
