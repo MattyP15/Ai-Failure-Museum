@@ -42,12 +42,24 @@ def delete_my_data(request):
 
 
 def curator_dashboard(request):
+    selected_category = request.GET.get("category", "").strip()
+    selected_status = request.GET.get("status", "").strip()
 
-    active_exhibits = Exhibit.objects.filter(is_archived=False)
+    active_exhibits = Exhibit.objects.filter(is_archived=False).select_related("category")
     user_submissions = UserSubmission.objects.filter(status='pending')
-    archived_exhibits = Exhibit.objects.filter(is_archived=True)
+    archived_exhibits = Exhibit.objects.filter(is_archived=True).select_related("category")
     categories = Category.objects.all()
     total_quizzes = Quiz.objects.count()
+
+    if selected_category:
+        active_exhibits = active_exhibits.filter(category_id=selected_category)
+        archived_exhibits = archived_exhibits.filter(category_id=selected_category)
+
+    if selected_status == "active":
+        archived_exhibits = Exhibit.objects.none()
+    elif selected_status == "archived":
+        active_exhibits = Exhibit.objects.none()
+
     bookmarked_exhibits = Exhibit.objects.none()
     if request.user.is_authenticated:
         bookmarked_exhibits = Exhibit.objects.filter(
