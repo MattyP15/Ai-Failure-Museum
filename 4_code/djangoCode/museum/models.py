@@ -249,4 +249,4 @@ class ExhibitView(models.Model):
         ordering = ['-viewed_at']
 
     def __str__(self): 
-        return f"View on {self.exhibits.title} @ {self.viewed_at}"
+        return f"View on {self.exhibit.title} @ {self.viewed_at}"
