@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from .gamification import award_points
-from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge
+from .models import Quiz, Question, AnswerOption, QuizAttempt, Response, UserBadge, TimelineEvent
 from .rbac import is_curator
 from django.contrib.auth.decorators import login_required
 from .models import Exhibit, Category
@@ -191,7 +191,6 @@ def create_quiz(request):
     
     return render(request, 'curator/create_quiz.html', {'form': form})
 
-
 def exhibit_detail(request, exhibit_id):
     try:
         categories = Category.objects.all()
@@ -201,11 +200,16 @@ def exhibit_detail(request, exhibit_id):
             return redirect('/')
         
         quizzes = exhibit.quizzes.filter(is_active=True)
-        return render(request, 'curator/exhibit_detail.html', {'exhibit': exhibit, 'quizzes': quizzes, 'categories': categories})
+        timeline_events = exhibit.timeline_events.all()
+        return render(request, 'curator/exhibit_detail.html', {
+            'exhibit': exhibit,
+            'quizzes': quizzes,
+            'categories': categories,
+            'timeline_events': timeline_events,
+        })
     except Exception as e:
         messages.error(request, f'Error loading exhibit: {str(e)}')
         return redirect('/')
-
 
 def take_quiz(request, quiz_id):
     try:
@@ -326,35 +330,39 @@ def edit_exhibit(request, exhibit_id):
                             points_for_completion=10
                         )
 
-                    # Delete all existing questions and rebuild from scratch
                     quiz.questions.all().delete()
-
                     question_count = int(request.POST.get('question_count', 0))
                     for i in range(1, question_count + 1):
                         prompt = request.POST.get(f'question_{i}_prompt', '').strip()
                         if not prompt:
                             continue
-
                         question = Question.objects.create(
-                            quiz=quiz,
-                            prompt=prompt,
-                            qtype=Question.MULTIPLE_CHOICE,
-                            order=i,
+                            quiz=quiz, prompt=prompt,
+                            qtype=Question.MULTIPLE_CHOICE, order=i,
                         )
-
                         option_count = int(request.POST.get(f'question_{i}_option_count', 0))
                         correct = request.POST.get(f'question_{i}_correct')
-
                         for j in range(1, option_count + 1):
                             text = request.POST.get(f'question_{i}_option_{j}', '').strip()
                             if not text:
                                 continue
                             AnswerOption.objects.create(
-                                question=question,
-                                text=text,
-                                is_correct=(str(j) == correct),
-                                order=j,
+                                question=question, text=text,
+                                is_correct=(str(j) == correct), order=j,
                             )
+
+                exhibit.timeline_events.all().delete()
+                event_count = int(request.POST.get('event_count', 0))
+                for i in range(1, event_count + 1):
+                    year = request.POST.get(f'event_{i}_year', '').strip()
+                    description = request.POST.get(f'event_{i}_description', '').strip()
+                    if year and description:
+                        TimelineEvent.objects.create(
+                            exhibit=exhibit,
+                            year=year,
+                            description=description,
+                            order=i,
+                        )
 
                 messages.success(request, f'Exhibit "{exhibit.title}" updated successfully')
                 return redirect('curator_dashboard')
@@ -362,12 +370,14 @@ def edit_exhibit(request, exhibit_id):
             exhibit_form = ExhibitForm(instance=exhibit)
 
         questions = quiz.questions.all() if quiz else []
+        timeline_events = exhibit.timeline_events.all()
 
         return render(request, 'curator/edit_exhibit.html', {
             'form': exhibit_form,
             'exhibit': exhibit,
             'quiz': quiz,
             'questions': questions,
+            'timeline_events': timeline_events,
         })
     except Exception as e:
         messages.error(request, f'Error: {str(e)}')

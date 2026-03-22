@@ -175,3 +175,12 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
+
+class TimelineEvent(models.Model):
+    exhibit = models.ForeignKey(Exhibit, on_delete=models.CASCADE, related_name='timeline_events')
+    year = models.CharField(max_length=20)
+    description = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'year']
