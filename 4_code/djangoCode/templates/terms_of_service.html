@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Terms of Service - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/article.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="titleContainer">
+    <div class="title">
+        <a href="/"><button>← Back to Home</button></a>
+        <h1><strong>Terms of Service</strong></h1>
+    </div>
+</div>
+
+<div class="sect">
+    <div class="section">
+        <h2>Acceptance of Terms</h2>
+        <p>By accessing and using the AI Failure Museum, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the site.</p>
+
+        <h2>Purpose</h2>
+        <p>The AI Failure Museum is an educational project created as part of a university course (COMM2020). It is designed to inform visitors about real-world AI failures and encourage critical thinking about artificial intelligence.</p>
+
+        <h2>User Accounts</h2>
+        <p>You may create an account to participate in quizzes, earn points, and submit community contributions. You are responsible for maintaining the security of your account credentials. Do not share your login details with others.</p>
+
+        <h2>User Submissions</h2>
+        <p>When you submit content to the community section, you grant the AI Failure Museum the right to display that content on the site. All submissions are reviewed by curators before being published. Submissions that contain offensive, misleading, or inappropriate content will be denied.</p>
+
+        <h2>Acceptable Use</h2>
+        <p>You agree not to use the site for any unlawful purpose, attempt to gain unauthorised access to any part of the system, or submit content that infringes on the rights of others.</p>
+
+        <h2>Intellectual Property</h2>
+        <p>The exhibit content on this site is curated for educational purposes. Sources are cited where applicable. Original site design and code are the property of the project team.</p>
+
+        <h2>Limitation of Liability</h2>
+        <p>The AI Failure Museum is provided as-is for educational purposes. We make no warranties regarding the accuracy or completeness of the content, and are not liable for any decisions made based on information presented on this site.</p>
+
+        <h2>Changes to Terms</h2>
+        <p>We may update these terms as the project evolves. Continued use of the site after changes constitutes acceptance of the updated terms.</p>
+    </div>
+</div>
+{% endblock %}

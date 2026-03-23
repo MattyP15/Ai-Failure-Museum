@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accessibility - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/article.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="titleContainer">
+    <div class="title">
+        <a href="/"><button>← Back to Home</button></a>
+        <h1><strong>Accessibility</strong></h1>
+    </div>
+</div>
+
+<div class="sect">
+    <div class="section">
+        <h2>Our Commitment</h2>
+        <p>The AI Failure Museum is committed to making our content accessible to all visitors, regardless of ability or disability. We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA where possible.</p>
+
+        <h2>Features</h2>
+        <p>We have implemented the following accessibility features across the site: semantic HTML elements for proper document structure, ARIA labels on interactive elements such as search fields and navigation, keyboard-navigable interface elements, sufficient colour contrast ratios between text and background, responsive design that adapts to different screen sizes and zoom levels, and alt text on images.</p>
+
+        <h2>Known Limitations</h2>
+        <p>As a university project under active development, some areas of the site may not yet meet all accessibility standards. We are continuously working to improve the experience. Known areas for improvement include some older exhibit content that may lack full alt text descriptions and interactive quiz elements that may benefit from enhanced screen reader support.</p>
+
+        <h2>Feedback</h2>
+        <p>If you encounter any accessibility barriers while using the AI Failure Museum, please let us know. Your feedback helps us improve. Contact the project team through the university to report any issues.</p>
+
+        <h2>Assistive Technology</h2>
+        <p>The site has been designed to work with common assistive technologies including screen readers, keyboard-only navigation, and browser zoom functionality up to 200%.</p>
+    </div>
+</div>
+{% endblock %}

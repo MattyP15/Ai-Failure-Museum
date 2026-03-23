@@ -1,22 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Privacy Policy - AI Failure Museum{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/article.css' %}">
+{% endblock %}
+
 {% block content %}
-<div style="max-width: 700px; margin: 40px auto; padding: 0 20px;">
-    <a href="/"><button>← Back to Home</button></a>
+<div class="titleContainer">
+    <div class="title">
+        <a href="/"><button>← Back to Home</button></a>
+        <h1><strong>Privacy Policy</strong></h1>
+    </div>
+</div>
 
-    <h1>Privacy Policy</h1>
+<div class="sect">
+    <div class="section">
+        <h2>What We Collect</h2>
+        <p>When you create an account, we store your username, email address, and a securely hashed version of your password. We also store quiz responses, points, and badge progress linked to your account.</p>
 
-    <p>
-        This project stores account information and quiz responses to support progress,
-        points, and badges.
-    </p>
+        <h2>How We Use Your Data</h2>
+        <p>Your data is used solely to power the AI Failure Museum experience: tracking your progress through exhibits, awarding points for quiz completions, and displaying badges you have earned. We do not sell, share, or distribute your information to any third parties.</p>
 
-    <p>
-        You can request deletion of your data at any time.
-    </p>
+        <h2>Cookies and Sessions</h2>
+        <p>We use session cookies to keep you logged in and to track unique exhibit views. These cookies are essential for the site to function and are not used for advertising or tracking across other websites.</p>
 
-    <p><a href="/delete-my-data/">Delete my data</a></p>
+        <h2>Data Storage</h2>
+        <p>All data is stored in our project database. As a university project, this site is intended for educational purposes and is not hosted on production-grade infrastructure.</p>
+
+        <h2>Your Rights</h2>
+        <p>You can request deletion of all your data at any time. This will permanently remove your account, quiz attempts, points, and badges.</p>
+        <p><a href="/delete-my-data/" style="color: var(--accent3-color); font-weight: 500;">Request data deletion</a></p>
+
+        <h2>Contact</h2>
+        <p>If you have questions about how your data is handled, please contact the project team through the university.</p>
+    </div>
 </div>
 {% endblock %}
