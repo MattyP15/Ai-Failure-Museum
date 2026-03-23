@@ -1,35 +1,44 @@
-{% extends 'base.html' %}
+<!doctype html>
 {% load static %}
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register Page</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/variables.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pages/register.css' %}">
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/mainButtons.css" %}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
-{% block title %}Register - AI Failure Museum{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/register.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/components/mainButtons.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="registeration_containerr">
+<body>
+  <div class="registeration_containerr">
     <div class="registeration_card">
-        <h1>Register</h1>
-        <div class="registerNav">
-            <a href="/"><button class="loginBtn">Home</button></a>
-            <a href="/login/"><button class="loginBtn">Back to Login</button></a>
-        </div>
+      <h1>Register</h1>
+      <header class="appHeader">
+        <a href="/"> <button class="loginBtn">Home</button></a>
+        <a href="/login/"><button class="loginBtn">Back to Login</button></a>
+      </header>
 
-        {% if form.errors %}
-            <p style="color:red;">Please correct the errors below.</p>
-        {% endif %}
+    {% if form.errors %}
+      <p style="color:red;">Please correct the errors below.</p>
+    {% endif %}
 
-        <form method="post" action="">
-            {% csrf_token %}
-            <div class="form_body">
-                {{ form.as_p }}
-            </div>
-            <button type="submit">Register</button>
-        </form>
+    <form method="post" action="">
+      {% csrf_token %}
+      <div class="form_body">
+      {{ form.as_p }}
+      </div>
+      <button type="submit">Register</button>
+    </form>
 
-        <p>Already have an account? <a href="/login/">Log in</a></p>
-    </div>
-</div>
-{% endblock %}
+    <p>Already have an account? <a href="/login/">Log in</a></p>
+  </div>
+ </div>
+</body>
+</html>
