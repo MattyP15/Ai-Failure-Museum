@@ -30,6 +30,13 @@
         padding: 0.45rem 0.75rem;
         border-radius: 999px;
         font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .points:hover {
+        background: var(--accent-color);
     }
 
     /* Search Bar */

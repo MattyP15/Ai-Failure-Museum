@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Analytics - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/analytics.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="titleContainer">
+    <div class="titleBarContainer">
+        <div class="curatorTitle">
+            <div class="centredCuratorTitle">
+                <a href="/curator/dashboard/"><button>&larr; Back to Dashboard</button></a>
+                <h1><strong>Analytics</strong></h1>
+                <p>Museum performance at a glance.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="statsGrid">
+        <div class="statCard">
+            <span class="statNumber">{{ total_exhibits }}</span>
+            <span class="statLabel">Total Exhibits</span>
+            <span class="statDetail">{{ active_exhibits_count }} active / {{ archived_exhibits_count }} archived</span>
+        </div>
+        <div class="statCard">
+            <span class="statNumber">{{ total_views }}</span>
+            <span class="statLabel">Total Views</span>
+        </div>
+        <div class="statCard">
+            <span class="statNumber">{{ total_comments }}</span>
+            <span class="statLabel">Comments</span>
+        </div>
+        <div class="statCard">
+            <span class="statNumber">{{ total_bookmarks }}</span>
+            <span class="statLabel">Bookmarks</span>
+        </div>
+        <div class="statCard">
+            <span class="statNumber">{{ total_quizzes }}</span>
+            <span class="statLabel">Quizzes</span>
+            <span class="statDetail">{{ total_questions }} questions / {{ total_attempts }} attempts</span>
+        </div>
+        <div class="statCard">
+            <span class="statNumber">{{ avg_success_rate }}%</span>
+            <span class="statLabel">Avg Quiz Success Rate</span>
+        </div>
+        <div class="statCard">
+            <span class="statNumber">{{ avg_attempt_rate }}</span>
+            <span class="statLabel">Avg Attempts per Quiz</span>
+        </div>
+        <div class="statCard">
+            <span class="statNumber">{{ total_submissions }}</span>
+            <span class="statLabel">User Submissions</span>
+            <span class="statDetail">{{ pending_submissions }} pending / {{ approved_submissions }} approved / {{ denied_submissions }} denied</span>
+        </div>
+    </div>
+
+    <div class="dashboardContent">
+        <div class="listContainer">
+            <div class="analyticsHeader">
+                <h2>Performance by Category</h2>
+            </div>
+            <div class="listHeader analyticsListHeader">
+                <span><strong>Category</strong></span>
+                <span><strong>Exhibits</strong></span>
+                <span><strong>Total Views</strong></span>
+            </div>
+            {% for cat in exhibits_by_category %}
+            <div class="exhibitBox analyticsRow">
+                <span class="exhibitTitle">{{ cat.name }}</span>
+                <span class="exhibitCategory">{{ cat.exhibit_count }}</span>
+                <span class="exhibitCategory">{{ cat.total_views|default:"0" }}</span>
+            </div>
+            {% empty %}
+            <p class="emptyMsg">No categories yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="dashboardContent">
+        <div class="listContainer">
+            <div class="analyticsHeader">
+                <h2>Top Exhibits by Views</h2>
+            </div>
+            <div class="listHeader analyticsListHeader">
+                <span><strong>Exhibit</strong></span>
+                <span><strong>Category</strong></span>
+                <span><strong>Views</strong></span>
+            </div>
+            {% for exhibit in top_exhibits %}
+            <div class="exhibitBox analyticsRow">
+                <span class="exhibitTitle">
+                    <a href="{% url 'exhibit_detail' exhibit.id %}" class="analyticsLink">{{ exhibit.title|truncatewords:6 }}</a>
+                </span>
+                <span class="exhibitCategory">
+                    {% if exhibit.category %}{{ exhibit.category.name }}{% else %}-{% endif %}
+                </span>
+                <span class="exhibitCategory">{{ exhibit.view_count }}</span>
+            </div>
+            {% empty %}
+            <p class="emptyMsg">No exhibits yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="dashboardContent">
+        <div class="listContainer">
+            <div class="analyticsHeader">
+                <h2>Quiz Performance</h2>
+            </div>
+            <div class="listHeader analyticsListHeader">
+                <span><strong>Quiz</strong></span>
+                <span><strong>Questions</strong></span>
+                <span><strong>Attempts</strong></span>
+            </div>
+            {% for quiz in quiz_stats %}
+            <div class="exhibitBox analyticsRow">
+                <span class="exhibitTitle">{{ quiz.title|truncatewords:6 }}</span>
+                <span class="exhibitCategory">{{ quiz.question_count }}</span>
+                <span class="exhibitCategory">{{ quiz.attempt_count }}</span>
+            </div>
+            {% empty %}
+            <p class="emptyMsg">No quizzes yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

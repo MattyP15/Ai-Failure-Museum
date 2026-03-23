@@ -1,16 +1,18 @@
-<!doctype html>
-<html>
-  <head><title>Delete My Data</title></head>
-  <body>
+{% extends 'base.html' %}
+
+{% block title %}Delete My Data - AI Failure Museum{% endblock %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 40px auto; padding: 0 20px;">
     <h1>Delete My Data</h1>
 
     <p>This will permanently delete your account, quiz attempts, and badges.</p>
 
     <form method="post">
-      {% csrf_token %}
-      <button type="submit">Yes, delete everything</button>
+        {% csrf_token %}
+        <button type="submit">Yes, delete everything</button>
     </form>
 
     <p><a href="/">Cancel</a></p>
-  </body>
-</html>
+</div>
+{% endblock %}

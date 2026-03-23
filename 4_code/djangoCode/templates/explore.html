@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Explore - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/explore.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/components/mainButtons.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="exploreContainer">
+    <div class="exploreHeader">
+        <h1><strong>Explore</strong></h1>
+        <p>Discover AI failure case studies or browse community contributions.</p>
+    </div>
+
+    <div class="exploreCards">
+        <a href="/exhibits/" class="exploreCard exhibitsCard">
+            <div class="cardIcon">&#60;</div>
+            <div class="cardText">
+                <h2>View Exhibits</h2>
+                <p>Browse curated case studies across {{ category_count }} categories and {{ exhibit_count }} exhibits.</p>
+            </div>
+            <span class="cardArrow">&rarr;</span>
+        </a>
+
+        <a href="/search/" class="exploreCard communityCard">
+            <div class="cardIcon">&#62;</div>
+            <div class="cardText">
+                <h2>Community Submissions</h2>
+                <p>See what the community has contributed — {{ submission_count }} approved case studies and counting.</p>
+            </div>
+            <span class="cardArrow">&rarr;</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

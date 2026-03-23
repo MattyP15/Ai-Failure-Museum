@@ -26,7 +26,7 @@
                         Real stories of AI gone wrong. Learn from the failures shaping our future.
                     </p>
                     <div class="titleButtons">
-                        <a href = "/search" class="exploreBtn">
+                        <a href = "/explore/" class="exploreBtn">
                             Explore Database
                         </a>
                         <a href = "/about" class="aboutBtn">
@@ -61,7 +61,7 @@
         {% for cat in categories %}
         <div class="categoryCard">
             <div class="cardImage">
-                <img src={% static 'images/categories/'|add:cat.slug|add:'.png' %} alt="Space"> alt="Space">
+                <img src="{% static 'images/categories/'|add:cat.slug|add:'.png' %}" alt="{{ cat.name }}">
             </div>
             <div class="cardContent">
                 <h2>{{ cat.name }}</h2>

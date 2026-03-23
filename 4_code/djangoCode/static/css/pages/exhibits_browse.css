@@ -1,0 +1,196 @@
+.browseContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 2rem 80px;
+}
+
+.browseHeader {
+    margin-bottom: 40px;
+}
+
+.backBtn {
+    font-family: "Inter", sans-serif;
+    background: none;
+    border: none;
+    color: var(--accent3-color);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 0;
+    transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+    text-decoration: underline;
+}
+
+.browseHeader h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--main-txt);
+    margin: 8px 0 8px;
+}
+
+.browseHeader p {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    color: var(--body-txt);
+    margin: 0;
+}
+
+.categoryGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+}
+
+.categoryBlock {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-color);
+    border: 1px solid #dadce0;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--main-txt);
+    transition: all 0.25s ease;
+}
+
+.categoryBlock:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent2-color);
+    transform: translateY(-2px);
+}
+
+.categoryBlockImage {
+    height: 120px;
+    overflow: hidden;
+    background: var(--accent-color);
+}
+
+.categoryBlockImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.categoryBlockInfo {
+    padding: 14px 16px;
+}
+
+.categoryBlockInfo h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--main-txt);
+}
+
+.categoryCount {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--body-txt);
+}
+
+.allExhibitsSection h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--main-txt);
+    margin: 0 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #dadce0;
+}
+
+.exhibitGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.exhibitCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--surface-color);
+    border: 1px solid #dadce0;
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--main-txt);
+    transition: all 0.25s ease;
+    min-height: 180px;
+}
+
+.exhibitCard:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent2-color);
+    transform: translateY(-2px);
+}
+
+.exhibitCardCategory {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent3-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.exhibitCardContent h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 8px 0;
+    color: var(--main-txt);
+}
+
+.exhibitCardContent p {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--body-txt);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.exhibitCardFooter {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #dadce0;
+}
+
+.viewCount {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--view-txt);
+}
+
+.emptyMsg {
+    font-family: 'Inter', sans-serif;
+    color: var(--body-txt);
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+}
+
+@media (max-width: 1024px) {
+    .categoryGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .exhibitGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .categoryGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .exhibitGrid {
+        grid-template-columns: 1fr;
+    }
+    .browseHeader h1 {
+        font-size: 36px;
+    }
+}

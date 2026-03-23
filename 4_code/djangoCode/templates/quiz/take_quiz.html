@@ -1,59 +1,46 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>{{ quiz.title }} - AI Failure Museum</title>
+
+{% block title %}{{ quiz.title }} - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <main class="app">
-        <header class="appHeader">
-            <a href="/">
-                <button class="loginBtn">Home</button>
-            </a>
-        </header>
+{% endblock %}
 
-        <section class="title">
-            <h1>{{ quiz.title }}</h1>
-            {% if quiz.description %}<p>{{ quiz.description }}</p>{% endif %}
-            <p>Complete this quiz to earn {{ quiz.points_for_completion }} points!</p>
-        </section>
+{% block content %}
+<section class="title">
+    <h1>{{ quiz.title }}</h1>
+    {% if quiz.description %}<p>{{ quiz.description }}</p>{% endif %}
+    <p>Complete this quiz to earn {{ quiz.points_for_completion }} points!</p>
+</section>
 
-        <div class="all">
-            <form method="post" action="{% url 'submit_quiz' quiz.id %}">
-                {% csrf_token %}
+<div class="all">
+    <form method="post" action="{% url 'submit_quiz' quiz.id %}">
+        {% csrf_token %}
 
-                {% for question in questions %}
-                <div style="margin-bottom: 30px;">
-                    <h3>Question {{ forloop.counter }}</h3>
-                    <p><strong>{{ question.prompt }}</strong></p>
+        {% for question in questions %}
+        <div style="margin-bottom: 30px;">
+            <h3>Question {{ forloop.counter }}</h3>
+            <p><strong>{{ question.prompt }}</strong></p>
 
-                    {% if question.qtype == 'mc' %}
-                        <!-- Multiple Choice -->
-                        <div style="margin-left: 20px;">
-                            {% for option in question.options.all %}
-                            <div style="margin: 10px 0;">
-                                <label style="cursor: pointer;">
-                                    <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}" required />
-                                    {{ option.text }}
-                                </label>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <!-- Text Answer -->
-                        <textarea name="question_{{ question.id }}" rows="4" style="width: 100%;" required></textarea>
-                    {% endif %}
+            {% if question.qtype == 'mc' %}
+                <div style="margin-left: 20px;">
+                    {% for option in question.options.all %}
+                    <div style="margin: 10px 0;">
+                        <label style="cursor: pointer;">
+                            <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}" required />
+                            {{ option.text }}
+                        </label>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-
-                <button type="submit" class="loginBtn">Submit Quiz</button>
-            </form>
+            {% else %}
+                <textarea name="question_{{ question.id }}" rows="4" style="width: 100%;" required></textarea>
+            {% endif %}
         </div>
-    </main>
-</body>
-</html>
+        {% endfor %}
+
+        <button type="submit" class="loginBtn">Submit Quiz</button>
+    </form>
+</div>
+{% endblock %}

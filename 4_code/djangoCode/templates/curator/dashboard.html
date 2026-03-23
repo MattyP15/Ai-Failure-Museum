@@ -19,11 +19,16 @@
             </div>
         </div>
 
+        {% if user.is_staff %}
         <div class="buttons">
+            <a href="{% url 'analytics_dashboard' %}">
+                <button class="exploreBtn" style="margin-right: 12px; background: var(--surface-color); color: var(--accent3-color); border: 1px solid #dadce0;">Analytics</button>
+            </a>
             <a href="/curator/create/">
                 <button class="exploreBtn">Create New Exhibit</button>
             </a>
         </div>
+        {% endif %}
     </div>
 
     <div class="pageErrors">

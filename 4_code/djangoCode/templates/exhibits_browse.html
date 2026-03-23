@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Exhibits - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/exhibits_browse.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/components/mainButtons.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="browseContainer">
+    <div class="browseHeader">
+        <a href="/explore/"><button class="backBtn">&larr; Back to Explore</button></a>
+        <h1><strong>Exhibits</strong></h1>
+        <p>Browse by category or scroll through all {{ exhibit_count }} case studies.</p>
+    </div>
+
+    <div class="categoryGrid">
+        {% for cat in categories %}
+        <a href="/category/{{ cat.slug }}/" class="categoryBlock">
+            <div class="categoryBlockImage">
+                <img src="{% static 'images/categories/'|add:cat.slug|add:'.png' %}" alt="{{ cat.name }}">
+            </div>
+            <div class="categoryBlockInfo">
+                <h3>{{ cat.name }}</h3>
+                <span class="categoryCount">{{ cat.exhibit_count }} exhibit{{ cat.exhibit_count|pluralize }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class="allExhibitsSection">
+        <h2>All Exhibits</h2>
+        <div class="exhibitGrid">
+            {% for exhibit in all_exhibits %}
+            <a href="{% url 'exhibit_detail' exhibit.id %}" class="exhibitCard">
+                <div class="exhibitCardContent">
+                    <span class="exhibitCardCategory">
+                        {% if exhibit.category %}{{ exhibit.category.name }}{% else %}Uncategorised{% endif %}
+                    </span>
+                    <h3>{{ exhibit.title }}</h3>
+                    <p>{{ exhibit.description|truncatewords:20 }}</p>
+                </div>
+                <div class="exhibitCardFooter">
+                    <span class="viewCount">{{ exhibit.view_count }} views</span>
+                </div>
+            </a>
+            {% empty %}
+            <p class="emptyMsg">No exhibits yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

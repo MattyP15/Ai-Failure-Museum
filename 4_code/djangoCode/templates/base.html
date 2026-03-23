@@ -22,9 +22,9 @@
     <main class="app">
         <header class="appHeader">
             <div class="leftItems">
-                <div class="points">
+                <a href="/profile/" class="points">
                     <span>⭐{{ user_points }} Points</span>
-                </div>
+                </a>
                 <form action="/search/" method="get" class="searchContainer">
                     <div class="searchWrapper">
                         <span class="searchIcon">🔍</span>
@@ -34,8 +34,9 @@
             </div>
             
             <div class="rightItems">
+                <a href="/" class="secondaryBtn">Home</a>
                 <a href="/about" class="secondaryBtn">About</a>
-                <a href="/search" class="secondaryBtn">Explore</a>
+                <a href="/explore/" class="secondaryBtn">Explore</a>
                 <a href="/submit/" class="secondaryBtn">Submit Failure</a>
                 {% if user.is_superuser %}
                     <a href="/admin/" class="secondaryBtn">Admin</a>

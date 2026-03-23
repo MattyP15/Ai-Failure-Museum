@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Submit a Failure - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/submit.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/components/mainButtons.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="headingContainer">
+    <div class="heading">
+        <a href="/"><button>&larr; Back home</button></a>
+        <h1><strong>Submit a Failure</strong></h1>
+        <p>Share an AI failure case study with the museum community.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="editBox" style="text-align: center; padding: 60px 40px;">
+        <div class="content">
+            <h2 style="border: none; margin-bottom: 12px;">You need to be logged in</h2>
+            <p style="color: var(--body-txt); font-size: 16px; max-width: 400px; margin: 0 auto 32px;">
+                To submit a failure case study, you need an account. Log in or create one to get started.
+            </p>
+            <div class="buttonsDiv" style="justify-content: center;">
+                <a href="/login/?next=/submit/" class="exploreBtn">Log In</a>
+                <a href="/register/" class="aboutBtn">Create Account</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

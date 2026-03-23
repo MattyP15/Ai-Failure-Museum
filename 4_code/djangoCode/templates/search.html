@@ -1,184 +1,122 @@
-<!doctype html>
+{% extends 'base.html' %}
 {% load static %}
-<html>
-    <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Search</title>
 
-        <link rel="stylesheet" type="text/css" href={% static "css/variables.css" %}>
-        <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
-        <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
-        <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
-        <link rel="stylesheet" type="text/css" href={% static "css/pages/search.css" %}>
+{% block title %}Community Submissions - AI Failure Museum{% endblock %}
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    </head>
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/search.css' %}">
+{% endblock %}
 
-    <body>
-        <main class="app">
-        <header class="appHeader">
-            <div class="leftItems">
-                <div class="points">
-                    <span>⭐{{ user_points }} Points</span>
-                </div>
-
-                <form action="/search/" method="get" class="searchContainer">
-                    <div class="searchWrapper">
-                        <span class="searchIcon">🔍</span>
-                        <input type="search" name="q" placeholder="Search..." aria-label="Search">
-                    </div>
-                </form>
+{% block content %}
+<div class="layout">
+    <aside class="filters">
+        <div class="filtersInner">
+            <div class="resultsCount">
+                <strong>{{ approved_submissions|length }}</strong> approved submissions
             </div>
-            
-            <div class="rightItems">
-                <a href="/about" class="secondaryBtn">About</a>
-                <a href="/search" class="secondaryBtn">Explore</a>
-                <a href="/submit/" class="secondaryBtn">Submit Failure</a>
-                {% if user.is_superuser %}
-                    <a href="/admin/" class="secondaryBtn">Admin</a>
-                {% endif %}
-
-                {% if user.is_authenticated %}
-                <form method="post" action="/logout/">
-                    {% csrf_token %}
-                    <button type="submit" class="secondaryBtn">Logout</button>
-                </form>
-                {% else %}
-                <a href="/login" class="primaryBtn">Log In</a>
-                {% endif %}
-                {% if user.is_staff %}
-                <a href="/curator/dashboard/" class="primaryBtn">Dashboard</a>
-                {% endif %}
+            <label for="sidebarCategorySelect" class="categoryDropdownLabel">Search</label>
+            <div class="sidebarSearchContainer">
+                <span class="sidebarSearchIcon">🔍</span>
+                <input id="sidebarSearchInput" type="search" placeholder="Search submissions..." aria-label="Search submissions">
             </div>
-        </header>
+            <div class="categoryDropdownWrap">
+                <label for="sidebarCategorySelect" class="categoryDropdownLabel">Category</label>
+                <select id="sidebarCategorySelect" class="categoryDropdownSelect" aria-label="Filter by category">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category.name|lower }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <label for="sidebarCategorySelect" class="categoryDropdownLabel">Tags</label>
+            <div class="filterItem" onclick="toggleSection('locations')">
+                Locations
+                <span>▾</span>
+            </div>
+            <div class="filterContent" id="locations">
+                <label><input type="checkbox"> UK</label>
+                <label><input type="checkbox"> USA</label>
+                <label><input type="checkbox"> China</label>
+            </div>
 
-        <div class="layout">
-            <aside class="filters">
-                <div class="filtersInner">
-                    <div class="resultsCount">
-                        <strong>{{ approved_submissions|length }}</strong> approved submissions
-                    </div>
-                    <label for="sidebarCategorySelect" class="categoryDropdownLabel">Search</label>
-                    <div class="sidebarSearchContainer">
-                        <span class="sidebarSearchIcon">🔍</span>
-                        <input id="sidebarSearchInput" type="search" placeholder="Search submissions..." aria-label="Search submissions">
-                    </div>
-                    <div class="categoryDropdownWrap">
-                        <label for="sidebarCategorySelect" class="categoryDropdownLabel">Category</label>
-                        <select id="sidebarCategorySelect" class="categoryDropdownSelect" aria-label="Filter by category">
-                            <option value="">All Categories</option>
-                            {% for category in categories %}
-                            <option value="{{ category.name|lower }}">{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <label for="sidebarCategorySelect" class="categoryDropdownLabel">Tags</label>
-                    <div class="filterItem" onclick="toggleSection('locations')">
-                        Locations
-                        <span>▾</span>
-                    </div>
-                    <div class="filterContent" id="locations">
-                        <label><input type="checkbox"> UK</label>
-                        <label><input type="checkbox"> USA</label>
-                        <label><input type="checkbox"> China</label>
-                    </div>
+            <div class="filterItem" onclick="toggleSection('experience')">
+                Problem
+                <span>▾</span>
+            </div>
+            <div class="filterContent" id="experience">
+                <label><input type="checkbox"> Big</label>
+                <label><input type="checkbox"> Yes</label>
+                <label><input type="checkbox"> No</label>
+            </div>
 
-                    <div class="filterItem" onclick="toggleSection('experience')">
-                        Problem
-                        <span>▾</span>
-                    </div>
-                    <div class="filterContent" id="experience">
-                        <label><input type="checkbox"> Big</label>
-                        <label><input type="checkbox"> Yes</label>
-                        <label><input type="checkbox"> No</label>
-                    </div>
-
-                    <div class="filterItem" onclick="toggleSection('skills')">
-                        Where
-                        <span>▾</span>
-                    </div>
-                    <div class="filterContent" id="skills">
-                        <label><input type="checkbox"> ML</label>
-                        <label><input type="checkbox"> Data</label>
-                        <label><input type="checkbox"> Random</label>
-                    </div>
-                </div>
-            </aside>
-
-            <section class="results">
-                <h2>Approved User Submissions</h2>
-                {% for submission in approved_submissions %}
-                <article class="submissionCard" data-search="{{ submission.title }} {{ submission.description }} {% if submission.category %}{{ submission.category.name }}{% endif %} {{ submission.author.username }}" data-category="{% if submission.category %}{{ submission.category.name|lower }}{% endif %}">
-                    <h3>{{ submission.title }}</h3>
-                    <p>{{ submission.description }}</p>
-                    <p class="meta">
-                        {% if submission.category %}{{ submission.category.name }}{% else %}Uncategorized{% endif %}
-                        · by {{ submission.author.username }}
-                    </p>
-                </article>
-                {% empty %}
-                <p class="emptyMsg">No approved user submissions yet.</p>
-                {% endfor %}
-                <p id="noSearchMatch" class="emptyMsg" style="display: none;">No submissions match your search.</p>
-            </section>
-        </div>
-
-        <div class="appFooter">
-            <p class="footerText">Copyright © 2026 Ai Museum All rights reserved.</p>
-            <div class="rightItemsFooter">
-                <a href="/privacy/">
-                    <button class="footerBtn">Terms of Service</button>
-                </a>
-                <a href="/privacy/">
-                    <button class="footerBtn">Privacy Policy</button>
-                </a>
-                <a href="/privacy/">
-                    <button class="footerBtn">Accessibility</button>
-                </a>
+            <div class="filterItem" onclick="toggleSection('skills')">
+                Where
+                <span>▾</span>
+            </div>
+            <div class="filterContent" id="skills">
+                <label><input type="checkbox"> ML</label>
+                <label><input type="checkbox"> Data</label>
+                <label><input type="checkbox"> Random</label>
             </div>
         </div>
-    </main>
-    <script>
-        function toggleSection(id) {
-            const section = document.getElementById(id);
-            section.classList.toggle("open");
+    </aside>
+
+    <section class="results">
+        <h2>Approved User Submissions</h2>
+        {% for submission in approved_submissions %}
+        <article class="submissionCard" data-search="{{ submission.title }} {{ submission.description }} {% if submission.category %}{{ submission.category.name }}{% endif %} {{ submission.author.username }}" data-category="{% if submission.category %}{{ submission.category.name|lower }}{% endif %}">
+            <h3>{{ submission.title }}</h3>
+            <p>{{ submission.description }}</p>
+            <p class="meta">
+                {% if submission.category %}{{ submission.category.name }}{% else %}Uncategorized{% endif %}
+                · by {{ submission.author.username }}
+            </p>
+        </article>
+        {% empty %}
+        <p class="emptyMsg">No approved user submissions yet.</p>
+        {% endfor %}
+        <p id="noSearchMatch" class="emptyMsg" style="display: none;">No submissions match your search.</p>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleSection(id) {
+        const section = document.getElementById(id);
+        section.classList.toggle("open");
+    }
+
+    const sidebarSearchInput = document.getElementById("sidebarSearchInput");
+    const sidebarCategorySelect = document.getElementById("sidebarCategorySelect");
+    const submissionCards = Array.from(document.querySelectorAll(".submissionCard"));
+    const noSearchMatch = document.getElementById("noSearchMatch");
+
+    function applySubmissionFilters() {
+        const query = sidebarSearchInput ? sidebarSearchInput.value.trim().toLowerCase() : "";
+        const selectedCategory = sidebarCategorySelect ? sidebarCategorySelect.value : "";
+        let visibleCount = 0;
+
+        submissionCards.forEach((card) => {
+            const haystack = (card.dataset.search || "").toLowerCase();
+            const cardCategory = (card.dataset.category || "").toLowerCase();
+            const matchesQuery = !query || haystack.includes(query);
+            const matchesCategory = !selectedCategory || cardCategory === selectedCategory;
+            const show = matchesQuery && matchesCategory;
+            card.style.display = show ? "" : "none";
+            if (show) visibleCount += 1;
+        });
+
+        if (noSearchMatch) {
+            noSearchMatch.style.display = submissionCards.length > 0 && visibleCount === 0 ? "block" : "none";
         }
+    }
 
-        const sidebarSearchInput = document.getElementById("sidebarSearchInput");
-        const sidebarCategorySelect = document.getElementById("sidebarCategorySelect");
-        const submissionCards = Array.from(document.querySelectorAll(".submissionCard"));
-        const noSearchMatch = document.getElementById("noSearchMatch");
-
-        function applySubmissionFilters() {
-            const query = sidebarSearchInput ? sidebarSearchInput.value.trim().toLowerCase() : "";
-            const selectedCategory = sidebarCategorySelect ? sidebarCategorySelect.value : "";
-            let visibleCount = 0;
-
-            submissionCards.forEach((card) => {
-                const haystack = (card.dataset.search || "").toLowerCase();
-                const cardCategory = (card.dataset.category || "").toLowerCase();
-                const matchesQuery = !query || haystack.includes(query);
-                const matchesCategory = !selectedCategory || cardCategory === selectedCategory;
-                const show = matchesQuery && matchesCategory;
-                card.style.display = show ? "" : "none";
-                if (show) visibleCount += 1;
-            });
-
-            if (noSearchMatch) {
-                noSearchMatch.style.display = submissionCards.length > 0 && visibleCount === 0 ? "block" : "none";
-            }
-        }
-
-        if (sidebarSearchInput) {
-            sidebarSearchInput.addEventListener("input", applySubmissionFilters);
-        }
-        if (sidebarCategorySelect) {
-            sidebarCategorySelect.addEventListener("change", applySubmissionFilters);
-        }
-    </script>
-    </body>
-</html>
-
+    if (sidebarSearchInput) {
+        sidebarSearchInput.addEventListener("input", applySubmissionFilters);
+    }
+    if (sidebarCategorySelect) {
+        sidebarCategorySelect.addEventListener("change", applySubmissionFilters);
+    }
+</script>
+{% endblock %}

@@ -1,59 +1,77 @@
+.categoryBarWrapper {
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.categoryBar {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--bg-color);
+    padding: 8px 16px;
+    border-radius: 999px;
+    width: fit-content;
+    max-width: 100%;
+    border: none;
+    box-shadow: var(--shadow-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.categoryButton {
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    border: none;
+    color: var(--main-txt);
+    padding: 8px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.categoryButton:hover {
+    background: var(--accent-color);
+    box-shadow: var(--shadow-sm);
+    color: var(--accent2-color);
+}
+
+.activeCategoryButton {
+    text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    border: none;
+    color: var(--accent4-color);
+    padding: 8px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.activeCategoryButton:hover {
+    background: var(--accent-color);
+    box-shadow: var(--shadow-sm);
+    color: var(--accent2-color);
+}
+
 @media only screen and (min-width: 1024px) {
-    .categoryBarWrapper {
-        padding: 0.75rem 1rem;
-        display: flex;
-        justify-content: center;
-    }
-
-
     .categoryBar {
-        display: flex;
-        gap: 0.5rem;
-        background: var(--bg-color);
-        padding: 6px;
-        border-radius: 999px;
-        width: fit-content;
-        border: none;
-        box-shadow: var(--shadow-sm);
+        gap: 0.75rem;
+        padding: 10px 24px;
     }
 
-    .categoryButton{
-        text-decoration: none;
-        display: inline-block;
-        background: transparent;
-        border: none;
-        color: var(--main-txt);
-        padding: 6px 16px;
-        border-radius: 999px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 16px;
+    .categoryButton {
+        padding: 8px 24px;
+        font-size: 14px;
     }
 
-
-    .categoryButton:hover {
-        background: var(--accent-color);
-        box-shadow: var(--shadow-sm);
-        color: var(--accent2-color);
-    }
-
-    .activeCategoryButton{
-        text-decoration: none;
-        display: inline-block;
-        background: transparent;
-        border: none;
-        color: var(--accent4-color);
-        padding: 6px 16px;
-        border-radius: 999px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 16px;
-    }
-
-
-    .activeCategoryButton:hover {
-        background: var(--accent-color);
-        box-shadow: var(--shadow-sm);
-        color: var(--accent2-color);
+    .activeCategoryButton {
+        padding: 8px 24px;
+        font-size: 14px;
     }
 }

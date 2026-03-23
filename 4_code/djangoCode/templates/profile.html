@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Profile - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profileContainer">
+    <div class="profileHeader">
+        <a href="/"><button class="backBtn">&larr; Back home</button></a>
+        <h1><strong>My Profile</strong></h1>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="profileContent">
+        <div class="profileCard">
+            <div class="profileAvatar">{{ user.username|first|upper }}</div>
+            <div class="profileInfo">
+                <h2>{{ user.username }}</h2>
+                <p>{{ user.email|default:"No email set" }}</p>
+                <span class="memberSince">Joined {{ user.date_joined|date:"M Y" }}</span>
+            </div>
+        </div>
+
+        <div class="statsRow">
+            <div class="statCard pointsCard">
+                <span class="statNumber">{{ user_points }}</span>
+                <span class="statLabel">Points Earned</span>
+            </div>
+            <div class="statCard">
+                <span class="statNumber">{{ badges|length }}</span>
+                <span class="statLabel">Badges Unlocked</span>
+            </div>
+        </div>
+
+        <div class="badgesSection">
+            <h2>Badges</h2>
+            <div class="badgeGrid">
+                {% for ub in badges %}
+                <div class="badgeCard earned">
+                    <div class="badgeIcon">&#9733;</div>
+                    <h3>{{ ub.badge.name }}</h3>
+                    <p>{{ ub.badge.description }}</p>
+                    <span class="badgeDate">Earned {{ ub.awarded_at|date:"M d, Y" }}</span>
+                </div>
+                {% empty %}
+                <p class="emptyMsg">No badges yet. Complete quizzes to earn points and unlock badges.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="profileContent">
+        <div class="loginPrompt">
+            <h2>Log in to view your profile</h2>
+            <p>Track your points, badges, and quiz progress.</p>
+            <a href="/login/?next=/profile/" class="exploreBtn">Log In</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,64 +1,51 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Quiz Complete - AI Failure Museum</title>
+
+{% block title %}Quiz Complete - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <main class="app">
-        <header class="appHeader">
-            <a href="/">
-                <button class="loginBtn">Home</button>
-            </a>
-            {% if exhibit %}
-            <a href="/exhibit/{{ exhibit.id }}/">
-                <button class="loginBtn">Back to Exhibit</button>
-            </a>
+{% endblock %}
+
+{% block content %}
+<section class="title">
+    <h1>Quiz Complete!</h1>
+    <p>Thank you for completing "{{ quiz.title }}"</p>
+    {% if total_count > 0 %}
+    <h2 style="color: #4CAF50;">Score: {{ correct_count }}/{{ total_count }}</h2>
+    {% endif %}
+    {% if points is not None %}
+    <h2 style="color: #4CAF50;">+{{ points }} Points Earned!</h2>
+    {% else %}
+    <p><a href="/login/">Log in</a> or <a href="/register/">register</a> to earn points and track your progress.</p>
+    {% endif %}
+</section>
+
+<div class="all">
+    <h2>Your Responses</h2>
+    {% for response in responses %}
+    <div style="margin-bottom: 20px; padding: 15px; {% if response.is_correct == True %}background: #e6f4ea; border-left: 4px solid #28a745;{% elif response.is_correct == False %}background: #cccccc; border-left: 4px solid #cccccc;{% else %}background: #f5f5f5;{% endif %} border-radius: 5px;">
+        <h3>
+            {% if response.is_correct == True %}
+                <span style="color: #28a745; font-weight: bold;">✓</span>
+            {% elif response.is_correct == False %}
+                <span style="color: #b6666e; font-weight: bold;">✗</span>
             {% endif %}
-        </header>
+            {{ response.question }}
+        </h3>
 
-        <section class="title">
-            <h1>Quiz Complete!</h1>
-            <p>Thank you for completing "{{ quiz.title }}"</p>
-            {% if total_count > 0 %}
-            <h2 style="color: #4CAF50;">Score: {{ correct_count }}/{{ total_count }}</h2>
-            {% endif %}
-            {% if points is not None %}
-            <h2 style="color: #4CAF50;">+{{ points }} Points Earned!</h2>
-            {% else %}
-            <p><a href="/login/">Log in</a> or <a href="/register/">register</a> to earn points and track your progress.</p>
-            {% endif %}
-        </section>
+        <p><strong>Your Answer:</strong> {{ response.answer }}</p>
+        {% if response.is_correct == False and response.correct_answer %}
+        <p><strong style="color: #28a745;">Correct Answer:</strong> {{ response.correct_answer }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
 
-        <div class="all">
-            <h2>Your Responses</h2>
-            {% for response in responses %}
-            <div style="margin-bottom: 20px; padding: 15px; {% if response.is_correct == True %}background: #e6f4ea; border-left: 4px solid #28a745;{% elif response.is_correct == False %}background: #cccccc; border-left: 4px solid #cccccc;{% else %}background: #f5f5f5;{% endif %} border-radius: 5px;">
-                <h3>
-                    {% if response.is_correct == True %}
-                        <span style="color: #28a745; font-weight: bold;">✓</span>
-                    {% elif response.is_correct == False %}
-                        <span style="color: #b6666e; font-weight: bold;">✗</span>
-                    {% endif %}
-                    {{ response.question }}
-                </h3>
-
-                <p><strong>Your Answer:</strong> {{ response.answer }}</p>
-                {% if response.is_correct == False and response.correct_answer %}
-                <p><strong style="color: #28a745;">Correct Answer:</strong> {{ response.correct_answer }}</p>
-                {% endif %}
-            </div>
-            {% endfor %}
-
-            <div style="margin-top: 30px;">
-                <a href="/"><button class="loginBtn">Explore More Exhibits</button></a>
-            </div>
-        </div>
-    </main>
-</body>
-</html>
+    <div style="margin-top: 30px;">
+        {% if exhibit %}
+        <a href="/exhibit/{{ exhibit.id }}/"><button class="loginBtn">Back to Exhibit</button></a>
+        {% endif %}
+        <a href="/"><button class="loginBtn">Explore More Exhibits</button></a>
+    </div>
+</div>
+{% endblock %}

@@ -169,7 +169,63 @@ def analytics_view(request):
     if not is_curator(request.user):
         messages.error(request, "you do not have curator permissions")
         return redirect('/login/?next=/curator/dashboard ')
-    return render(request, 'curator/analytics.html')
+
+    from django.db.models import Count, Sum
+
+    total_mc_responses = Response.objects.filter(selected_option__isnull=False).count()
+    correct_responses = Response.objects.filter(selected_option__is_correct=True).count()
+    avg_success_rate = round((correct_responses / total_mc_responses * 100), 1) if total_mc_responses > 0 else 0
+
+    total_exhibits = Exhibit.objects.count()
+    active_exhibits_count = Exhibit.objects.filter(is_archived=False).count()
+    archived_exhibits_count = Exhibit.objects.filter(is_archived=True).count()
+    total_views = Exhibit.objects.aggregate(total=Sum('view_count'))['total'] or 0
+    total_comments = Comment.objects.count()
+    total_bookmarks = Bookmark.objects.count()
+
+    total_quizzes = Quiz.objects.count()
+    total_attempts = QuizAttempt.objects.count()
+    total_questions = Question.objects.count()
+
+    total_submissions = UserSubmission.objects.count()
+    pending_submissions = UserSubmission.objects.filter(status=UserSubmission.PENDING).count()
+    approved_submissions = UserSubmission.objects.filter(status=UserSubmission.APPROVED).count()
+    denied_submissions = UserSubmission.objects.filter(status=UserSubmission.DENIED).count()
+
+    exhibits_by_category = Category.objects.annotate(
+        exhibit_count=Count('exhibits'),
+        total_views=Sum('exhibits__view_count'),
+    ).order_by('-total_views')
+
+    top_exhibits = Exhibit.objects.filter(is_archived=False).order_by('-view_count')[:10]
+
+    quiz_stats = Quiz.objects.annotate(
+        attempt_count=Count('attempts'),
+        question_count=Count('questions'),
+    ).order_by('-attempt_count')
+
+    avg_attempt_rate = round(total_attempts / total_quizzes, 1) if total_quizzes > 0 else 0
+
+    return render(request, 'curator/analytics.html', {
+        'total_exhibits': total_exhibits,
+        'active_exhibits_count': active_exhibits_count,
+        'archived_exhibits_count': archived_exhibits_count,
+        'total_views': total_views,
+        'total_comments': total_comments,
+        'total_bookmarks': total_bookmarks,
+        'total_quizzes': total_quizzes,
+        'total_attempts': total_attempts,
+        'total_questions': total_questions,
+        'total_submissions': total_submissions,
+        'pending_submissions': pending_submissions,
+        'approved_submissions': approved_submissions,
+        'denied_submissions': denied_submissions,
+        'exhibits_by_category': exhibits_by_category,
+        'top_exhibits': top_exhibits,
+        'quiz_stats': quiz_stats,
+        'avg_success_rate': avg_success_rate,
+        'avg_attempt_rate': avg_attempt_rate,
+    })
 
 
 @login_required

@@ -1,7 +1,8 @@
 
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-from museum.models import Category, Exhibit, UserProfile, UserSubmission
+from django.db.models import Count
+from museum.models import Category, Exhibit, UserProfile, UserSubmission, UserBadge
 from .forms import UserLoginForm
 
 
@@ -70,13 +71,46 @@ def about(request):
     return render(request, "about.html")
 
 
+def explore(request):
+    category_count = Category.objects.count()
+    exhibit_count = Exhibit.objects.filter(is_archived=False).count()
+    submission_count = UserSubmission.objects.filter(status=UserSubmission.APPROVED).count()
+    return render(request, "explore.html", {
+        "category_count": category_count,
+        "exhibit_count": exhibit_count,
+        "submission_count": submission_count,
+    })
+
+
+def exhibits_browse(request):
+    categories = Category.objects.annotate(exhibit_count=Count('exhibits')).order_by('name')
+    all_exhibits = Exhibit.objects.filter(is_archived=False).select_related('category').order_by('-view_count')
+    return render(request, "exhibits_browse.html", {
+        "categories": categories,
+        "all_exhibits": all_exhibits,
+        "exhibit_count": all_exhibits.count(),
+    })
+
+
+def profile(request):
+    user_points = 0
+    badges = []
+    if request.user.is_authenticated:
+        user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+        user_points = user_profile.points
+        badges = UserBadge.objects.filter(user=request.user).select_related('badge').order_by('-awarded_at')
+    return render(request, "profile.html", {
+        "user_points": user_points,
+        "badges": badges,
+    })
+
+
 def submit_page(request):
     categories = Category.objects.all()
     user_points = 0
 
     if not request.user.is_authenticated:
-        messages.error(request, "Please log in to submit a failure.")
-        return redirect(f"/login/?next=/submit/")
+        return render(request, "submit_login.html")
 
     if request.user.is_authenticated:
         user_profile, created = UserProfile.objects.get_or_create(user=request.user)
