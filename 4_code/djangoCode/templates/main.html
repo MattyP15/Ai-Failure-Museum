@@ -50,11 +50,6 @@
                 {% endif %}
             </div>
         </div>
-        <div class="titleVideo" id="museum-navigator" style="min-height: 450px; background-color: #121212; border-radius: 12px; overflow: hidden; border: 1px solid #333; position: relative;">
-            <div style="position: absolute; top: 15px; left: 15px; color: #aaa; font-family: sans-serif; font-size: 12px; pointer-events: none;">
-                Drag nodes to explore the exhibits
-            </div>
-        </div>
     </div>
 </div>
 
@@ -152,119 +147,6 @@
 
         // Initialize state
         handleScroll();
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const container = document.getElementById("museum-navigator");
-    const width = container.clientWidth;
-    const height = container.clientHeight || 450;
-
-    const graph = {
-        nodes: [
-            {id: "AI Failure Museum", group: 0, radius: 22, color: "#ffffff", url: null},
-            {id: "Environmental & Geographic", group: 1, radius: 14, color: "#4caf50", url: null},
-            {id: "Healthcare & Medical", group: 1, radius: 14, color: "#e91e63", url: null},
-            {id: "Law, Policing & Justice", group: 1, radius: 14, color: "#2196f3", url: null},
-            {id: "Economic & Financial", group: 1, radius: 14, color: "#ffc107", url: null},
-            {id: "Safety-Critical & Autonomy", group: 1, radius: 14, color: "#ff5722", url: null},
-            {id: "Misinformation & Truth", group: 1, radius: 14, color: "#9c27b0", url: null},
-            {id: "Bias & Discrimination", group: 1, radius: 14, color: "#00bcd4", url: null},
-            {id: "Privacy & Surveillance", group: 1, radius: 14, color: "#607d8b", url: null},
-            {id: "The False Sense of Security", group: 2, radius: 7, color: "#81c784", url: "/exhibit/1/"},
-            {id: "The Misread Landscape", group: 2, radius: 7, color: "#81c784", url: "/exhibit/2/"},
-            {id: "The Seasonal Blind Spot", group: 2, radius: 7, color: "#81c784", url: "/exhibit/3/"},
-            {id: "The Uneven Eye", group: 2, radius: 7, color: "#f48fb1", url: "/exhibit/4/"},
-            {id: "The Dangerous Reassurance", group: 2, radius: 7, color: "#f48fb1", url: "/exhibit/5/"},
-            {id: "The Efficiency Trap", group: 2, radius: 7, color: "#f48fb1", url: "/exhibit/6/"},
-            {id: "The Loop That Couldn't Stop", group: 2, radius: 7, color: "#90caf9", url: "/exhibit/7/"},
-            {id: "The Postcode Penalty", group: 2, radius: 7, color: "#90caf9", url: "/exhibit/8/"},
-            {id: "The Digital Red Line", group: 2, radius: 7, color: "#ffe082", url: "/exhibit/9/"},
-            {id: "The Joke That Crashed the Market", group: 2, radius: 7, color: "#ffe082", url: "/exhibit/10/"},
-            {id: "The Crossing It Couldn't See", group: 2, radius: 7, color: "#ffab91", url: "/exhibit/11/"},
-            {id: "The Intersection Freeze", group: 2, radius: 7, color: "#ffab91", url: "/exhibit/12/"},
-            {id: "The Combination It Never Saw", group: 2, radius: 7, color: "#ffab91", url: "/exhibit/13/"},
-            {id: "The Regulation That Didn't Exist", group: 2, radius: 7, color: "#ce93d8", url: "/exhibit/14/"},
-            {id: "The Story That Never Happened", group: 2, radius: 7, color: "#ce93d8", url: "/exhibit/15/"},
-            {id: "The Papers That Didn't Exist", group: 2, radius: 7, color: "#ce93d8", url: "/exhibit/16/"},
-            {id: "The Invisible Penalty", group: 2, radius: 7, color: "#80deea", url: "/exhibit/17/"},
-            {id: "The Filter That Learned to Discriminate", group: 2, radius: 7, color: "#80deea", url: "/exhibit/18/"},
-            {id: "The Anonymous Crowd That Wasn't", group: 2, radius: 7, color: "#b0bec5", url: "/exhibit/19/"},
-            {id: "The Children Who Didn't Fit", group: 2, radius: 7, color: "#b0bec5", url: "/exhibit/20/"}
-        ],
-        links: [
-            {source: "AI Failure Museum", target: "Environmental & Geographic"},
-            {source: "AI Failure Museum", target: "Healthcare & Medical"},
-            {source: "AI Failure Museum", target: "Law, Policing & Justice"},
-            {source: "AI Failure Museum", target: "Economic & Financial"},
-            {source: "AI Failure Museum", target: "Safety-Critical & Autonomy"},
-            {source: "AI Failure Museum", target: "Misinformation & Truth"},
-            {source: "AI Failure Museum", target: "Bias & Discrimination"},
-            {source: "AI Failure Museum", target: "Privacy & Surveillance"},
-            {source: "Environmental & Geographic", target: "The False Sense of Security"},
-            {source: "Environmental & Geographic", target: "The Misread Landscape"},
-            {source: "Environmental & Geographic", target: "The Seasonal Blind Spot"},
-            {source: "Healthcare & Medical", target: "The Uneven Eye"},
-            {source: "Healthcare & Medical", target: "The Dangerous Reassurance"},
-            {source: "Healthcare & Medical", target: "The Efficiency Trap"},
-            {source: "Law, Policing & Justice", target: "The Loop That Couldn't Stop"},
-            {source: "Law, Policing & Justice", target: "The Postcode Penalty"},
-            {source: "Economic & Financial", target: "The Digital Red Line"},
-            {source: "Economic & Financial", target: "The Joke That Crashed the Market"},
-            {source: "Safety-Critical & Autonomy", target: "The Crossing It Couldn't See"},
-            {source: "Safety-Critical & Autonomy", target: "The Intersection Freeze"},
-            {source: "Safety-Critical & Autonomy", target: "The Combination It Never Saw"},
-            {source: "Misinformation & Truth", target: "The Regulation That Didn't Exist"},
-            {source: "Misinformation & Truth", target: "The Story That Never Happened"},
-            {source: "Misinformation & Truth", target: "The Papers That Didn't Exist"},
-            {source: "Bias & Discrimination", target: "The Invisible Penalty"},
-            {source: "Bias & Discrimination", target: "The Filter That Learned to Discriminate"},
-            {source: "Privacy & Surveillance", target: "The Anonymous Crowd That Wasn't"},
-            {source: "Privacy & Surveillance", target: "The Children Who Didn't Fit"}
-        ]
-    };
-
-    const svg = d3.select("#museum-navigator").append("svg")
-        .attr("width", width).attr("height", height);
-
-    const simulation = d3.forceSimulation(graph.nodes)
-        .force("link", d3.forceLink(graph.links).id(d => d.id).distance(55))
-        .force("charge", d3.forceManyBody().strength(-180))
-        .force("center", d3.forceCenter(width / 2, height / 2));
-
-    const link = svg.append("g").selectAll("line").data(graph.links).join("line")
-        .attr("stroke", "#444").attr("stroke-opacity", 0.6).attr("stroke-width", 1.5);
-
-    const node = svg.append("g").selectAll("circle").data(graph.nodes).join("circle")
-        .attr("r", d => d.radius).attr("fill", d => d.color)
-        .style("cursor", d => d.url ? "pointer" : "grab")
-        .on("click", function(event, d) {
-            if (d.url) window.location.href = d.url;
-        })
-        .call(drag(simulation));
-
-    const text = svg.append("g").selectAll("text").data(graph.nodes).join("text")
-        .text(d => d.id)
-        .attr("font-size", d => d.group === 0 ? "14px" : (d.group === 1 ? "11px" : "9px"))
-        .attr("fill", "#ccc").attr("font-family", "sans-serif")
-        .attr("dx", 12).attr("dy", 4)
-        .style("pointer-events", "none");
-
-    simulation.on("tick", () => {
-        link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-            .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-        node.attr("cx", d => Math.max(d.radius, Math.min(width - d.radius, d.x)))
-            .attr("cy", d => Math.max(d.radius, Math.min(height - d.radius, d.y)));
-        text.attr("x", d => d.x).attr("y", d => d.y);
-    });
-
-    function drag(sim) {
-        return d3.drag()
-            .on("start", (e) => { if (!e.active) sim.alphaTarget(0.3).restart(); e.subject.fx = e.subject.x; e.subject.fy = e.subject.y; })
-            .on("drag", (e) => { e.subject.fx = e.x; e.subject.fy = e.y; })
-            .on("end", (e) => { if (!e.active) sim.alphaTarget(0); e.subject.fx = null; e.subject.fy = null; });
-    }
-});
 </script>
 
 {% endblock %}
