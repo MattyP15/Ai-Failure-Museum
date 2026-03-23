@@ -14,8 +14,10 @@
 3. pip install -r requirements.txt
 4. cd 4_code\djangoCode
 5. python manage.py migrate
-6. python manage.py loaddata museum/fixtures/demo_data.json
-7. python manage.py runserver
+6. python manage.py loaddata museum/fixtures/exhibits.json
+7. python manage.py loaddata museum/fixtures/quizzes.json
+8. python manage.py loaddata museum/fixtures/Accounts.json
+9. python manage.py runserver
 
 
 -- Linux / Mac --
@@ -25,8 +27,10 @@
 3. pip install -r requirements.txt
 4. cd 4_code/djangoCode
 5. python3 manage.py migrate
-5. python3 manage.py loaddata museum/fixtures/demo_data.json
-6. python3 manage.py runserver
+6. python3 manage.py loaddata museum/fixtures/exhibits.json
+7. python3 manage.py loaddata museum/fixtures/quizzes.json
+8. python3 manage.py loaddata museum/fixtures/Accounts.json
+9. python3 manage.py runserver
 
 
 Open browser at http://127.0.0.1:8000/
