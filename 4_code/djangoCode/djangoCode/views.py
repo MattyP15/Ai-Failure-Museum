@@ -46,7 +46,24 @@ def login(request):
 
 
 def search(request):
-    return render(request, "search.html")
+    user_points = 0
+    categories = Category.objects.order_by("name")
+    if request.user.is_authenticated:
+        user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+        user_points = user_profile.points
+
+    approved_submissions = (
+        UserSubmission.objects
+        .filter(status=UserSubmission.APPROVED)
+        .select_related("author", "category")
+        .order_by("-submitted_at")
+    )
+
+    return render(request, "search.html", {
+        "user_points": user_points,
+        "categories": categories,
+        "approved_submissions": approved_submissions,
+    })
 
 
 def about(request):

@@ -2,8 +2,18 @@
 {% load static %}
 <html>
 <head>
-  <title>Register</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register Page</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/variables.css' %}">
   <link rel="stylesheet" href="{% static 'css/pages/register.css' %}">
+    <link rel="stylesheet" type="text/css" href={% static "css/components/header.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/footer.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/categorybar.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/components/mainButtons.css" %}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -22,7 +32,7 @@
     <form method="post" action="">
       {% csrf_token %}
       <div class="form_body">
-        {{ form.as_p }}
+      {{ form.as_p }}
       </div>
       <button type="submit">Register</button>
     </form>

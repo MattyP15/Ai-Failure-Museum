@@ -1,19 +1,26 @@
 .layout {
     display: flex;
     height: calc(100vh - 80px);
+    gap: 24px;
+    padding: 24px;
 }
 
 .filters {
-    width: 300px;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    width: 320px;
     background: var(--surface-color);
-    height: 100vh;
+    border: 1px solid #dadce0;
+    border-radius: 20px;
+    height: calc(100vh - 128px);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 88px;
+    overflow: hidden;
 }
 
 .filtersInner {
     height: 100%;
     overflow-y: auto;
-    padding: 20px;
+    padding: 22px;
 }
 
 .filtersInner::-webkit-scrollbar {
@@ -26,14 +33,93 @@
 
 .results {
     flex: 1;
-    padding: 30px;
+    padding: 0;
     overflow-y: auto;
 }
 
 .resultsCount {
-    margin-bottom: 20px;
-    font-size: 14px;
+    margin-bottom: 18px;
+    font-size: 15px;
     color: var(--main-txt);
+    background: var(--bg-color);
+    border: 1px solid #dadce0;
+    border-radius: 999px;
+    padding: 8px 14px;
+    width: fit-content;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.sidebarSearchContainer {
+    display: flex;
+    align-items: center;
+    background: var(--accent-color);
+    border: 1px solid var(--bg-color);
+    border-radius: 50px;
+    padding: 0 16px;
+    height: 42px;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+}
+
+.sidebarSearchContainer:hover,
+.sidebarSearchContainer:focus-within {
+    border: 1px solid var(--accent2-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebarSearchIcon {
+    font-size: 15px;
+}
+
+.sidebarSearchContainer input {
+    font-family: "Inter", sans-serif;
+    width: 100%;
+    margin-left: 10px;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--main-txt);
+    font-size: 15px;
+}
+
+.sidebarSearchContainer input::placeholder {
+    color: var(--sub-txt);
+}
+
+.categoryDropdownWrap {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.categoryDropdownLabel {
+    display: block;
+    margin: 0 0 8px 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sub-txt);
+    letter-spacing: 0.02em;
+}
+
+.categoryDropdownSelect {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid #dadce0;
+    border-radius: 12px;
+    background: var(--bg-color);
+    color: var(--main-txt);
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    appearance: none;
+}
+
+.categoryDropdownSelect:hover,
+.categoryDropdownSelect:focus {
+    border-color: var(--accent2-color);
+    box-shadow: var(--shadow-sm);
 }
 
 .searchBox input {
@@ -45,30 +131,114 @@
 }
 
 .filterItem {
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    font-weight: 500;
+    margin: 10px 0;
+    padding: 12px 14px;
+    border: 1px solid #dadce0;
+    border-radius: 12px;
+    background: var(--bg-color);
+    color: var(--main-txt);
+    font-weight: 600;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filterItem:hover {
+    border-color: var(--accent2-color);
+    box-shadow: var(--shadow-sm);
+    background: color-mix(in srgb, var(--bg-color) 88%, var(--accent-color));
 }
 
 .filterContent {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.25s ease, padding 0.25s ease;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding-left: 5px;
+    margin: 4px 2px 12px;
+    padding: 0 8px;
 }
 
 .filterContent.open {
-    max-height: 200px;
-    padding: 10px 0;
+    max-height: 260px;
+    padding: 8px;
 }
 
 .filterContent label {
     font-size: 14px;
-    color: #444;
+    color: var(--body-txt);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-color);
+    border: 1px solid #dadce0;
+    border-radius: 10px;
+    padding: 9px 10px;
+    transition: all 0.2s ease;
+}
+
+.filterContent label:hover {
+    border-color: var(--accent2-color);
+    box-shadow: var(--shadow-sm);
+}
+
+
+.filterContent input[type="checkbox"] {
+    accent-color: var(--accent3-color);
+    width: 15px;
+    height: 15px;
+}
+
+.results h2 {
+    margin-top: 0;
+    font-size: 32px;
+    color: var(--main-txt);
+}
+
+.submissionCard {
+    background: var(--surface-color);
+    border: 1px solid #dadce0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+
+.submissionCard h3 {
+    margin: 0 0 10px 0;
+    color: var(--main-txt);
+    font-size: 22px;
+}
+
+
+
+.submissionCard p {
+    margin: 0 0 10px 0;
+    color: var(--body-txt);
+    line-height: 1.5;
+}
+
+.submissionCard .meta {
+    margin: 0;
+    font-size: 14px;
+    color: var(--sub-txt);
+}
+
+.emptyMsg {
+    color: var(--sub-txt);
+    font-size: 16px;
+}
+
+.filtersInner .sidebarSearchContainer{
+    background-color: var(--bg-color);
+    border: 1px solid #dadce0;
+    transition: all 0.2s ease;
+}
+
+.filtersInner .sidebarSearchContainer:hover{
+    border: 1px solid var(--accent2-color);
 }

@@ -8,7 +8,7 @@ REQUIREMENTS = os.path.join(ROOT, "requirements.txt")
 DB_PATH = os.path.join(CODE, "db.sqlite3")
 
 FIXTURES = [
-    "museum/fixtures/users.json",
+    "museum/fixtures/Accounts.json",
     "museum/fixtures/categories.json",
     "museum/fixtures/exhibits.json",
     "museum/fixtures/quizzes.json",

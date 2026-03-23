@@ -9,24 +9,26 @@
 
 -- WINDOWS --
 
-python3 -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-cd 4_code\djangoCode
-python manage.py migrate
-python manage.py loaddata museum/fixtures/users.json museum/fixtures/categories.json museum/fixtures/exhibits.json museum/fixtures/quizzes.json
-python manage.py runserver
+1. python3 -m venv .venv
+2. .venv\Scripts\activate
+3. pip install -r requirements.txt
+4. cd 4_code\djangoCode
+5. python manage.py migrate
+6. python manage.py loaddata museum/fixtures/Accounts.json museum/fixtures/categories.json museum/fixtures/exhibits.json museum/fixtures/quizzes.json
+7. python manage.py runserver
 
 
 -- Linux / Mac --
 
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cd 4_code/djangoCode
-python3 manage.py migrate
-python3 manage.py loaddata museum/fixtures/users.json museum/fixtures/categories.json museum/fixtures/exhibits.json museum/fixtures/quizzes.json
-python3 manage.py runserver
+1. python3 -m venv .venv
+2. source .venv/bin/activate
+3. pip install -r requirements.txt
+4. cd 4_code/djangoCode
+5. python3 manage.py migrate
+6. python3 manage.py loaddata museum/fixtures/Accounts.json museum/fixtures/categories.json museum/fixtures/exhibits.json museum/fixtures/quizzes.json
+7. python3 manage.py runserver
+
+Or just run: python3 launch.py
 
 
 Open browser at http://127.0.0.1:8000/
@@ -81,7 +83,7 @@ python3 manage.py createsuperuser
 cd 4_code/djangoCode
 rm db.sqlite3
 python3 manage.py migrate
-python3 manage.py loaddata museum/fixtures/users.json museum/fixtures/categories.json museum/fixtures/exhibits.json museum/fixtures/quizzes.json
+python3 manage.py loaddata museum/fixtures/Accounts.json museum/fixtures/categories.json museum/fixtures/exhibits.json museum/fixtures/quizzes.json
 
 
 === Run Tests ===
