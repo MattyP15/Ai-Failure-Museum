@@ -7,18 +7,18 @@
 {% endblock %}
 
 {% block content %}
-<div class="titleContainer">
-    <div class="categoryBarWrapper">
-        <div class="categoryBar">
-            {% for cat in categories %}
-            <a href="/category/{{ cat.slug }}/">
-                <article class="categoryButton"><t>{{ cat.name }} +</t></article>
-            </a>
-            {% endfor %}
-        </div>
+<div class="categoryBarWrapper">
+    <div class="categoryBar">
+        {% for cat in categories %}
+        <a href="/category/{{ cat.slug }}/">
+            <article class="categoryButton"><t>{{ cat.bar_label }}</t></article>
+        </a>
+        {% endfor %}
     </div>
+</div>
 
-            <div class="titleVideoContainer">
+<div class="titleContainer">
+    <div class="titleVideoContainer">
                 <div class="title">
                     <h1><strong>AI Failure Museum</strong></h1>
 
@@ -49,8 +49,6 @@
                 </div>
                 {% endif %}
             </div>
-        </div>
-    </div>
 </div>
 
 <div class="categoryViewport">

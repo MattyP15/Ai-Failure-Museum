@@ -8,19 +8,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="titleContainer">
-    <div class="categoryBarWrapper">
-        <div class="categoryBar">
-            {% for cat in categories %}
-            <a href="/category/{{ cat.slug }}/">
-                <article class="{% if cat.slug == category.slug %}activeCategoryButton{% else %}categoryButton{% endif %}">
-                    <t>{{ cat.name }} +</t>
-                </article>
-            </a>
-            {% endfor %}
-        </div>
+<div class="categoryBarWrapper">
+    <div class="categoryBar">
+        {% for cat in categories %}
+        <a href="/category/{{ cat.slug }}/">
+            <article class="{% if cat.slug == category.slug %}activeCategoryButton{% else %}categoryButton{% endif %}">
+                <t>{{ cat.bar_label }}</t>
+            </article>
+        </a>
+        {% endfor %}
     </div>
+</div>
 
+<div class="titleContainer">
     <div class="title">
         <a href="/"><button>← Back Home</button></a>
         <h1><strong>{{ category.name }}</strong></h1>

@@ -1,4 +1,6 @@
 .categoryBarWrapper {
+    width: 100%;
+    box-sizing: border-box;
     padding: 0.75rem 1rem;
     display: flex;
     justify-content: center;
@@ -11,12 +13,18 @@
     padding: 8px 16px;
     border-radius: 999px;
     width: fit-content;
-    max-width: 100%;
+    max-width: calc(100vw - 2rem);
     border: none;
     box-shadow: var(--shadow-sm);
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+}
+
+.categoryBar > a {
+    flex: 0 0 auto;
 }
 
 .categoryButton {
@@ -60,6 +68,10 @@
 }
 
 @media only screen and (min-width: 1024px) {
+    .categoryBarWrapper {
+        padding: 0.9rem 1rem;
+    }
+
     .categoryBar {
         gap: 0.75rem;
         padding: 10px 24px;

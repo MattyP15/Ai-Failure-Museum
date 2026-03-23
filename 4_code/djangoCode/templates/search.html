@@ -17,7 +17,7 @@
             <label for="sidebarCategorySelect" class="categoryDropdownLabel">Search</label>
             <div class="sidebarSearchContainer">
                 <span class="sidebarSearchIcon">🔍</span>
-                <input id="sidebarSearchInput" type="search" placeholder="Search submissions..." aria-label="Search submissions">
+                <input id="sidebarSearchInput" type="search" value="{{ initial_query }}" placeholder="Search submissions..." aria-label="Search submissions">
             </div>
             <div class="categoryDropdownWrap">
                 <label for="sidebarCategorySelect" class="categoryDropdownLabel">Category</label>
@@ -118,5 +118,7 @@
     if (sidebarCategorySelect) {
         sidebarCategorySelect.addEventListener("change", applySubmissionFilters);
     }
+
+    applySubmissionFilters();
 </script>
 {% endblock %}

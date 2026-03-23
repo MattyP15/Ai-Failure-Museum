@@ -47,6 +47,7 @@ def login(request):
 def search(request):
     user_points = 0
     categories = Category.objects.order_by("name")
+    initial_query = (request.GET.get("q") or "").strip()
     if request.user.is_authenticated:
         user_profile, created = UserProfile.objects.get_or_create(user=request.user)
         user_points = user_profile.points
@@ -62,11 +63,20 @@ def search(request):
         "user_points": user_points,
         "categories": categories,
         "approved_submissions": approved_submissions,
+        "initial_query": initial_query,
     })
 
 
 def about(request):
     return render(request, "about.html")
+
+
+def terms_of_service(request):
+    return render(request, "terms_of_service.html")
+
+
+def accessibility(request):
+    return render(request, "accessibility.html")
 
 
 def explore(request):

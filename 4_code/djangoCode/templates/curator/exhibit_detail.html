@@ -9,27 +9,27 @@
 {% endblock %}
 
 {% block content %}
-<div class="titleContainer">
-    <div class="categoryBarWrapper">
-        <div class="categoryBar">
-            {% for cat in categories %}
-            {% if cat.slug == exhibit.category.slug %}
-            <a href="/category/{{ cat.slug }}/" class="">
-                <article class="activeCategoryButton">
-                    <t>{{ cat.name }} +</t>
-                </article>
-            </a>
-            {% else %}
-            <a href="/category/{{ cat.slug }}/" class="">
-                <article class="categoryButton">
-                    <t>{{ cat.name }} +</t>
-                </article>
-            </a>
-            {% endif %}
-            {% endfor %}
-        </div>
+<div class="categoryBarWrapper">
+    <div class="categoryBar">
+        {% for cat in categories %}
+        {% if cat.slug == exhibit.category.slug %}
+        <a href="/category/{{ cat.slug }}/" class="">
+            <article class="activeCategoryButton">
+                <t>{{ cat.bar_label }}</t>
+            </article>
+        </a>
+        {% else %}
+        <a href="/category/{{ cat.slug }}/" class="">
+            <article class="categoryButton">
+                <t>{{ cat.bar_label }}</t>
+            </article>
+        </a>
+        {% endif %}
+        {% endfor %}
     </div>
+</div>
 
+<div class="titleContainer">
     <div class="title">
         <a href="/category/{{ exhibit.category.slug }}/"><button>← Back to {{ exhibit.category.name }}</button></a>
         <h1><strong>{{ exhibit.title }}</strong></h1>

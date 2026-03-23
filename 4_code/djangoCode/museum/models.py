@@ -103,6 +103,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def bar_label(self):
+        first = (self.name or "").strip().split()
+        if not first:
+            return "failures +"
+
+        first_word = first[0]
+        if first_word.endswith(","):
+            first_word = first_word[:-1]
+
+        return f"{first_word} failures +"
+
 
 ##exhibit model (extended)
 class Exhibit(models.Model):
