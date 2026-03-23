@@ -608,5 +608,5 @@ def review_submission(request, submission_id):
             submission.status = UserSubmission.DENIED
             messages.success(request, f'"{submission.title}" has been denied.')
         submission.save()
-        return redirect('review_pool')
+        return redirect('curator_dashboard')
     return render(request, 'curator/review_submission.html', {'submission': submission})

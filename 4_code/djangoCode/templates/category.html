@@ -49,13 +49,14 @@
 <div class="allDiv">
     <h2>All</h2>
     <div class="allGrid">
-        {% for exhibit in everything_else %}
+        {% for exhibit in exhibits %}
         <a class="failureCard" href="{% url 'exhibit_detail' exhibit.id %}">
             <h3>{{ exhibit.title }}</h3>
             <p>{{ exhibit.description }}</p>
-            <div class="views">👁️ 0 views</div>
+            <div class="views">👁️ {{ exhibit.view_count }} views</div>
         </a>
         {% endfor %}
     </div> 
 </div>
 {% endblock %}
+
