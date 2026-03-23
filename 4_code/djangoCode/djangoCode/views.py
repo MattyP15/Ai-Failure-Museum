@@ -69,6 +69,14 @@ def about(request):
     return render(request, "about.html")
 
 
+def terms_of_service(request):
+    return render(request, "terms_of_service.html")
+
+
+def accessibility(request):
+    return render(request, "accessibility.html")
+
+
 def explore(request):
     category_count = Category.objects.count()
     exhibit_count = Exhibit.objects.filter(is_archived=False).count()

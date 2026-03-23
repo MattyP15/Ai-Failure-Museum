@@ -32,6 +32,8 @@ urlpatterns = [
     path('', include('museum.urls')),
     path('search/', views.search, name="search"),
     path('about/', views.about, name="about"),
+    path('termsOfService/', views.terms_of_service, name="terms_of_service"),
+    path('accessibility/', views.accessibility, name="accessibility"),
     path('explore/', views.explore, name="explore"),
     path('exhibits/', views.exhibits_browse, name="exhibits_browse"),
     path('profile/', views.profile, name="profile"),
