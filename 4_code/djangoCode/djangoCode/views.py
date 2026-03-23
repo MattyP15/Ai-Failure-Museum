@@ -25,15 +25,13 @@ def homepage(request):
 def category(request, slug):
     category = get_object_or_404(Category, slug=slug)
     categories = Category.objects.all()
+    exhibits = Exhibit.objects.filter(category=category, is_archived=False).order_by('title')
     top_three = Exhibit.objects.filter(category=category, is_archived=False).order_by('-view_count')[:3]
-    top_ids = top_three.values_list('id', flat=True)
-    everything_else = Exhibit.objects.filter(category=category, is_archived=False).exclude(id__in=top_ids).order_by('title')
     return render(request, "category.html", {
         'categories': categories,
         'category': category,
-        'exhibits': Exhibit.objects.filter(category=category, is_archived=False),
+        'exhibits': exhibits,
         'top_three': top_three,
-        'everything_else': everything_else,
     })
 
 

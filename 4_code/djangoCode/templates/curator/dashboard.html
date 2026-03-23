@@ -199,7 +199,7 @@
     </div>
 
 
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
     <div class="dashboardContent">
         <div class="listContainer">
             <div class="listHeader">
@@ -213,12 +213,25 @@
                     <span class="exhibitTitle">{{ sub.title|truncatewords:4 }}</span>
 
                     <span class="exhibitCategory">
-                        {% if exhibit.category %}{{ sub.category.name|truncatewords:2 }}{% else %}-{% endif %}
+                        {% if sub.category %}{{ sub.category.name|truncatewords:2 }}{% else %}-{% endif %}
                     </span>
 
                     <span class="exhibitSummary">{{ sub.description|truncatewords:10 }}</span>
 
                     <div class="exhibitActions">
+                        <form method="post" action="{% url 'review_submission' sub.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="approve">
+                            <button type="submit" class="iconBtn"><h1>✔</h1><p>Approve</p></button>
+                        </form>
+                        <form method="post" action="{% url 'review_submission' sub.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="deny">
+                            <button type="submit" class="iconBtn"><h1>✖</h1><p>Deny</p></button>
+                        </form>
+                        <a href="{% url 'review_submission' sub.id %}">
+                            <button class="iconBtn"><h1>👁</h1><p>View</p></button>
+                        </a>
                     </div>
                 </div>
                 {% empty %}

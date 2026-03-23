@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Review Submission - AI Failure Museum{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/components/mainButtons.css' %}">
+    <style>
+        .reviewPage {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+
+        .reviewHeader h1 {
+            font-size: 48px;
+            margin: 0.5rem 0;
+        }
+
+        .reviewHeader p {
+            margin: 0;
+            color: var(--body-txt);
+        }
+
+        .reviewBackBtn {
+            font-family: "Inter", sans-serif;
+            display: inline-flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--accent3-color);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px 0;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+        }
+
+        .reviewBackBtn:hover {
+            text-decoration: underline;
+        }
+
+        .reviewCard {
+            margin-top: 1rem;
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .reviewMeta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .reviewField h3 {
+            margin: 0 0 0.35rem;
+            font-size: 0.9rem;
+            color: var(--sub-txt);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .reviewField p {
+            margin: 0;
+            color: var(--main-txt);
+        }
+
+        .reviewBody {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .reviewBody .reviewField {
+            background: var(--bg-color);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .reviewForm {
+            margin-top: 1rem;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .reviewForm label {
+            font-weight: 600;
+            color: var(--main-txt);
+        }
+
+        .reviewForm textarea {
+            width: 100%;
+            min-height: 120px;
+            border-radius: 12px;
+            border: 1px solid color-mix(in srgb, var(--sub-txt) 45%, transparent);
+            background: var(--bg-color);
+            color: var(--main-txt);
+            padding: 0.75rem;
+            font-family: inherit;
+        }
+
+        .reviewActions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="reviewPage">
+    <div class="reviewHeader">
+        <a href="{% url 'curator_dashboard' %}"><button class="reviewBackBtn">&larr; Back to Dashboard</button></a>
+        <h1><strong>Review Submission</strong></h1>
+        <p>{{ submission.title }}</p>
+    </div>
+
+    <div class="reviewCard">
+        <div class="reviewMeta">
+            <div class="reviewField">
+                <h3>Author</h3>
+                <p>{{ submission.author.username }}</p>
+            </div>
+            <div class="reviewField">
+                <h3>Status</h3>
+                <p>{{ submission.get_status_display }}</p>
+            </div>
+            <div class="reviewField">
+                <h3>Category</h3>
+                <p>{% if submission.category %}{{ submission.category.name }}{% else %}-{% endif %}</p>
+            </div>
+            <div class="reviewField">
+                <h3>Submitted</h3>
+                <p>{{ submission.submitted_at|date:"M d, Y H:i" }}</p>
+            </div>
+        </div>
+
+        <div class="reviewBody">
+            <div class="reviewField">
+                <h3>Description</h3>
+                <p>{{ submission.description }}</p>
+            </div>
+
+            <div class="reviewField">
+                <h3>What Went Wrong</h3>
+                <p>{{ submission.what_went_wrong }}</p>
+            </div>
+
+            <div class="reviewField">
+                <h3>Who Was Affected</h3>
+                <p>{{ submission.who_affected|default:"-" }}</p>
+            </div>
+
+            <div class="reviewField">
+                <h3>Source</h3>
+                <p>
+                    {% if submission.source_url %}
+                        <a href="{{ submission.source_url }}" target="_blank" rel="noopener noreferrer">{{ submission.source_url }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="reviewField">
+                <h3>Attachment</h3>
+                <p>
+                    {% if submission.artefact %}
+                        <a href="{{ submission.artefact.url }}" target="_blank" rel="noopener noreferrer">Open attachment</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <form method="post" class="reviewForm">
+            {% csrf_token %}
+            <label for="reviewer_note">Reviewer note (optional)</label>
+            <textarea id="reviewer_note" name="reviewer_note" placeholder="Add context for your decision...">{{ submission.reviewer_note }}</textarea>
+
+            <div class="reviewActions">
+                <button type="submit" name="action" value="approve" class="exploreBtn">Approve</button>
+                <button type="submit" name="action" value="deny" class="aboutBtn">Deny</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

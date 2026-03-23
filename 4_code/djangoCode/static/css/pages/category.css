@@ -65,11 +65,25 @@
 
     .mostViewedContainer {
         display: flex;
+        flex-direction: column;
         gap: 2rem;
         align-items: stretch;
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 1rem;
+    }
+
+    .image {
+        width: 100%;
+    }
+
+    .image img {
+        display: block;
+        width: 100%;
+        max-width: 1200px;
+        height: clamp(360px, 48vw, 620px);
+        object-fit: cover;
+        border-radius: 16px;
     }
 
 .mostViewed {
@@ -86,7 +100,7 @@
 
 .mostViewedGrid {
     display: grid;
-    grid-template-columns: repeat(1fr, 3);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
 }
 
