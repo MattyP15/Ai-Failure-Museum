@@ -6,6 +6,7 @@ A Django web application that presents curated case studies of AI failures acros
 
 **Live Site:** https://ai-failure-museum.onrender.com/  
 **Scrumboard Link** https://teamhlscrumboard.atlassian.net/jira/core/projects/TH/board
+
 **Module:** COMM2020 Team Project — University of Exeter  
 **Licence:** MIT  
 
